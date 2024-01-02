@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class CategoryController {
 	
 	
-	
+		
 	// 카테고리 리스트 출력
 	@GetMapping("/list")
 	public String list() {

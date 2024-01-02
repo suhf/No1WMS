@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class CategoryDto {
-	
+		
 	private UUID kan_code;
 	private String cls_nm_1;
 	private String cls_nm_2;
