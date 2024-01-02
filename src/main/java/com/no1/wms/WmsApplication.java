@@ -10,4 +10,6 @@ public class WmsApplication {
 		SpringApplication.run(WmsApplication.class, args);
 	}
 
+
+
 }
