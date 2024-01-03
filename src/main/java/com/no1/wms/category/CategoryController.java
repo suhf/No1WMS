@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -74,7 +75,7 @@ public class CategoryController {
 	}
 	// 수정 - Ajax
 	
-	@PostMapping("/category//update_process")
+	@PutMapping("/category//update_process")
 	public int updateProcess(CategoryDto dto, Model m) {
 		
 		int i = categoryService.createProcess(dto);
@@ -87,7 +88,7 @@ public class CategoryController {
 		}
 	}
 	
-	
+	// 삭제
 	
 	
 	
