@@ -18,7 +18,7 @@ public class CategoryController {
 		// 서비스로 카테고리 목록 불러오는 메서드 작성
 		return "category/list";
 	}
-	
+		
 	// 상세페이지
 	@PostMapping("/read/{kan_code}")
 	public String read(@PathVariable UUID kan_code) {
