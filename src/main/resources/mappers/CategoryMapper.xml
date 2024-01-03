@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.category.CategoryMapper">
+	<!-- insert -->
+	
+	<insert id="createProcess" parameterType="CategoryDto">
+		INSERT INTO product_category (kan_code, cls_nm_1, cls_nm_2, cls_nm_3, cls_nm_4, activation) 
+		VALUES (#{dto.kan_code}, #{dto.cls_nm_1},#{dto.cls_nm_2},#{dto.cls_nm_3},#{dto.cls_nm_4},1)
+	</insert>
+	
+	<!-- update -->
+	
+	<update id="updatebyCanCode" parameterType="CategoryDto">
+		UPDATE product_category 
+		SET cls_nm_1 = #{dto.cls_nm_1}, cls_nm_2 = #{dto.cls_nm_2},cls_nm_3 = #{dto.cls_nm_3}, cls_nm_4 = #{dto.cls_nm_4}
+		WHERE kan_code = {dto.kan_code}
+	</update>
+	
+	<!-- delete -->
+	
+	
+	
+	<!-- select -->
+	
+	
+    
+    <select id="categoryList" parameterType="map" resultType="CategoryDto">
+		select * from product_category 
+		order by kan_code desc limit #{start} , #{count}
+	</select>
+	
+	<select id="selectByKancode" parameterType="String" resultType="CategoryDto">
+		select * from product_category where kan_code = #{kan_code}
+	</select>
+	
+	
+</mapper>
