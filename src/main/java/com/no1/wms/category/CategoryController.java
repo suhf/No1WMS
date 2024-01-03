@@ -15,7 +15,17 @@ public class CategoryController {
 	
 	@Autowired
 	CategoryService categoryService;
+	
+	// 테스트
+	@GetMapping("/category/test")
+	public String testpage(Model m) {
+		List<CategoryDto> dto = categoryService.selectAllCategory();
+		m.addAttribute("dto", dto);
 		
+		return "category/test";
+	}
+	
+	
 	// 카테고리 리스트 출력
 	@GetMapping("/category/list")
 	public String list(@RequestParam(name="p", defaultValue = "1")int p, Model m) {

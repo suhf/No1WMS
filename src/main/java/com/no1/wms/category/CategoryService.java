@@ -37,7 +37,9 @@ public class CategoryService {
 		return 1;
 	}
 	
-	
+	public List<CategoryDto> selectAllCategory() {
+		return mapper.selectAllCategory();
+	}
 	
 	
 }

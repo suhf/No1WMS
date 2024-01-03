@@ -10,7 +10,7 @@ public interface CategoryMapper {
 	List<CategoryDto> categoryList(Map<String, Object> m);
 	CategoryDto selectByKanCode(String kan_code);
 	int createProcess(CategoryDto dto);
-	
+	List<CategoryDto> selectAllCategory();
 	
 	
 }

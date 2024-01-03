@@ -31,8 +31,12 @@
 		order by kan_code desc limit #{start} , #{count}
 	</select>
 	
-	<select id="selectByKancode" parameterType="String" resultType="CategoryDto">
+	<select id="selectByKanCode" parameterType="String" resultType="CategoryDto">
 		select * from product_category where kan_code = #{kan_code}
+	</select>
+	
+	<select id="selectAllCategory" resultType="CategoryDto">
+		select * from product_category
 	</select>
 	
 	
