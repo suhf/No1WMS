@@ -3,6 +3,7 @@ package com.no1.wms.stock;
 import java.util.List;
 import java.util.UUID;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.no1.wms.stock.StockDto;
 
 @Controller
+@Slf4j
 public class StockController {
 	
 	@Autowired
@@ -55,20 +57,19 @@ public class StockController {
 	// 재고 상세페이지
 	@PostMapping("stock/read/{id}")
 	public String read(@PathVariable UUID id, Model m) {
-		
 		//스톡서비스로 재고 상세페이지 출력 메서드 작성
 		StockDto dto = service.stockOne(id);
 		m.addAttribute("dto", dto);
 		return "stock/read/";
 	}
-	
+
 	
 	// 수정 - 폼 
-//	@GetMapping("/stock/update/{id}")
-//	public String update(@PathVariable UUID id, Model m) {
-//		StockDto dto = service.updateStock(id);
+	@GetMapping("/stock/update/{id}")
+	public String update(@PathVariable UUID id, Model m) {
+//		StockDto dto = service.updateStock();
 //		m.addAttribute("dto", dto);
-//		return "stock/update";
-//	}
+		return "stock/update";
+	}
 	
 }
