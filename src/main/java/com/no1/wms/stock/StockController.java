@@ -36,6 +36,7 @@ public class StockController {
 	public String read(@PathVariable String id, Model m) {
 		
 		//스톡서비스로 재고 상세페이지 출력 메서드 작성
-		StockDto dto = service.
+		
+		return "stock/read/{id}";
 	}
 }
