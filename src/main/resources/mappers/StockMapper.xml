@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.authority.AuthorityMapper">
+   
+   <!-- select -->
+   <select id="stockList" parameterType="map" resultType="com.no1.wms.stock.StockDto">
+   		select * from stock  product  warehouse
+   		<where>
+			<choose>
+				<when test="searchn == 0"> name like ('%',#{search},'%')</when>
+				<when test="searchn == 1"> content like concat('%',#{search},'%') </when>
+			</choose>
+		</where> 
+   		order by id desc limit #{start}, #{count}
+   </select>
+   
+  
+   
+   <!-- select -->
+</mapper>
