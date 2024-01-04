@@ -5,18 +5,47 @@
 <mapper namespace="com.no1.wms.authority.AuthorityMapper">
    
    <!-- select -->
-   <select id="stockList" parameterType="map" resultType="com.no1.wms.stock.StockDto">
-   		select * from stock  product  warehouse
+   <select id="count" parameterType="map" resultType="com.no1.wms.stock.StockDto">
+   		select count(*) from wms.stock left join wms.warehouse on wms.stock.warehouse_id = wms.warehouse.id left join wms.product on wms.stock.product_id = wms.product.id
    		<where>
 			<choose>
-				<when test="searchn == 0"> name like ('%',#{search},'%')</when>
-				<when test="searchn == 1"> content like concat('%',#{search},'%') </when>
+				<when test="searchn == 0"> activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
+				<when test="searchn == 1"> activation = 1 and product.name like concat('%',#{search},'%') </when>
 			</choose>
 		</where> 
-   		order by id desc limit #{start}, #{count}
+   		order by id desc limit #{start}, #{perPage}
    </select>
    
-  
+   <select id="stockList" parameterType="map" resultType="com.no1.wms.stock.StockDto">
+   		select * from wms.stock left join wms.warehouse on wms.stock.warehouse_id = wms.warehouse.id left join wms.product on wms.stock.product_id = wms.product.id
+   		<where>
+			<choose>
+				<when test="searchn == 0"> activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
+				<when test="searchn == 1"> activation = 1 and product.name like concat('%',#{search},'%') </when>
+			</choose>
+		</where> 
+   		order by id desc limit #{start}, #{perPage}
+   </select>
    
+   <select id="stockOne" parameterType="UUID" resultType="com.no1.wms.stock.StockDto">
+   		selct * from stock where id = #{id}
+   </select>
    <!-- select -->
+   
+   
+   <!-- update -->
+   <update id="updateStock" parameterType="com.no1.wms.stock.StockDto">
+   		update stock 
+   		set quantity = #{dto.quantity}
+		where id = #{dto.id}
+   </update>
+   <!-- update -->
+   
+   
+   <!-- insert -->
+   <insert id="createStock" parameterType="com.no1.wms.stock.StockDto">
+   		insert into stock (id, quantity, activation)
+   		values (#{dto.id}, #{dto.quantity}, 1)
+   </insert>
+   <!-- insert -->
 </mapper>
