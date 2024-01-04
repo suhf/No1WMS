@@ -5,38 +5,46 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.no1.wms.excel.ExcelUtils;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class CategoryController {
-	
+
 	@Autowired
 	CategoryService categoryService;
 	
+	@Autowired
+	ExcelUtils excelUtils;
+	
 	// 테스트
 	@GetMapping("/category/test")
-	public String testpage(Model m) {
+	public String testPage(Model m) {
 		List<CategoryDto> dto = categoryService.selectAllCategory();
 		m.addAttribute("dto", dto);
-		
+
 		return "category/test";
 	}
-	
-	
+
 	// 카테고리 리스트 출력
 	@GetMapping("/category/list")
-	public String list(@RequestParam(name="p", defaultValue = "1")int p, Model m) {
-		
+	public String list(@RequestParam(name = "p", defaultValue = "1") int p, Model m) {
+
 		// 서비스로 카테고리 목록 불러오는 메서드 작성
 		List<CategoryDto> dto = categoryService.categoryList(p);
 		m.addAttribute("list", dto);
 		return "category/list";
 	}
-		
+
 	// 상세페이지
 	@PostMapping("/category/read/{kan_code}")
 	public String read(@PathVariable String kan_code, Model m) {
@@ -45,57 +53,78 @@ public class CategoryController {
 		m.addAttribute("dto", dto);
 		return "category/read";
 	}
-	
+
 	// 생성 - 폼
-	@PostMapping("/category/create")
+	@GetMapping("/category/create")
 	public String create() {
 		return "category/create";
 	}
-	
+
 	// 생성 - Ajax
 	@PostMapping("/category/create_process")
+	@ResponseBody
 	public int createProcess(CategoryDto dto, Model m) {
 		int i = categoryService.createProcess(dto);
-		if(i == 1) {
+		if (i == 1) {
 			return i;
-		}else{
+		} else {
 			// ajax테스트후 결정
-			//m.addAttribute("dto", dto);
+			// m.addAttribute("dto", dto);
 			return 0;
 		}
 	}
-	
-	
+
 	// 수정 - 폼
-	@PostMapping("/category/update/{kan_code}")
+	@GetMapping("/category/update/{kan_code}")
 	public String update(@PathVariable String kan_code, Model m) {
 		CategoryDto dto = categoryService.selectByKanCode(kan_code);
 		m.addAttribute("dto", dto);
 		return "category/update";
 	}
 	// 수정 - Ajax
-	
+
 	@PutMapping("/category//update_process")
+	@ResponseBody
 	public int updateProcess(CategoryDto dto, Model m) {
-		
-		int i = categoryService.createProcess(dto);
-		if(i == 1) {
+
+		int i = categoryService.updateByKanCode(dto);
+		if (i == 1) {
 			return i;
-		}else{
+		} else {
 			// ajax테스트후 결정
-			//m.addAttribute("dto", dto);
+			// m.addAttribute("dto", dto);
+			return 0;
+		}
+	}
+
+	// 삭제
+	@DeleteMapping("/category/delete/{kan_code}")
+	@ResponseBody
+	public int delete(@PathVariable String kan_code) {
+		int i = categoryService.deactivateByKanCode(kan_code);
+		if (i == 1) {
+			return i;
+		} else {
+			// ajax테스트후 결정
+			// m.addAttribute("dto", dto);
 			return 0;
 		}
 	}
 	
-	// 삭제
+	@GetMapping("/category/download")
+	public void downloadExcel(HttpServletResponse response) {
+		List<CategoryDto> dto = categoryService.selectAllCategory();
+		String excelFileName = "카테고리 테스트 파일";
+		String sheetName = "카테고리";
+		String[] columnName = {"KAN_CODE","대분류","중분류","소분류","세분류"};
+		excelUtils.downloadCategoryExcelFile(excelFileName, response, sheetName, columnName, dto);
+		
+	}
 	
-	
-	
-	
-	
-	
-	
+	// KAN코드 중복확인 메서드
+	public int chackKancode(String kan_code) {
+		return 0;
+	}
 	
 	
 	

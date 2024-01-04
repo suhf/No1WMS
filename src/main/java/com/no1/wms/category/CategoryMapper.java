@@ -11,6 +11,7 @@ public interface CategoryMapper {
 	CategoryDto selectByKanCode(String kan_code);
 	int createProcess(CategoryDto dto);
 	List<CategoryDto> selectAllCategory();
-	
-	
+	int updateByKanCode(CategoryDto dto);
+	int deactivateByKanCode(String kan_code);
+	int activateByKanCode(String kan_code);
 }

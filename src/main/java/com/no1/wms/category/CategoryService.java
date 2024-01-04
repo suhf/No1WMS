@@ -17,11 +17,11 @@ public class CategoryService {
 		// String start에 int값 넣고 String end에 int값 넣고 
 		// CategoryMapper에 있는 메서드 사용함.
 		int start = 0;
-		int end = 0;
+		int count = 10;
 		
 		Map m = new HashMap<String, Object>();
 		m.put("start", start);
-		m.put("end", end);
+		m.put("count", count);
 		
 		
 		
@@ -33,13 +33,26 @@ public class CategoryService {
 	}
 	
 	public int createProcess(CategoryDto dto) {
-		mapper.createProcess(dto);
-		return 1;
+		return mapper.createProcess(dto);
 	}
 	
 	public List<CategoryDto> selectAllCategory() {
+		// 테스트용
 		return mapper.selectAllCategory();
 	}
+	
+	public int updateByKanCode(CategoryDto dto) {
+		return mapper.updateByKanCode(dto);
+	}
+	
+	public int deactivateByKanCode(String kan_code) {
+		return mapper.deactivateByKanCode(kan_code);
+	}
+	public int activateByKanCode(String kan_code) {
+		return mapper.activateByKanCode(kan_code);
+	}
+	
+	
 	
 	
 }
