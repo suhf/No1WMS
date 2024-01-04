@@ -63,7 +63,7 @@ public class StockController {
 	}
 	
 	
-	// 수정 - 폼
+	// 수정 - 폼 
 //	@GetMapping("/stock/update/{id}")
 //	public String update(@PathVariable UUID id, Model m) {
 //		StockDto dto = service.updateStock(id);
