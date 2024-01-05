@@ -16,5 +16,4 @@ public class CategoryDto {
 	private String cls_nm_3;
 	private String cls_nm_4;
 	private boolean activation;
-	
 }

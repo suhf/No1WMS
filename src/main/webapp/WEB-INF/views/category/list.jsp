@@ -6,37 +6,38 @@
 <meta charset="UTF-8">
 <title>제품 카테고리</title>
 <style type="text/css">
-.header {
+.header-white {
 	text-align: center;
+	color: white;
 }
+
 </style>
 </head>
 <body>
 
 
-	<div class="header">
-		<h1>제품 카테고리 관리</h1>
+	<div class="header-white">
+		<h1><b>제품 카테고리 관리</b></h1>
 	</div>
 	<hr>
 	<div class="body">
 		<div class="search12">
-			<form action="categorysearch">
-				<div class="searchDropdown" id="searchDropdown">
-					<select>
-						<option value="0"></option>
-						<option value="1"></option>
-						<option value="2"></option>
+			<form action="categorySearch">
+				<div class="input-group mb-3 w-30">
+					<div class="w-25">
+					<select class="form-select">
+						<option selected="selected" value="cls_nm_4">세분류</option>
+						<option value="cls_nm_1">대분류</option>
+						<option value="cls_nm_2">중분류</option>
+						<option value="cls_nm_3">세분류</option>
+						<option value="kan_code">KAN코드</option>
 					</select>
+					</div>
+					<input type="text" name="categorySearch" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+					<button class="btn btn-outline-secondary" style="background-color:aqua;" type="button" id="button-addon2 searchBtn">검색</button>
 				</div>
-				<div class="searchInput">
-					<input type="text" name="searchInput" id="searchInput"
-						placeholder="검색어를 입력하세요" />
-				</div>
-				<div class="searchButton">
-					<button id="searchButton">검색</button>
-				</div>
+			</form>
 		</div>
-		</form>
 		<div class="table12">
 			<table>
 				<tr>

@@ -7,9 +7,9 @@
 	
 	<insert id="createProcess" parameterType="CategoryDto">
 		INSERT INTO product_category (kan_code, cls_nm_1, cls_nm_2, cls_nm_3, cls_nm_4, activation) 
-		VALUES (#{dto.kan_code}, #{dto.cls_nm_1},#{dto.cls_nm_2},#{dto.cls_nm_3},#{dto.cls_nm_4},1)
+		VALUES (#{kan_code}, #{cls_nm_1},#{cls_nm_2},#{cls_nm_3},#{cls_nm_4},1)
 	</insert>
-	
+	 
 	<!-- update -->
 	
 	<update id="updateByKanCode" parameterType="CategoryDto">
@@ -51,7 +51,9 @@
 		select * from product_category
 	</select>
 	
-	
+	<select id="kanCheck" parameterType="String" resultType="String">
+		select kan_code from product_category where kan_code = #{kan_code}
+	</select>
 	
 	
 	

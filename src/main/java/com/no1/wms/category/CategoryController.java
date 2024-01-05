@@ -37,7 +37,7 @@ public class CategoryController {
 
 		return "category/test";
 	}
-
+	
 	// 카테고리 리스트 출력
 	@GetMapping("/category/list")
 	public String list(@RequestParam(name = "p", defaultValue = "1") int p, Model m) {
@@ -66,14 +66,14 @@ public class CategoryController {
 	// 생성 - Ajax
 	@PostMapping("/category/create_process")
 	@ResponseBody
-	public int createProcess(CategoryDto dto, Model m) {
+	public boolean createProcess(CategoryDto dto, Model m) {
 		int i = categoryService.createProcess(dto);
 		if (i == 1) {
-			return i;
+			return true;
 		} else {
 			// ajax테스트후 결정
-			// m.addAttribute("dto", dto);
-			return 0;
+			m.addAttribute("dto", dto);
+			return false;
 		}
 	}
 
@@ -126,13 +126,11 @@ public class CategoryController {
 	}
 	
 	// KAN코드 중복확인 메서드
-	
-	@PostMapping("/category/chackKancode")
+	@PostMapping("/category/checkKancode")
 	@ResponseBody
-	public int chackKancode(String kan_code) {
-		int chack = categoryService.checkKan(kan_code);
-		System.out.println(chack);
-		return chack;
+	public String chackKancode(String kan_code) {
+		String checkkan = categoryService.kanCheck(kan_code);
+		return checkkan;
 	}
 	
 	
