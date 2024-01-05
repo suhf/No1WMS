@@ -10,9 +10,7 @@
 	text-align: center;
 	color: white;
 }
-.w-5{
-    width : 5%!important;
-}
+
 </style>
 </head>
 <body>
@@ -39,8 +37,6 @@
 					<button class="btn btn-outline-secondary" style="background-color:aqua;" type="button" id="button-addon2 searchBtn">검색</button>
 				</div>
 			</form>
-		</div>
-			
 		</div>
 		<div class="table12">
 			<table>

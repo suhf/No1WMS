@@ -66,14 +66,14 @@ public class CategoryController {
 	// 생성 - Ajax
 	@PostMapping("/category/create_process")
 	@ResponseBody
-	public int createProcess(CategoryDto dto, Model m) {
+	public boolean createProcess(CategoryDto dto, Model m) {
 		int i = categoryService.createProcess(dto);
 		if (i == 1) {
-			return i;
+			return true;
 		} else {
 			// ajax테스트후 결정
-			// m.addAttribute("dto", dto);
-			return 0;
+			m.addAttribute("dto", dto);
+			return false;
 		}
 	}
 
