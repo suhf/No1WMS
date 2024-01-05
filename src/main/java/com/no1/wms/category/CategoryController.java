@@ -1,22 +1,13 @@
 package com.no1.wms.category;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-
+import com.no1.wms.excel.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.no1.wms.excel.ExcelUtils;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 
 

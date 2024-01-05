@@ -26,7 +26,7 @@ public class StockController {
 		int startRow = (page - 1) * perPage;
 		
 		//스톡서비스로 재고 리스트 출력 메서트 작성
-		List<StockDto> dto = service.stockList(searchn, search, perPage);
+		List<StockDto> dto = service.list(searchn, search, perPage);
 		m.addAttribute("list", dto);
 		
 		int pageNum = 4;//보여질 페이지 번호 수

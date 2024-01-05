@@ -23,7 +23,7 @@ public class StockService {
 	}
 
 	
-	public List<StockDto> stockList(int searchn, String search, int start){
+	public List<StockDto> list(int searchn, String search, int start){
 		
 		System.out.println(searchn+search);
 		

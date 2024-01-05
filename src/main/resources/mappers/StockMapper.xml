@@ -2,26 +2,26 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.no1.wms.authority.AuthorityMapper">
+<mapper namespace="com.no1.wms.authority.StockMapper">
    
    <!-- select -->
    <select id="count" parameterType="map" resultType="com.no1.wms.stock.StockDto">
    		select count(*) from wms.stock left join wms.warehouse on wms.stock.warehouse_id = wms.warehouse.id left join wms.product on wms.stock.product_id = wms.product.id
    		<where>
 			<choose>
-				<when test="searchn == 0"> activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
-				<when test="searchn == 1"> activation = 1 and product.name like concat('%',#{search},'%') </when>
+				<when test="searchn == 0"> wms.stock.activation = 1 and wms.warehouse.name like concat('%',#{search},'%')</when>
+				<when test="searchn == 1"> wms.stock.activation = 1 and wms.product.name like concat('%',#{search},'%') </when>
 			</choose>
 		</where> 
    		order by id desc limit #{start}, #{perPage}
    </select>
    
-   <select id="stockList" parameterType="map" resultType="com.no1.wms.stock.StockDto">
+   <select id="list" parameterType="map" resultType="com.no1.wms.stock.StockDto">
    		select * from wms.stock left join wms.warehouse on wms.stock.warehouse_id = wms.warehouse.id left join wms.product on wms.stock.product_id = wms.product.id
    		<where>
 			<choose>
-				<when test="searchn == 0"> activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
-				<when test="searchn == 1"> activation = 1 and product.name like concat('%',#{search},'%') </when>
+				<when test="searchn == 0"> wms.stock.activation = 1 and wms.warehouse.name like concat('%',#{search},'%')</when>
+				<when test="searchn == 1"> wms.stock.activation = 1 and wms.product.name like concat('%',#{search},'%') </when>
 			</choose>
 		</where> 
    		order by id desc limit #{start}, #{perPage}
