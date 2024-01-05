@@ -5,15 +5,6 @@
 <meta charset="UTF-8">
 <title>카테고리 생성</title>
 <style>
-.ulTag {
-	padding: 0;
-}
-
-li {
-	display: inline-block;
-	width: 130px;
-	margin-right: 10px;
-}
 
 input {
 	display: inline-block;
@@ -22,34 +13,66 @@ input {
 #checkKan {
 	margin-left: 10px; /* .checkKan 버튼과 옆의 input 사이 간격 조절 */
 }
+.header {
+	text-align: center;
+	color: white;
+}
+.body{
+	text-align: center;
+}
+
 </style>
 </head>
 <body>
 	<div class="header">
-		<h1>제품 카테고리 생성</h1>
+		<h1><b>제품 카테고리 생성</b></h1>
 	</div>
 	<hr>
 	<div class="body">
 		<form id="createForm">
 			<div class="ulTag">
-				<ul>
-					<li>대분류</li>
+				<div class="row">
+	                <div class="col-12">
+		                <div class="input-group mb-3">
+		                	<span class="input-group-text" id="basic-addon1">대분류</span>
+		                	<input type="text" name="cls_nm_1" class="form-control" placeholder="대분류를 입력하세요" aria-label="대분류" aria-describedby="basic-addon1">
+	                	</div>
+	                	<!-- 설명만 있는 입력 -->
+	                	<div class="input-group mb-3">
+		                	<span class="input-group-text" id="basic-addon1">중분류</span>
+		                	<input type="text" name="cls_nm_2" class="form-control" placeholder="중분류를 입력하세요" aria-label="중분류" aria-describedby="basic-addon1">
+	                	</div>
+	                	<div class="input-group mb-3">
+		                	<span class="input-group-text" id="basic-addon1">소분류</span>
+		                	<input type="text" name="cls_nm_3" class="form-control" placeholder="소분류를 입력하세요" aria-label="소분류" aria-describedby="basic-addon1">
+	                	</div>
+	                	<div class="input-group mb-3">
+		                	<span class="input-group-text" id="basic-addon1">중분류</span>
+		                	<input type="text" name="cls_nm_4" class="form-control" placeholder="세분류를 입력하세요" aria-label="세분류" aria-describedby="basic-addon1">
+	                	</div>
+	                	<div class="input-group mb-3">
+  							<input type="text" name="kan_code" class="form-control" placeholder="KAN 분류코드" aria-label="KAN 분류코드" aria-describedby="button-addon2">
+  							<button class="btn btn-outline-secondary" style="background-color:#FF5E5E;" type="button" id="button-addon2">중복확인</button>
+						</div>
+                	</div>
+            	</div>
+					대분류
 					<input type="text" name="cls_nm_1">
-					<br>
-					<li>중분류</li>
+					
+					중분류
 					<input type="text" name="cls_nm_2">
-					<br>
-					<li>소분류</li>
+					
+					소분류
 					<input type="text" name="cls_nm_3">
-					<br>
-					<li>세분류</li>
+					
+					세분류
 					<input type="text" name="cls_nm_4">
-					<br>
-					<li>KAN 분류코드</li>
+					
+					KAN 분류코드
 					<input type="text" name="kan_code" id="kan_code">
 					<input type="button" id="checkKan" value="중복확인">
 					<span id="chackDiv"></span>
-				</ul>
+				
 			</div>
 			<div class="Btn">
 				<button id="commit">생성</button>

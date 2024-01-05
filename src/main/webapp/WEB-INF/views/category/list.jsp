@@ -9,41 +9,6 @@
 .header {
 	text-align: center;
 }
-
-.body {
-	width: 80%;
-	margin: 20px auto;
-}
-
-.searchDropdown {
-	text-align: center;
-	display: inline-block;
-	margin-right: 10px;
-}
-
-select {
-	padding: 8px;
-}
-.search{
-	position: relative;
-	left: 70%;
-}
-
-.searchInput {
-	display: inline-block;
-	padding: 8px;
-}
-
-.searchButton {
-	display: inline-block;
-}
-
-
-table {
-	width: 100%;
-	border-collapse: collapse;
-	text-align: center;
-}
 </style>
 </head>
 <body>
@@ -54,7 +19,7 @@ table {
 	</div>
 	<hr>
 	<div class="body">
-		<div class="search">
+		<div class="search12">
 			<form action="categorysearch">
 				<div class="searchDropdown" id="searchDropdown">
 					<select>
@@ -72,7 +37,7 @@ table {
 				</div>
 		</div>
 		</form>
-		<div class="table">
+		<div class="table12">
 			<table>
 				<tr>
 					<th>KAN코드</th>
@@ -98,7 +63,7 @@ table {
 			<img alt="엑셀다운로드 이미지" src="엑셀다운로드 이미지">
 			<button id="uploadExcel" value="업로드">업로드</button>
 		</div>
-		<div class="paging">
+		<div class="paging12">
 			<!-- 페이징 -->
 		</div>
 		<div class="createButton">

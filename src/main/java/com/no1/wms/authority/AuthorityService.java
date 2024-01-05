@@ -11,7 +11,7 @@ public class AuthorityService {
 
     @Autowired
     AuthorityMapper mapper;
-    public AuthorityDto selectById(String id){
-        return mapper.selectById(id);
+    public AuthorityDto selectById(AuthorityDto dto){
+        return mapper.selectById(dto);
     }
 }
