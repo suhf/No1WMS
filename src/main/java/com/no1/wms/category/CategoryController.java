@@ -37,7 +37,7 @@ public class CategoryController {
 
 		return "category/test";
 	}
-
+	
 	// 카테고리 리스트 출력
 	@GetMapping("/category/list")
 	public String list(@RequestParam(name = "p", defaultValue = "1") int p, Model m) {
