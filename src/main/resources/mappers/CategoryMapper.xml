@@ -9,7 +9,7 @@
 		INSERT INTO product_category (kan_code, cls_nm_1, cls_nm_2, cls_nm_3, cls_nm_4, activation) 
 		VALUES (#{kan_code}, #{cls_nm_1},#{cls_nm_2},#{cls_nm_3},#{cls_nm_4},1)
 	</insert>
-	
+	 
 	<!-- update -->
 	
 	<update id="updateByKanCode" parameterType="CategoryDto">
