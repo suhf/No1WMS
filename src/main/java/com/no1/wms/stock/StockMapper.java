@@ -1,10 +1,9 @@
 package com.no1.wms.stock;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
-import org.apache.ibatis.annotations.Mapper;
 
 
 @Mapper
@@ -18,7 +17,10 @@ public interface StockMapper {
 	
 	int createStock(StockDto dto);
 	
-	StockDto stockOne(UUID id);
+	StockDto stockOne(String id);
+
+	int deleteStock(String id);
+
 	
 	
 }
