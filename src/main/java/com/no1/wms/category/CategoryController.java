@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -84,7 +85,7 @@ public class CategoryController {
 	}
 	// 수정 - Ajax
 
-	@PutMapping("/category//update_process")
+	@PutMapping("/category/update_process")
 	@ResponseBody
 	public int updateProcess(CategoryDto dto, Model m) {
 
@@ -112,6 +113,7 @@ public class CategoryController {
 		}
 	}
 	
+	// 엑셀다운로드테스트
 	@GetMapping("/category/download")
 	public void downloadExcel(HttpServletResponse response) {
 		List<CategoryDto> dto = categoryService.selectAllCategory();
@@ -123,8 +125,13 @@ public class CategoryController {
 	}
 	
 	// KAN코드 중복확인 메서드
+	
+	@PostMapping("/category/chackKancode")
+	@ResponseBody
 	public int chackKancode(String kan_code) {
-		return 0;
+		int chack = categoryService.checkKan(kan_code);
+		System.out.println(chack);
+		return chack;
 	}
 	
 	
