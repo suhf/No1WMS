@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.no1.wms.excel.ExcelUtils;
 
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse;
+
 
 @Controller
 public class CategoryController {
@@ -26,7 +27,7 @@ public class CategoryController {
 	@Autowired
 	ExcelUtils excelUtils;
 	
-	// 테스트
+	//테스트
 	@GetMapping("/category/test")
 	public String testPage(Model m) {
 		List<CategoryDto> dto = categoryService.selectAllCategory();

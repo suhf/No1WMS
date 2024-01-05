@@ -1,0 +1,21 @@
+.navi-bg {
+    background-color : antiquewhite;
+}
+.img-user{
+    width : 100%;
+}
+.active{
+    font-weight : bolder;
+}
+.user-name{
+    font-size : 1.2rem;
+}
+.body-bg{
+    background-color : darkseagreen;
+}
+.form-select{
+    width:auto;
+}
+#search_modal_content{
+    height : 80vh;
+}

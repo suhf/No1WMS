@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <script src="base.js"></script>
+  <link rel="stylesheet" href="base.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>No1 WMS</title>
+
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <!-- 네비게이션 쪽 -->
+      <div class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 navi-bg">
+        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
+
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  <div class="text-center">
+                    <img  class="img-user" src="https://academy.ilwoo.org/data/file/reference/3531300541_J1gHPmC6_479f762b4825515abc781b3a616929d8949ea2c5.jpg" alt="유저 이미지">
+                    <br>
+                    <p class="user-name">김이박 사원</p>
+                  </div>
+                </a>
+              </li>
+              <hr class="my-3">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/account/list">
+                  <i data-feather="users"></i>계정
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/password_reset">
+                  <i data-feather="key"></i>비밀번호 초기화
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="/authority/list">
+                  <i data-feather="user"></i>권한
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/category/list">
+                  <i data-feather="user"></i>제품 카테고리
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/product/list">
+                  <i data-feather="box"></i>제품
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/price/list">
+                  <i data-feather="dollar-sign"></i>제품 가격
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/vender/list">
+                  <i data-feather="compass"></i>거래처
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/warehouse/list">
+                  <i data-feather="inbox"></i>창고
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/stock/list">
+                  <i data-feather="archive"></i>재고
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/plan_in/list">
+                  <i data-feather="user"></i>입고 예정
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/in/list">
+                  <i data-feather="check"></i>입고
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/out/list">
+                  <i data-feather="truck"></i>출고
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/board/list">
+                  <i data-feather="list"></i>게시판
+                </a>
+              </li>
+            </ul>
+
+            <hr class="my-3">
+            <!-- 메뉴 쪽 -->
+            <ul class="nav flex-column">
+
+            </ul>
+
+          </div>
+      </div>
+
+
+      <!-- body -->
+      <script>
+
+        $(function(){
+          //네비게이션 관련
+          const $listNavLink = $("a.nav-link");
+          $listNavLink.each(function(index, element){
+            const $element =$(element);
+            $element.on("click", function(){
+              clickMenu(this);
+            })
+          });
+          //네비게이션 관련 끝
+
+          //yes no 모달 관련
+          const yesNoModalBootStrap = new bootstrap.Modal("#yes_no_modal");
+          $("#yes_no_modal_show_button").on("click", function(){
+            yesNoModalBootStrap.show();
+          });
+
+          $("#modal_yes_button").on("click", function(){
+            yesNoModal.yesFunction();
+            yesNoModalBootStrap.hide();
+          });
+
+
+
+          //정상적으로 모달의 확인 버튼이 정의 되지 않으면 alert가 뜸
+          function modalYesFuncNotDefined(){ alert("onModalYes가 정의되어 있지 않음"); }
+          yesNoModal = {
+            //yesFunction 변수를 modal.정의된 함수명 으로 덮어씌워서 자기가 원하는 기능 넣기
+            yesFunction : modalYesFuncNotDefined
+
+          }
+
+
+          /*
+          yes no 모달의 확인 버튼을 누를때 재정의할 function
+
+          yesNoModal.yesFunction = myYesFunction;
+          function myYesFunction(){
+            alert("재정의 됨");
+          }
+          */
+          //yes no 모달 관련 끝
+          //검색 팝업 모달 관련
+          const searchModalBootStrap = new bootstrap.Modal("#search_modal");
+          $("#search_modal_show_button").on("click", function(){
+            searchModalBootStrap.show();
+          });
+
+          /*
+          * 검색 팝업 모달 닫는 함수
+          */
+          function hideSearchModal(){
+            searchModalBootStrap.hide();
+          }
+
+
+          //검색 팝업 모달 관련 끝
+
+
+          //네비게이션 쪽 아이콘만들어 주는 함수
+          feather.replace();
+        });
+
+      </script>
+      <div class="col body-bg">
+        <div class="container-fluid">
+          <div class="row row-table">
+            <div class="col-12">
+              <table class="table" >
+                <thead class="table-dark">
+                  <tr><th>Header 1</th><th>Header 2</th><th>Header 3</th><th>Header 4</th><th>Header 5</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Row:1 Cell:1</td><td>Row:1 Cell:2</td><td>Row:1 Cell:3</td><td>Row:1 Cell:4</td><td>Row:1 Cell:5</td></tr>
+                  <tr><td>Row:2 Cell:1</td><td>Row:2 Cell:2</td><td>Row:2 Cell:3</td><td>Row:2 Cell:4</td><td>Row:2 Cell:5</td></tr>
+                  <tr><td>Row:3 Cell:1</td><td>Row:3 Cell:2</td><td>Row:3 Cell:3</td><td>Row:3 Cell:4</td><td>Row:3 Cell:5</td></tr>
+                  <tr><td>Row:4 Cell:1</td><td>Row:4 Cell:2</td><td>Row:4 Cell:3</td><td>Row:4 Cell:4</td><td>Row:4 Cell:5</td></tr>
+                  <tr><td>Row:5 Cell:1</td><td>Row:5 Cell:2</td><td>Row:5 Cell:3</td><td>Row:5 Cell:4</td><td>Row:5 Cell:5</td></tr>
+                  <tr><td>Row:6 Cell:1</td><td>Row:6 Cell:2</td><td>Row:6 Cell:3</td><td>Row:6 Cell:4</td><td>Row:6 Cell:5</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row row-buttons">
+            <div class="col-12">
+              <button type="button" class="btn btn-primary">기본</button>
+              <button type="button" class="btn btn-secondary">취소</button>
+              <button type="button" class="btn btn-success">Success</button>
+              <button type="button" class="btn btn-danger">삭제</button>
+              <button type="button" class="btn btn-warning">수정</button>
+              <button type="button" class="btn btn-info">Info</button>
+              <button type="button" class="btn btn-light">Light</button>
+              <button type="button" class="btn btn-dark">Dark</button>
+              <button type="button" class="btn btn-link">Link</button>
+            </div>
+          </div>
+          <div class="row row-inputs my-3">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                  <!-- 설명란 있는 입력 -->
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">설명란 있는 입력</span>
+                    <input type="text" class="form-control" placeholder="기본으로 보이는 값" aria-label="Username" aria-describedby="basic-addon1">
+                  </div>
+                  <!-- 설명만 있는 입력 -->
+                </div>
+              </div>
+
+              <div class="row">
+                <!-- 한줄에 2개 입력칸 넣는거 -->
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="한줄에">
+                </div>
+                <div class="col-6">
+                  <input type="text" class="form-control" placeholder="두칸 들어감">
+                </div>
+                <!-- 한줄에 2칸 입력칸 넣는거 끝 -->
+              </div>
+
+
+              <div class="row my-3">
+                <!-- 업로드 -->
+                <div class="input-group">
+                  <input type="file" class="form-control" id="inputGroupFile02">
+                </div>
+                <!-- 업로드 끝 -->
+              </div>
+
+              <div class="row my-3">
+                <!-- 드롭다운 시작 -->
+                  <select class="form-select">
+                    <option selected value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                  </select>
+                <!-- 드롭다운 끝 -->
+              </div>
+              <div class="row my-3">
+                <!-- 페이징 -->
+                <nav>
+                  <ul class="pagination">
+                    <li class="page-item" >
+                      <a class="page-link" href="#"><</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active">
+                      <a class="page-link" href="#">2</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item"><a class="page-link" href="#">4</a></li>
+                    <li class="page-item"><a class="page-link" href="#">5</a></li>
+                    <li class="page-item"><a class="page-link" href="#">6</a></li>
+
+                    <li class="page-item">
+                      <a class="page-link" href="#">></a>
+                    </li>
+                  </ul>
+                </nav>
+                <!-- 페이징 끝 -->
+              </div>
+              <div class="row my-3">
+                <!-- 모달 띄우는 버튼 -->
+                <button type="button" id="yes_no_modal_show_button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                  확인 취소 모달 띄우는 버튼, 기능 정의는 위에 javascript부분 확인
+                </button>
+                <p></p>
+                <button type="button" id="search_modal_show_button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" >
+                  검색 모달 띄우는 버튼, 기능 정의는 위에 javascript부분 확인
+                </button>
+                <!-- 모달 띄우는 버튼 끝 -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+  </div>
+  <!-- yes no 모달 관련 -->
+  <div class="modal fade" id="yes_no_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="yesNoModalLabel">확인 취소 모달 제목</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          모달의 내용
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button id="modal_yes_button" type="button" class="modal_yes btn btn-primary">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- yes no 모달 관련 끝 -->
+  <!-- 팝업 검색 모달 관련 -->
+  <div class="modal fade" id="search_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" >
+      <div class="modal-content" id="search_modal_content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="searchModalLabel">검색 모달 제목</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="search_modal_body">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 팝업 검색 모달 관련 끝 -->
+</body>
+</html>

@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 
 import com.no1.wms.category.CategoryDto;
 
-import jakarta.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 @Service
 public class ExcelUtils {
 	
-	public void downloadCategoryExcelFile(String excelFileName, HttpServletResponse response, 
+	public void downloadCategoryExcelFile(String excelFileName, HttpServletResponse response,
 			String sheetName, String[] columnName, List<CategoryDto> dto) {
 		String fileName = "";
 		try {
