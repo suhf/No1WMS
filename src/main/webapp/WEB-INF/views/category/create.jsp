@@ -72,9 +72,13 @@
                 	</div>
             	</div>
 			</div>
-			<div class="col-margin-left-32">
-				<button class="btn btn-success" id="submit">생성</button>
-				<button class="btn btn-secondary" id="cancel">취소</button>
+			<div class="row">
+				<div class="col-12 ">
+					<div class="w-40 col-centered" style="text-align: right">
+						<button class="btn btn-success" id="submit">생성</button>
+						<button class="btn btn-secondary" id="cancel">취소</button>
+					</div>
+				</div>
 			</div>
 		</form>
 
