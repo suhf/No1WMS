@@ -1,20 +1,12 @@
 package com.no1.wms.stock;
 
-import java.util.List;
-import java.util.UUID;
-
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.no1.wms.stock.StockDto;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -56,7 +48,7 @@ public class StockController {
 	
 	// 재고 상세페이지
 	@PostMapping("stock/read/{id}")
-	public String read(@PathVariable UUID id, Model m) {
+	public String read(@PathVariable String id, Model m) {
 		//스톡서비스로 재고 상세페이지 출력 메서드 작성
 		StockDto dto = service.stockOne(id);
 		m.addAttribute("dto", dto);
@@ -66,10 +58,44 @@ public class StockController {
 	
 	// 수정 - 폼 
 	@GetMapping("/stock/update/{id}")
-	public String update(@PathVariable UUID id, Model m) {
-//		StockDto dto = service.updateStock();
-//		m.addAttribute("dto", dto);
+	public String update(@PathVariable String id, Model m) {
+		StockDto dto = service.stockOne(id);
+		m.addAttribute("dto", dto);
 		return "stock/update";
 	}
-	
+
+
+	// 수정 프로세스
+	@PutMapping("/board/update_process")
+	@ResponseBody
+	public String updateProcess(StockDto dto) {
+		service.updateStock(dto);
+		return "redirect:list";
+	}
+
+
+	// 생성 폼
+	@PostMapping("/stock/create")
+	public String create()
+	{
+		return "stock/create";
+	}
+
+
+	// 생성 프로세스
+	@PostMapping("/stock/create_process")
+	@ResponseBody
+	public String createProcess(StockDto dto) {
+		service.createStock(dto);
+		return "redirect:list";// 글목록
+	}
+
+
+	// 삭제
+	@DeleteMapping("/stock/delete")
+	@ResponseBody
+	public int delete(String id) {
+		int i = service.deleteBoard(id);
+		return i;
+	}
 }

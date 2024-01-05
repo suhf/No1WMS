@@ -1,13 +1,11 @@
 package com.no1.wms.stock;
 
-import java.io.Console;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class StockService {
@@ -40,7 +38,7 @@ public class StockService {
 	}
 	
 	
-	public StockDto stockOne(UUID id) {
+	public StockDto stockOne(String id) {
 		return mapper.stockOne(id);
 	}
 	
@@ -52,5 +50,10 @@ public class StockService {
 	
 	public int updateStock(StockDto dto) {
 		return mapper.updateStock(dto);
+	}
+
+
+	public int deleteBoard(String id) {
+		return mapper.deleteStock(id);
 	}
 }

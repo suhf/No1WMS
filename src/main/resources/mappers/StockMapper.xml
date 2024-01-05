@@ -27,7 +27,7 @@
    		order by id desc limit #{start}, #{perPage}
    </select>
    
-   <select id="stockOne" parameterType="UUID" resultType="com.no1.wms.stock.StockDto">
+   <select id="stockOne" parameterType="String" resultType="com.no1.wms.stock.StockDto">
    		selct * from stock where id = #{id}
    </select>
    <!-- select -->
@@ -44,8 +44,14 @@
    
    <!-- insert -->
    <insert id="createStock" parameterType="com.no1.wms.stock.StockDto">
-   		insert into stock (id, quantity, activation)
-   		values (#{dto.id}, #{dto.quantity}, 1)
+   		insert into stock (id, warehouse_id, product_id, quantity, activation)
+   		values (#{dto.id}, #{dto.warehouse_id}, #{dto.product_id}, #{dto.quantity}, 1)
    </insert>
    <!-- insert -->
+
+	<!-- delete -->
+	<delete id="deleteStock" parameterType="String">
+		delete from stock where no = #{id}
+	</delete>
+	<!-- delete -->
 </mapper>
