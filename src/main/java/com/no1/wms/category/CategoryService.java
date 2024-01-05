@@ -52,14 +52,8 @@ public class CategoryService {
 		return mapper.activateByKanCode(kan_code);
 	}
 	
-	public int checkKan(String kan_code) {
-		CategoryDto dto = mapper.selectByKanCode(kan_code);
-		String kancode = dto.getKan_code();
-		if(kancode == null) {
-			return 0;
-		}else {
-			return 1;
-		}
+	public String kanCheck(String kan_code) {
+		return mapper.kanCheck(kan_code);
 	}
 	
 	

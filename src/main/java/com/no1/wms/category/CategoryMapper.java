@@ -14,4 +14,5 @@ public interface CategoryMapper {
 	int updateByKanCode(CategoryDto dto);
 	int deactivateByKanCode(String kan_code);
 	int activateByKanCode(String kan_code);
+	String kanCheck(String kan_code);
 }

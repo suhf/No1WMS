@@ -126,13 +126,11 @@ public class CategoryController {
 	}
 	
 	// KAN코드 중복확인 메서드
-	
-	@PostMapping("/category/chackKancode")
+	@PostMapping("/category/checkKancode")
 	@ResponseBody
-	public int chackKancode(String kan_code) {
-		int chack = categoryService.checkKan(kan_code);
-		System.out.println(chack);
-		return chack;
+	public String chackKancode(String kan_code) {
+		String checkkan = categoryService.kanCheck(kan_code);
+		return checkkan;
 	}
 	
 	

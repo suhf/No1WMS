@@ -51,7 +51,9 @@
 		select * from product_category
 	</select>
 	
-	
+	<select id="kanCheck" parameterType="String" resultType="String">
+		select kan_code from product_category where kan_code = #{kan_code}
+	</select>
 	
 	
 	
