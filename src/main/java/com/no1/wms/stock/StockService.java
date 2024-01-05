@@ -19,6 +19,8 @@ public class StockService {
 		Map<String,Object> m = new HashMap<String, Object>();
 		m.put("searchn",searchn);
 		m.put("search", search);
+		m.put("start", 0);
+		m.put("perPage", 10000);
 		return mapper.count(m);
 	}
 
@@ -31,9 +33,8 @@ public class StockService {
 		m.put("searchn",searchn);
 		m.put("search", search);
 		m.put("start", start);
-		m.put("count", 10);
-		
-		return mapper.stockList(m);
+		m.put("perPage", 10);
+		return mapper.list(m);
 		
 	}
 	

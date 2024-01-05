@@ -11,7 +11,7 @@ public interface StockMapper {
 	
 	int count(Map<String, Object> m);//검색 글 갯수
 	
-	List<StockDto> stockList(Map<String, Object> m);
+	List<StockDto> list(Map<String, Object> m);
 	
 	int updateStock(StockDto dto);
 	
