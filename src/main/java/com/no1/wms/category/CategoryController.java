@@ -1,13 +1,22 @@
 package com.no1.wms.category;
 
-import com.no1.wms.excel.ExcelUtils;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import com.no1.wms.excel.ExcelUtils;
 
 
 
@@ -57,14 +66,14 @@ public class CategoryController {
 	// 생성 - Ajax
 	@PostMapping("/category/create_process")
 	@ResponseBody
-	public int createProcess(CategoryDto dto, Model m) {
+	public boolean createProcess(CategoryDto dto, Model m) {
 		int i = categoryService.createProcess(dto);
 		if (i == 1) {
-			return i;
+			return true;
 		} else {
 			// ajax테스트후 결정
-			// m.addAttribute("dto", dto);
-			return 0;
+			m.addAttribute("dto", dto);
+			return false;
 		}
 	}
 
@@ -117,13 +126,11 @@ public class CategoryController {
 	}
 	
 	// KAN코드 중복확인 메서드
-	
-	@PostMapping("/category/chackKancode")
+	@PostMapping("/category/checkKancode")
 	@ResponseBody
-	public int chackKancode(String kan_code) {
-		int chack = categoryService.checkKan(kan_code);
-		System.out.println(chack);
-		return chack;
+	public String chackKancode(String kan_code) {
+		String checkkan = categoryService.kanCheck(kan_code);
+		return checkkan;
 	}
 	
 	
