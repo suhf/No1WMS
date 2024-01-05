@@ -2,7 +2,7 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.no1.wms.authority.AuthorityMapper">
+<mapper namespace="com.no1.wms.stock.StockMapper">
    
    <!-- select -->
    <select id="count" parameterType="map" resultType="com.no1.wms.stock.StockDto">
@@ -27,7 +27,7 @@
    		order by id desc limit #{start}, #{perPage}
    </select>
    
-   <select id="stockOne" parameterType="UUID" resultType="com.no1.wms.stock.StockDto">
+   <select id="stockOne" parameterType="java.util.UUID" resultType="com.no1.wms.stock.StockDto">
    		selct * from stock where id = #{id}
    </select>
    <!-- select -->

@@ -10,20 +10,21 @@ import java.util.UUID;
 @AllArgsConstructor
 @Alias("AuthorityDto")
 public class AuthorityDto {
-    private UUID id;
+    private String id;
     private String name;
-    private int account;
-    private int authority;
-    private int productCategory;
-    private int product;
-    private int prices;
-    private int vendor;
-    private int warehouse;
-    private int stock;
-    private int planIn;
-    private int productIn;
-    private int productOut;
-    private int board;
-    private boolean activation;
-    private boolean isGroupAuthority;
+    private Integer account;
+    private Integer authority;
+    private Integer productCategory;
+    private Integer product;
+    private Integer prices;
+    private Integer vendor;
+    private Integer warehouse;
+    private Integer stock;
+    private Integer planIn;
+    private Integer productIn;
+    private Integer productOut;
+    private Integer board;
+    private Boolean activation;
+    private Boolean isGroupAuthority;
+
 }
