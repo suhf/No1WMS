@@ -18,6 +18,7 @@
     <h1>재고 리스트</h1>
 </div>
 <hr>
+<<script src="../../utils.js" type="text/javascript"></script>
 <script>
     /*
     yes no 모달의 확인 버튼을 누를때 재정의할 function
@@ -36,6 +37,23 @@
             return false;
         }).filter(':eq(0)').click();
     });
+
+
+    /*엑셀 다운로드 클릭 펑션 */
+    $("#excelButton").click(function(){
+        const columns = [
+            {name: '번호', key: 'id'},
+            {name: '제품명', key: 'product_name'},
+            {name: '창고명', key: 'warehouse_name'},
+            {name: '재고수', key: 'quantity'},
+            {name: '카테고리', key: 'cls_Nm_4'}
+
+        ];
+
+        exportExcel(e, 'sheet', columns, list, 'stock');
+    })
+
+
 </script>
 여기다가 화면 만들기
 <!--탭키명 -->
@@ -63,7 +81,7 @@
 
             <!--재고 리스트 -->
             <c:if test="${count != 0 }">
-                <table>
+                <table align="center">
                     <tr>
                         <th>번호</th>
                         <th>제품명</th>
@@ -71,25 +89,31 @@
                     </tr>
                     <c:forEach items="${list}" var="stock">
                         <tr>
-                            <td><a href ="read/${stock.id}">${stock.stock.id}</a></td>
-                            <td>${stock.product.name }</td>
-                            <td>${stock.warehouse.name }</td>
+                            <td><a href ="read/${stock.id}">${stock.id}</a></td>
+                            <td>${stock.product_name }</td>
+                            <td>${stock.warehouse_name }</td>
                         </tr>
                     </c:forEach>
                 </table>
+
+                <!-- 엑셀 다운로드-->
+                <div class="excelButton">
+                    <button id="excelButton" value="생성">생성</button>
+                </div>
                 <div id="page">
                     <c:if test="${begin > pageNum }">
-                        <a href="list?p=${begin-1 }">[이전]</a>
+                        <a href="list?p=${begin-1 }">[<]</a>
                     </c:if>
                     <c:forEach begin="${begin }" end="${end}" var="i">
                         <a href="list?p=${i}">${i}</a>
                     </c:forEach>
                     <c:if test="${end < totalPages }">
-                        <a href="list?p=${end+1}">[다음]</a>
+                        <a href="list?p=${end+1}">[>]</a>
                     </c:if>
                 </div>
 
             </c:if>
+
         </div>
 
         <!--부족한재고 탭 내용-->
