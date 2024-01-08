@@ -75,7 +75,7 @@ public class StockController {
 
 
 	// 생성 폼
-	@PostMapping("/stock/create")
+	@GetMapping ("/stock/create")
 	public String create()
 	{
 		return "stock/create";
