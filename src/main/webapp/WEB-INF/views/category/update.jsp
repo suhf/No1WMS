@@ -104,7 +104,7 @@
 	            }).done(function(data) {
 	                if (data == true) {
 	                	alert("카테고리를 수정하였습니다.");
-	                		
+	                	
 	    				var form = document.createElement("form");
 	    				form.action = "/category/read";
 	    				form.method = "POST";
