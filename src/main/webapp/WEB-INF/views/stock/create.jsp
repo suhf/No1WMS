@@ -26,23 +26,28 @@
             </form>
         </div>
     </div>
+</div>
 
-    <div class="modal fade" id="search_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl" >
-            <div class="modal-content align: center" id="search_modal_content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5 col-" id="searchModalLabel">재고명 검색</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+
+
+<div class="modal fade" id="search_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-xl" >
+        <div class="modal-content" id="search_modal_content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="searchModalLabel">재고명 검색</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="search_modal_body">
 
             </div>
         </div>
     </div>
-
 </div>
 </body>
-<script src="../../utils.js" type="text/javascript"></script>
+<script src="utils.js" type="text/javascript"></script>
 <script>
+
+
     //검색 팝업 모달 관련
     const searchModalBootStrap = new bootstrap.Modal("#search_modal");
     $("#search_modal_show_button").on("click", function(){
@@ -55,6 +60,9 @@
     function hideSearchModal(){
         searchModalBootStrap.hide();
     }
+
+
+    //검색 팝업 모달 관련 끝
 </script>
 
 </html>

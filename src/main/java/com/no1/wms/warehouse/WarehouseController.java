@@ -27,7 +27,7 @@ public class WarehouseController {
 		
 		//스톡서비스로 재고 리스트 출력 메서트 작성
 		List<Object> dto = service.list(searchn, search, perPage);
-		m.addAttribute("list", dto);
+		m.addAttribute("wlist", dto);
 		
 		int pageNum = 4;//보여질 페이지 번호 수
 		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
@@ -78,7 +78,7 @@ public class WarehouseController {
 	@GetMapping("/warehouse/create")
 	public String create()
 	{
-		return "stock/create";
+		return "warehouse/create";
 	}
 
 

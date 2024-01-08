@@ -97,7 +97,7 @@
 
 </body>
 
-<script src="../../utils.js" type="text/javascript"></script>
+<script src="utils.js" type="text/javascript"></script>
 <script>
 
 

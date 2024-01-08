@@ -14,13 +14,10 @@ public class WarehouseService {
 	
 	public int count(int searchn, String search) {
 		
-		System.out.println(searchn+search);
-		
+
 		Map<String,Object> m = new HashMap<String, Object>();
 		m.put("searchn",searchn);
 		m.put("search", search);
-		m.put("start", 0);
-		m.put("perPage", 10000);
 		return mapper.count(m);
 	}
 
