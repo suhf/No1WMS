@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.warehouse.WarehouseMapper">
+
+    <!-- select -->
+    <select id="count" parameterType="map" resultType="java.lang.Integer">
+        select count(*) from warehouse left join account on warehouse.manager_id = account.id
+        <where>
+            <choose>
+                <when test="searchn == 0"> warehouse.activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> warehouse.activation = 1 and warehouse.capacity like concat('%',#{search},'%') </when>
+                <when test="searchn == 3"> warehouse.activation = 1 and warehouse.current_capacity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by stock.id desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="list" parameterType="map" resultType="com.no1.wms.warehouse.WarehouseDto">
+        select * from warehouse left join account on warehouse.manager_id = account.id
+        <where>
+            <choose>
+                <when test="searchn == 0"> warehouse.activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> warehouse.activation = 1 and warehouse.capacity like concat('%',#{search},'%') </when>
+                <when test="searchn == 3"> warehouse.activation = 1 and warehouse.current_capacity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by stock.id desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="warehouseOne" parameterType="String" resultType="com.no1.wms.warehouse.WarehouseDto">
+        selct * from warehouse where id = #{id}
+    </select>
+    <!-- select -->
+
+
+    <!-- update -->
+    <update id="updateWarehouse" parameterType="com.no1.wms.warehouse.WarehouseDto">
+        update warehouse
+        set capacity = #{dto.capacity}, name = #{dto.name}
+        where id = #{dto.id}
+    </update>
+    <!-- update -->
+
+
+    <!-- insert -->
+    <insert id="createWarehouse" parameterType="com.no1.wms.warehouse.WarehouseDto">
+        insert into warehouse (id, warehouse_id, product_id, quantity, activation)
+        values ((UUID), #{dto.warehouse_id}, #{dto.product_id}, #{dto.quantity}, 1)
+    </insert>
+    <!-- insert -->
+
+    <!-- delete -->
+    <delete id="deleteWarehouse" parameterType="String">
+        delete from warehouse where no = #{id}
+    </delete>
+    <!-- delete -->
+</mapper>

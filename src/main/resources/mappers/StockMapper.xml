@@ -9,23 +9,23 @@
    		select count(*) from stock left join warehouse on stock.warehouse_id = warehouse.id left join product on stock.product_id = product.id left join product_category on product.kan_code = product_category.kan_code
    		<where>
 			<choose>
-				<when test="searchn == 0"> stock.activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
-				<when test="searchn == 1"> stock.activation = 1 and  product.name like concat('%',#{search},'%') </when>
+				<when test="searchn == 0"> stock.activation = 1 and product.name like concat('%',#{search},'%')</when>
+				<when test="searchn == 1"> stock.activation = 1 and product_category.cls_Nm_4 like concat('%',#{search},'%') </when>
 			</choose>
 		</where> 
    		order by stock.id desc limit #{start}, #{perPage}
    </select>
-   
-   <select id="list" parameterType="map" resultType="com.no1.wms.stock.StockDto">
-   		select * from stock left join warehouse on stock.warehouse_id = warehouse.id left join product on stock.product_id = product.id left join product_category on product.kan_code = product_category.kan_code
-   		<where>
+
+	<select id="count" parameterType="map" resultType="java.lang.Integer">
+		select * from stock left join warehouse on stock.warehouse_id = warehouse.id left join product on stock.product_id = product.id left join product_category on product.kan_code = product_category.kan_code
+		<where>
 			<choose>
-				<when test="searchn == 0"> stock.activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
-				<when test="searchn == 1"> stock.activation = 1 and product.name like concat('%',#{search},'%') </when>
+				<when test="searchn == 0"> stock.activation = 1 and product.name like concat('%',#{search},'%')</when>
+				<when test="searchn == 1"> stock.activation = 1 and product_category.cls_Nm_4 like concat('%',#{search},'%') </when>
 			</choose>
-		</where> 
-   		order by stock.id desc limit #{start}, #{perPage}
-   </select>
+		</where>
+		order by stock.id desc limit #{start}, #{perPage}
+	</select>
    
    <select id="stockOne" parameterType="String" resultType="com.no1.wms.stock.StockDto">
    		selct * from stock where id = #{id}

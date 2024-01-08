@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,30 +14,92 @@
 </head>
 <body>
 
-
 <div class="header">
     <h1>재고 리스트</h1>
 </div>
 <hr>
-<<script src="../../utils.js" type="text/javascript"></script>
-<script>
-    /*
-    yes no 모달의 확인 버튼을 누를때 재정의할 function
 
-    yesNoModal.yesFunction = myYesFunction;
-    function myYesFunction(){
-      alert("재정의 됨");
-    }
-    */
-    $(function(){
-        $('.tabcontent > div').hide();
-        $('.tabnav a').click(function () {
-            $('.tabcontent > div').hide().filter(this.hash).fadeIn();
-            $('.tabnav a').removeClass('active');
-            $(this).addClass('active');
-            return false;
-        }).filter(':eq(0)').click();
-    });
+<div class="body">
+<!--탭키명 -->
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+            재고
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+            부족한 재고
+        </button>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div id="search" align="center">
+            <form action="search">
+                <select name="searchn">
+                    <option value="0">제품명</option>
+                    <option value="1">카테고리</option>
+                </select>
+                <input type="text" name="search" maxlength="50"/>
+                <input type="submit" class="btn btn-primary" value="검색" />
+            </form>
+        </div>
+
+        <!--재고 리스트 -->
+        <c:if test="${count != 0 }">
+        <table align="center">
+            <tr>
+                <th>번호</th>
+                <th>제품명</th>
+                <th>창고명</th>
+            </tr>
+            <c:forEach items="${list}" var="stock">
+                <tr>
+                    <td><a href ="read/${stock.id}">${stock.id}</a></td>
+                    <td>${stock.product_name }</td>
+                    <td>${stock.warehouse_name }</td>
+                </tr>
+            </c:forEach>
+        </table>
+
+        <!-- 엑셀 다운로드-->
+        <div class="excelButton" align="left">
+            <button id="excelButton" value="excelButton">다운로드</button>
+        </div>
+        <div id="page" align="center">
+            <c:if test="${begin > pageNum }">
+                <a href="list?p=${begin-1 }">[<]</a>
+            </c:if>
+            <c:forEach begin="${begin }" end="${end}" var="i">
+                <a href="list?p=${i}">${i}</a>
+            </c:forEach>
+            <c:if test="${end < totalPages }">
+                <a href="list?p=${end+1}">[>]</a>
+            </c:if>
+        </div>
+
+        <div class="createButton" align="right">
+            <button id="createButton" href="create">생성</button>
+        </div>
+
+
+    </div>
+
+    </c:if>
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        탭2 내용
+    </div>
+</div>
+</div>
+
+
+</body>
+
+<script src="../../utils.js" type="text/javascript"></script>
+<script>
+
 
 
     /*엑셀 다운로드 클릭 펑션 */
@@ -55,73 +118,4 @@
 
 
 </script>
-여기다가 화면 만들기
-<!--탭키명 -->
-<div class="tab">
-    <ul class="tabnav">
-        <li><a href="#tab01">재고</a></li>
-        <li><a href="#tab02">부족한재고</a></li>
-    </ul>
-
-    <!--탭키 내용-->
-    <div class="tabcontent">
-
-        <!--재고 탭 내용-->
-        <div id="tab01">
-            <div id="search" align="center">
-                <form action="search">
-                    <select name="searchn">
-                        <option value="0">창고명</option>
-                        <option value="1">제품명</option>
-                    </select>
-                    <input type="text" name="search" maxlength="50"/>
-                    <input type="submit" class="btn btn-primary" value="검색" />
-                </form>
-            </div>
-
-            <!--재고 리스트 -->
-            <c:if test="${count != 0 }">
-                <table align="center">
-                    <tr>
-                        <th>번호</th>
-                        <th>제품명</th>
-                        <th>창고명</th>
-                    </tr>
-                    <c:forEach items="${list}" var="stock">
-                        <tr>
-                            <td><a href ="read/${stock.id}">${stock.id}</a></td>
-                            <td>${stock.product_name }</td>
-                            <td>${stock.warehouse_name }</td>
-                        </tr>
-                    </c:forEach>
-                </table>
-
-                <!-- 엑셀 다운로드-->
-                <div class="excelButton">
-                    <button id="excelButton" value="생성">생성</button>
-                </div>
-                <div id="page">
-                    <c:if test="${begin > pageNum }">
-                        <a href="list?p=${begin-1 }">[<]</a>
-                    </c:if>
-                    <c:forEach begin="${begin }" end="${end}" var="i">
-                        <a href="list?p=${i}">${i}</a>
-                    </c:forEach>
-                    <c:if test="${end < totalPages }">
-                        <a href="list?p=${end+1}">[>]</a>
-                    </c:if>
-                </div>
-
-            </c:if>
-
-        </div>
-
-        <!--부족한재고 탭 내용-->
-        <div id="tab02">
-            tab2 content
-        </div>
-    </div>
-</div>
-
-</body>
 </html>
