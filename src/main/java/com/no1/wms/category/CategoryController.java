@@ -49,8 +49,8 @@ public class CategoryController {
 	}
 
 	// 상세페이지
-	@PostMapping("/category/read/{kan_code}")
-	public String read(@PathVariable String kan_code, Model m) {
+	@PostMapping("/category/read")
+	public String read(String kan_code, Model m) {
 		// 선택한 kan_code를 바탕으로 원하는 상세정보 출력하는 메서드 작성
 		CategoryDto dto = categoryService.selectByKanCode(kan_code);
 		m.addAttribute("dto", dto);
@@ -58,28 +58,27 @@ public class CategoryController {
 	}
 
 	// 생성 - 폼
-	@GetMapping("/category/create")
+	@PostMapping("/category/create")
 	public String create() {
 		return "category/create";
 	}
-
+	
+	
 	// 생성 - Ajax
 	@PostMapping("/category/create_process")
 	@ResponseBody
-	public boolean createProcess(CategoryDto dto, Model m) {
+	public boolean createProcess(CategoryDto dto) {
 		int i = categoryService.createProcess(dto);
 		if (i == 1) {
 			return true;
 		} else {
-			// ajax테스트후 결정
-			m.addAttribute("dto", dto);
 			return false;
 		}
 	}
 
 	// 수정 - 폼
-	@GetMapping("/category/update/{kan_code}")
-	public String update(@PathVariable String kan_code, Model m) {
+	@PostMapping("/category/update")
+	public String update(String kan_code, Model m) {
 		CategoryDto dto = categoryService.selectByKanCode(kan_code);
 		m.addAttribute("dto", dto);
 		return "category/update";
@@ -88,15 +87,13 @@ public class CategoryController {
 
 	@PutMapping("/category/update_process")
 	@ResponseBody
-	public int updateProcess(CategoryDto dto, Model m) {
+	public boolean updateProcess(CategoryDto dto) {
 
 		int i = categoryService.updateByKanCode(dto);
 		if (i == 1) {
-			return i;
+			return true;
 		} else {
-			// ajax테스트후 결정
-			// m.addAttribute("dto", dto);
-			return 0;
+			return false;
 		}
 	}
 

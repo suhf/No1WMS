@@ -5,80 +5,137 @@
 <head>
 <meta charset="UTF-8">
 <title>제품 카테고리</title>
-<style type="text/css">
-.header-white {
-	text-align: center;
-	color: white;
-}
-
-</style>
 </head>
 <body>
-
-
-	<div class="header-white">
-		<h1><b>제품 카테고리 관리</b></h1>
+	<div class="mt-5 mb-5 text-center">
+		<h1>제품 카테고리 관리</h1>
 	</div>
 	<hr>
 	<div class="body">
-		<div class="search12">
-			<form action="categorySearch">
-				<div class="input-group mb-3 w-30">
-					<div class="w-25">
-					<select class="form-select">
-						<option selected="selected" value="cls_nm_4">세분류</option>
-						<option value="cls_nm_1">대분류</option>
-						<option value="cls_nm_2">중분류</option>
-						<option value="cls_nm_3">세분류</option>
-						<option value="kan_code">KAN코드</option>
-					</select>
+		<div class="container-fluid">
+			<div class="col-12">
+				<form action="categorySearch">
+					<div class="input-group mb-3 w-30 col-centered">
+						<div class="w-25">
+						<select class="form-select">
+							<option selected="selected" value="cls_nm_4">세분류</option>
+							<option value="cls_nm_1">대분류</option>
+							<option value="cls_nm_2">중분류</option>
+							<option value="cls_nm_3">세분류</option>
+							<option value="kan_code">KAN코드</option>
+						</select>
+						</div>
+						<input type="text" name="categorySearch" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+						<button class="btn btn-info" type="button" id="button-addon2 searchBtn">검색</button>
 					</div>
-					<input type="text" name="categorySearch" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
-					<button class="btn btn-outline-secondary" style="background-color:aqua;" type="button" id="button-addon2 searchBtn">검색</button>
+				</form>
+			</div>
+		</div>
+		<div class="container-fluid">
+			
+			<div class="row row-table">
+				<div class="col-12">	
+					<table class="table">
+						<thead class="table-dark">
+							<tr>
+								<th>대분류</th>
+								<th>중분류</th>
+								<th>소분류</th>
+								<th>세분류</th>
+								<th>KAN코드</th>
+							</tr>
+						</thead>
+							<tbody>
+								<c:forEach items="${list }" var="dto">
+									<tr class="detailTr" data-kan_code="${dto.kan_code}" >
+										<td>${dto.cls_nm_1 }</td>
+										<td>${dto.cls_nm_2 }</td>
+										<td>${dto.cls_nm_3 }</td>
+										<td>${dto.cls_nm_4 }</td>
+										<td>${dto.kan_code }</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+					</table>
+				
 				</div>
-			</form>
+			</div>
 		</div>
-		<div class="table12">
-			<table>
-				<tr>
-					<th>KAN코드</th>
-					<th>대분류</th>
-					<th>중분류</th>
-					<th>소분류</th>
-					<th>세분류</th>
-				</tr>
-
-				<c:forEach items="${list }" var="dto">
-					<tr>
-						<td>${dto.kan_code }</td>
-						<td>${dto.cls_nm_1 }</td>
-						<td>${dto.cls_nm_2 }</td>
-						<td>${dto.cls_nm_3 }</td>
-						<td>${dto.cls_nm_4 }</td>
-					</tr>
-				</c:forEach>
-			</table>
+		<div class="container-fluid">
+			<div class="row row-buttons">
+				<div class="col-3 text-start">
+					<img alt="엑셀이미지" src="엑셀이미지">
+					<button type="button" class="btn btn-success" id="uploadExcel">업로드</button>
+				</div>
+				<div class="col-6 d-flex justify-content-center">
+					<nav>
+						<ul class="pagination">
+							<li class="page-item">
+								<a class="page-link" href="#">&lt;</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">1</a>
+							</li>
+							<li class="page-item active">
+								<a class="page-link" href="#">2</a>
+							</li>								
+							<li class="page-item">
+								<a class="page-link" href="#">3</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">4</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">5</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">6</a>
+							</li>
+							<li class="page-item">
+								<a class="page-link" href="#">&gt;</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div class="col-3 text-end">
+					<button type="button" class="btn btn-primary" id="createButton">생성</button>
+				</div>	
+			</div><!-- row row-buttons -->
 		</div>
-		<br>
-		<div class="uploadExcel">
-			<img alt="엑셀다운로드 이미지" src="엑셀다운로드 이미지">
-			<button id="uploadExcel" value="업로드">업로드</button>
-		</div>
-		<div class="paging12">
-			<!-- 페이징 -->
-		</div>
-		<div class="createButton">
-			<button id="createButton" value="생성">생성</button>
-		</div>
-
-
 	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>	
 	<script>
-		$("#createButton").click(function(){
-			$(location).attr("href", "/category/create")
-		})
+	
+	
+	$(document).ready(function(){
+		//POST방식으로 create폼화면 출력
+		$("#createButton").on("click",function(){
+			var form = document.createElement("form");
+			form.action = "/category/create";
+			form.method = "POST";
+			document.body.appendChild(form);
+			form.submit();
+		});
+	
+		 $("body").on("click", ".detailTr", function(){
+		    var kan_code = $(this).data("kan_code");
+			
+			var form = document.createElement("form");
+			form.action = "/category/read";
+			form.method = "POST";
+			document.body.appendChild(form);
+			
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "kan_code";
+			input.value = kan_code;
+			form.appendChild(input);
+			
+			form.submit();
+		});
+	
+	});//ready
 	</script>
 </body>
 </html>

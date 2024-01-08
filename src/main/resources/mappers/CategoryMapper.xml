@@ -14,8 +14,8 @@
 	
 	<update id="updateByKanCode" parameterType="CategoryDto">
 		UPDATE product_category 
-		SET cls_nm_1 = #{dto.cls_nm_1}, cls_nm_2 = #{dto.cls_nm_2},cls_nm_3 = #{dto.cls_nm_3}, cls_nm_4 = #{dto.cls_nm_4}
-		WHERE kan_code = #{dto.kan_code}
+		SET cls_nm_1 = #{cls_nm_1}, cls_nm_2 = #{cls_nm_2},cls_nm_3 = #{cls_nm_3}, cls_nm_4 = #{cls_nm_4}
+		WHERE kan_code = #{kan_code}
 	</update>
 	
 	<update id="deactivateByKanCode" parameterType="String">

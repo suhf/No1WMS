@@ -5,12 +5,6 @@
 <meta charset="UTF-8">
 <title>카테고리 생성</title>
 <style>
-
-
-.header-white {
-	text-align: center;
-	color: white;
-}
 .body{
 	text-align: center;
 }
@@ -27,11 +21,11 @@
 </style>
 </head>
 <body>
-	<div class="header-white">
-		<h1><b>제품 카테고리 생성</b></h1>
+	<div class="mt-5 mb-5 text-center">
+		<h1>제품 카테고리 생성</h1>
 	</div>
 	<hr>
-	<div class="body">
+	<div style="text-align: center">
 		<form id="createForm">
 			<div class="ulTag">
 				<div class="row">
@@ -44,19 +38,19 @@
 	                	</div>
 	                	<!-- 설명만 있는 입력 -->
 	                	<div class="input-group mb-3 w-40 col-centered">
-		                	<span class="input-group-text" id="basic-addon1">중분류</span>
+		                	<span class="input-group-text" id="basic-addon2">중분류</span>
 		                	<input type="text" name="cls_nm_2" id="cls_nm_2" class="form-control" 
 		                	placeholder="중분류를 입력하세요" aria-label="중분류" value="${dto.cls_nm_2 }" 
 		                	aria-describedby="basic-addon1">
 	                	</div>
 	                	<div class="input-group mb-3 w-40 col-centered">
-		                	<span class="input-group-text" id="basic-addon1">소분류</span>
+		                	<span class="input-group-text" id="basic-addon3">소분류</span>
 		                	<input type="text" name="cls_nm_3" id="cls_nm_3" class="form-control" 
 		                	placeholder="소분류를 입력하세요" aria-label="소분류" value="${dto.cls_nm_3 }" 
 		                	aria-describedby="basic-addon1">
 	                	</div>
 	                	<div class="input-group mb-3 w-40 col-centered">
-		                	<span class="input-group-text" id="basic-addon1">세분류</span>
+		                	<span class="input-group-text" id="basic-addon4">세분류</span>
 		                	<input type="text" name="cls_nm_4" id="cls_nm_4" class="form-control" 
 		                	placeholder="세분류를 입력하세요" aria-label="세분류" value="${dto.cls_nm_4 }" 
 		                	aria-describedby="basic-addon1">
@@ -68,6 +62,7 @@
   							<button class="btn btn-outline-secondary" id="checkKan" 
   							style="background-color:#FF5E5E;" type="button" 
   							id="button-addon2">중복확인</button>
+  							<input type='hidden' id='kan_chack' value='0'>
 						</div>
                 	</div>
             	</div>
@@ -75,8 +70,9 @@
 			<div class="row">
 				<div class="col-12 ">
 					<div class="w-40 col-centered" style="text-align: right">
-						<button class="btn btn-success" id="submit">생성</button>
-						<button class="btn btn-secondary" id="cancel">취소</button>
+						<button type="button" class="btn btn-success" id="submitBtn">생성</button>
+						<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
+						
 					</div>
 				</div>
 			</div>
@@ -108,11 +104,12 @@
                 if (data == "") {
                     $("#checkKan").css("background-color", "#4CAF50"); // 파란색 배경으로 변경
                     $("#checkKan").text("사용가능"); // 버튼 텍스트 변경
-                    $("#checkKan").append("<input type='hidden' id='kan_chack' value='1'>");
+                    $("#kan_chack").val('1');
                 } else {
                     $("#checkKan").css("background-color", "#FF5E5E"); // 원래의 빨간색 배경으로 변경
                     $("#checkKan").text("사용불가"); // 버튼 텍스트 변경
                     $("#kan_chack").val('0');
+                    $("#kan_code").focus();
                     //여기 
                 }
             }).fail(function() {
@@ -124,8 +121,16 @@
         });//kan중복체크 기능
         
         
+        $("#kan_code").on("change", function() {
+        	$("#kan_chack").val('0');
+        	$("#checkKan").css("background-color", "#FF5E5E"); // 원래의 빨간색 배경으로 변경
+            $("#checkKan").text("중복확인");
+            $("#kan_code").focus();
+        })//kan_code값이 바뀔때마다 초기화 스크립트
         
-        $("#submit").on("click", function(){
+        
+        
+        $("#submitBtn").on("click", function(){
         	var clsnm1 = $("#cls_nm_1").val();
         	var clsnm2 = $("#cls_nm_2").val();
         	var clsnm3 = $("#cls_nm_3").val();
@@ -133,22 +138,27 @@
         	var kanCode = $("#kan_code").val();
     		if(!clsnm1){
     			alert("대분류를 입력해야 합니다.");
+    			$("#cls_nm_1").focus();
     			return false;
     		}
     		if(!clsnm2){
     			alert("중분류를 입력해야 합니다.");
+    			$("#cls_nm_2").focus();
     			return false;
     		}
     		if(!clsnm3){
     			alert("소분류를 입력해야 합니다.");
+    			$("#cls_nm_3").focus();
     			return false;
     		}
     		if(!clsnm4){
     			alert("세분류를 입력해야 합니다.");
+    			$("#cls_nm_4").focus();
     			return false;
     		}
     		if( $("#kan_chack").val() != 1){
     			alert("KAN코드를 입력후 중복체크를 해야합니다.");
+    			$("#kan_code").focus();
     			return false;
     		}
     		
@@ -167,19 +177,34 @@
             }).done(function(data) {
                 if (data == true) {
                 	alert("카테고리가 생성되었습니다.");
-                	$(location).attr("href", "/category/list")
+
+    				var form = document.createElement("form");
+    				form.action = "/category/read";
+    				form.method = "POST";
+    				document.body.appendChild(form);
+    				
+    				var input = document.createElement("input");
+    				input.type = "hidden";
+    				input.name = "kan_code";
+    				input.value = kanCode;
+    				form.appendChild(input);
+    				
+    				form.submit();
                 } else {
                 	alert("카테고리 생성에 실패하였습니다.");
                 }
             }).fail(function() {
                 alert("오류가 발생했습니다.");
             }).always(function() {
-                // Ajax 요청 완료 후 버튼 다시 활성화
-				
+				//		
             });
     		
     	})
         
+        $("#cancelBtn").on("click", function(){
+        	$(location).attr("href", "/category/list");
+        	
+        })
         
         
         
