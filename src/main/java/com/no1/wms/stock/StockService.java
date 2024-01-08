@@ -25,7 +25,7 @@ public class StockService {
 	}
 
 	
-	public List<StockDto> list(int searchn, String search, int start){
+	public List<Object> list(int searchn, String search, int start){
 		
 		System.out.println(searchn+search);
 		
@@ -34,6 +34,7 @@ public class StockService {
 		m.put("search", search);
 		m.put("start", start);
 		m.put("perPage", 10);
+
 		return mapper.list(m);
 		
 	}
