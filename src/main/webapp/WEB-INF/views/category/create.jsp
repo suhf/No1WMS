@@ -56,12 +56,11 @@
 		                	aria-describedby="basic-addon1">
 	                	</div>
 	                	<div class="input-group mb-3 w-40 col-centered">
-  							<input type="number" name="kan_code" id="kan_code" class="form-control" 
+  							<input type="number" min="1" name="kan_code" id="kan_code" class="form-control" 
   							placeholder="KAN 분류코드" aria-label="KAN 분류코드" value="${dto.kan_code }" 
   							aria-describedby="button-addon2">
-  							<button class="btn btn-outline-secondary" id="checkKan" 
-  							style="background-color:#FF5E5E;" type="button" 
-  							id="button-addon2">중복확인</button>
+  							<button class="btn btn-outline-secondary rounded-end" id="checkKan" 
+  							style="background-color:#FF5E5E;" type="button" >중복확인</button>
   							<input type='hidden' id='kan_chack' value='0'>
 						</div>
                 	</div>
@@ -93,6 +92,14 @@
                 // 버튼 다시 활성화
                 $("#checkKan").prop("disabled", false);
                 return false;
+            }
+            
+            //1이상의 정수만 입력받는다.
+            if (kanCode <= 0){
+            	alert("KAN 분류코드는 1 이상의 정수를 입력해주세요");
+            	$("#kan_code").focus();
+            	$("#checkKan").prop("disabled", false);
+            	return false;
             }
 
             $.ajax({

@@ -22,14 +22,15 @@ public class WarehouseController {
 					   @RequestParam(name = "p", defaultValue = "1") int page, Model m) {
 		int count = service.count(searchn, search);
 		
-		int perPage = 10; // 한 페이지에 보일 글의 갯수
+		int perPage = 5; // 한 페이지에 보일 글의 갯수
 		int startRow = (page - 1) * perPage;
 		
 		//스톡서비스로 재고 리스트 출력 메서트 작성
-		List<Object> dto = service.list(searchn, search, perPage);
+		List<WarehouseDto> dto = service.list(searchn, search, startRow ,perPage);
 		m.addAttribute("wlist", dto);
+		m.addAttribute("start", startRow + 1);
 		
-		int pageNum = 4;//보여질 페이지 번호 수
+		int pageNum = 5;//보여질 페이지 번호 수
 		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
 	
 		int begin = (page - 1) / pageNum * pageNum + 1;
@@ -41,14 +42,15 @@ public class WarehouseController {
 		m.addAttribute("end", end);
 		m.addAttribute("pageNum", pageNum);
 		m.addAttribute("totalPages", totalPages);
+		m.addAttribute("p" , page);
 		
 		return "warehouse/list";
 	}
 				
 	
 	// 재고 상세페이지
-	@PostMapping("warehouse/read/{id}")
-	public String read(@PathVariable String id, Model m) {
+	@PostMapping("warehouse/read")
+	public String read(String id, Model m) {
 		//스톡서비스로 재고 상세페이지 출력 메서드 작성
 		WarehouseDto dto = service.warehouseOne(id);
 		m.addAttribute("dto", dto);

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.product.ProductMapper">
+	<resultMap id="authorityResultMap" type="AuthorityDto">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="company_name" property="company_name" />
+		<result column="kan_code" property="kan_code" />
+		<result column="vendor_id" property="vendor_id" />
+		<result column="registration_date" property="registration_date" />
+		<result column="manager_id" property="manager_id" />
+		<result column="activation" property="activation" />
+		<association property="vendorDto" javaType="VendorDto">
+			<id column="vendor_name" property="name" />
+			<result column="president_name" property="president_name" />
+		</association>
+		<association property="accountDto" javaType="AccountDto">
+			<id column="account_name" property="name" />
+		</association>
+		<association property="categoryDto" javaType="CategoryDto">
+			<id column="personal_authority_id" property="personalAuthorityId" />
+			<result column="cls_nm_1" property="cls_nm_1" />
+			<result column="cls_nm_2" property="cls_nm_2" />
+			<result column="cls_nm_3" property="cls_nm_3" />
+			<result column="cls_nm_4" property="cls_nm_4" />
+		</association>
+	</resultMap>
+
+	<!-- insert -->
+
+
+	<!-- update -->
+
+
+	<!-- delete -->
+
+
+	<!-- select -->
+	<select id="productList" parameterType="map" resultType="productDto">
+		SELECT
+		p.id, p.name, p.company_name, p.kan_code, p.vendor_id, p.registration_date,
+		p.manager_id, p.activation,
+		v.name as vendor_name, v.president_name,
+		a.name as account_name,
+		pc.cls_nm_1, pc.cls_nm_2, pc.cls_nm_3, pc.cls_nm_4
+		FROM product as p
+		left join vendor as v on p.vendor_id = v.id
+		left join account as a on p.manager_id = a.id
+		left join product_category as pc on p.kan_code = pc.kan_code
+		WHERE p.activation != 0
+		ORDER BY p.registration_date limit #{start} , #{count}
+	</select>
+
+
+</mapper>

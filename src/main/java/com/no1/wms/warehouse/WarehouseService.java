@@ -22,7 +22,7 @@ public class WarehouseService {
 	}
 
 	
-	public List<Object> list(int searchn, String search, int start){
+	public List<WarehouseDto> list(int searchn, String search, int start, int perPage){
 		
 		System.out.println(searchn+search);
 		
@@ -30,7 +30,7 @@ public class WarehouseService {
 		m.put("searchn",searchn);
 		m.put("search", search);
 		m.put("start", start);
-		m.put("perPage", 10);
+		m.put("perPage", perPage);
 
 		return mapper.list(m);
 		

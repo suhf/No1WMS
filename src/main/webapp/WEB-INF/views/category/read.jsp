@@ -8,7 +8,13 @@
 </head>
 <body>
 	<div class="mt-5 mb-5 text-center">
+	
+		<div class="row">
 		<h1>제품 카테고리 상세페이지</h1>
+			<div class="col-10" style="text-align: right;">
+				<button type="button" class="btn btn-danger" id="yes_no_modal_show_button">삭제</button>
+			</div>
+		</div>
 	</div>
 	<hr>
 
@@ -86,10 +92,41 @@
 				
 			})//modifyBtn click
 			
-			
-			
+			yesNoModal.yesFunction = deleteCategoryFunction;
 		});//ready
+		
+		
+		
+		
+		function deleteCategoryFunction(){
+			var kan_code = $("#kan_code").val();
+			$.ajax({
+            	url: "/category/delete",
+            	type: "delete",
+            	data: {
+            		   "kan_code": kan_code
+            		},
+            	datatype:"json"
+            }).done(function(data) {
+                if (data == true) {
+                	alert("삭제되었습니다.");
+    				$(location).attr("href", "/category/list");
+                } else {
+                	alert("정상적으로 삭제되지 않았습니다..");
+                }
+            }).fail(function() {
+                alert("오류가 발생했습니다.");
+            }).always(function() {
+				//		
+            });
+			
+		}//deleteCategoryFunction
+		
+		
+		
+		
+        
+        
 	</script>
-
 </body>
 </html>

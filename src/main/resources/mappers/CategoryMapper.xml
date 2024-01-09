@@ -39,7 +39,7 @@
 	
     
     <select id="categoryList" parameterType="map" resultType="CategoryDto">
-		select * from product_category 
+		select * from product_category where activation != 0
 		order by kan_code limit #{start} , #{count}
 	</select>
 	

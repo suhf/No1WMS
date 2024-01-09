@@ -11,7 +11,7 @@ public interface WarehouseMapper {
 	
 	int count(Map<String, Object> m);//검색 글 갯수
 	
-	List<Object> list(Map<String, Object> m);
+	List<WarehouseDto> list(Map<String, Object> m);
 
 	int updateWarehouse(WarehouseDto dto);
 	
