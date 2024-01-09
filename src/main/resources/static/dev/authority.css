@@ -4,3 +4,7 @@
 .tab-pane{
     background-color: rgb(208, 208, 208);
 }
+
+.form-check{
+    display: inline!important;
+}

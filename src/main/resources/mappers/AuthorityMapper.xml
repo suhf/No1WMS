@@ -3,7 +3,62 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.no1.wms.authority.AuthorityMapper">
+    <resultMap id="authorityResultMap" type="AuthorityDto">
+        <id column="id"                     property="id"/>
+        <result column="name"               property="name"/>
+        <result column="account"            property="account"/>
+        <result column="authority"          property="authority"/>
+        <result column="product_category"               property="productCategory"/>
+        <result column="product"            property="product"/>
+        <result column="prices"             property="prices"/>
+        <result column="vendor"             property="vendor"/>
+        <result column="warehouse"          property="warehouse"/>
+        <result column="stock"              property="stock"/>
+        <result column="plan_in"            property="planIn"/>
+        <result column="product_in"         property="productIn"/>
+        <result column="product_out"        property="productOut"/>
+        <result column="board"              property="board"/>
+        <result column="activation"         property="activation"/>
+        <result column="is_group_authority" property="isGroupAuthority"/>
+        <association property="accountDto"  javaType="AccountDto">
+            <id column="personal_authority_id" property="personalAuthorityId" />
+            <result column="employee_number" property="employeeNumber" />
+            <result column="acc_name" property="name" />
+        </association>
+
+    </resultMap>
+
+
     <select id="selectById" resultType="AuthorityDto">
         SELECT * FROM authority WHERE id = #{id}
     </select>
+    <select id="selectAll" resultMap="authorityResultMap" parameterType="map">
+        SELECT
+            auth.id, auth.name, auth.account, auth.authority, auth.product_category, auth.product,
+            auth.prices, auth.vendor, auth.warehouse, auth.stock, auth.plan_in, auth.product_in,
+            auth.product_out, auth.board, auth.activation, auth.is_group_authority,
+            acc.employee_number, acc.name acc_name
+            from authority auth left join account acc on acc.personal_authority_id = auth.id
+            where auth.name like concat('%',#{search},'%')
+            order by auth.activation desc, auth.id desc limit #{start}, #{perPage}
+    </select>
+    <select id="selectByName" resultType="int">
+        SELECT count(name) FROM authority WHERE name = #{name}
+    </select>
+    <insert id="insert" parameterType="AuthorityDto">
+        insert into authority
+               (
+                id, name, account, authority, product_category,
+                product, prices, vendor, warehouse, stock, plan_in,
+                product_in, product_out, board, activation, is_group_authority)
+        VALUES (
+                UUID(), #{name}, #{account},
+                #{authority}, #{productCategory},
+                #{product},#{prices},#{vendor},
+                #{warehouse},#{stock}, #{planIn},
+                #{productIn},#{productOut},#{board},
+                #{activation}, #{isGroupAuthority}
+               )
+
+    </insert>
 </mapper>
