@@ -25,7 +25,6 @@
             <result column="employee_number" property="employeeNumber" />
             <result column="acc_name" property="name" />
         </association>
-
     </resultMap>
 
 
@@ -34,7 +33,8 @@
     </select>
     <select id="selectAll" resultMap="authorityResultMap" parameterType="map">
         SELECT
-            auth.id, auth.name, auth.account, auth.authority, auth.product_category, auth.product,
+            auth.id, auth.name,
+            auth.account, auth.authority, auth.product_category, auth.product,
             auth.prices, auth.vendor, auth.warehouse, auth.stock, auth.plan_in, auth.product_in,
             auth.product_out, auth.board, auth.activation, auth.is_group_authority,
             acc.employee_number, acc.name acc_name
@@ -61,4 +61,23 @@
                )
 
     </insert>
+    <update id="update" parameterType="AuthorityDto">
+        update authority SET
+             name = #{name},
+             account = #{account},
+             authority = #{authority},
+             product_category = #{productCategory},
+             product = #{product},
+             prices = #{prices},
+             vendor = #{vendor},
+             warehouse = #{warehouse},
+             stock = #{stock},
+             plan_in = #{planIn},
+             product_in = #{productIn},
+             product_out = #{productOut},
+             board = #{board},
+             activation = #{activation},
+             is_group_authority = #{isGroupAuthority}
+        WHERE id = #{id}
+    </update>
 </mapper>

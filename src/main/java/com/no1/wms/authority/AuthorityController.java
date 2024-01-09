@@ -14,14 +14,11 @@ import java.util.UUID;
 public class AuthorityController {
     @Autowired
     AuthorityService authorityService;
-    private static final int PER_PAGE = 10;
+    private static final int PER_PAGE = 1000;
 
     @GetMapping("/list")
     public ModelAndView list(ModelAndView mav, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "0") int start){
         List<AuthorityDto> list = authorityService.selectAll(search, start, PER_PAGE);
-        for(int i=0; i < list.size(); ++i){
-            System.out.println(list.get(i));
-        }
         mav.addObject("list", list);
         mav.setViewName("/authority/list");
         return mav;
@@ -29,7 +26,14 @@ public class AuthorityController {
     @GetMapping("/create")
     public String create(){
         return "/authority/create_group";
+    }
 
+    @PostMapping("/read")
+    public ModelAndView read(ModelAndView mav, AuthorityDto dto){
+        dto = authorityService.selectById(dto);
+        mav.addObject("dto", dto);
+        mav.setViewName("/authority/update_group");
+        return mav;
     }
 
     @PostMapping("/checkNameDuplicate")
@@ -42,6 +46,14 @@ public class AuthorityController {
     @ResponseBody
     public String createProcess(AuthorityDto dto, Gson gson){
         int result = authorityService.insert(dto);
+        return gson.toJson(result);
+    }
+
+    @PostMapping("/update_process")
+    @ResponseBody
+    public String updateProcess(AuthorityDto dto, Gson gson){
+        int result = authorityService.update(dto);
+
         return gson.toJson(result);
     }
 

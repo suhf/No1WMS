@@ -15,5 +15,7 @@ public interface AuthorityMapper {
 
     int insert(AuthorityDto dto);
 
+    int update(AuthorityDto dto);
+
     List<AuthorityDto> selectAll(Map<String, Object> m);
 }

@@ -46,7 +46,6 @@ public class AuthorityDto {
 
     private AccountDto accountDto;
 
-
     private Boolean activation;
     private Boolean isGroupAuthority;
 }

@@ -33,4 +33,6 @@ public class AuthorityService {
     public int insert(AuthorityDto dto){
         return mapper.insert(dto);
     }
+
+    public int update(AuthorityDto dto) { return mapper.update(dto); }
 }

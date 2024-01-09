@@ -38,6 +38,8 @@
         //yes no 모달 관련
         const yesNoModalBootStrap = new bootstrap.Modal("#yes_no_modal");
         $("#yes_no_modal_show_button").on("click", function(){
+            $("#yesNoModalLabel").text(yesNoModal.title);
+            $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
             yesNoModalBootStrap.show();
         });
 
@@ -52,7 +54,9 @@
         function modalYesFuncNotDefined(){ alert("onModalYes가 정의되어 있지 않음"); }
         yesNoModal = {
             //yesFunction 변수를 modal.정의된 함수명 으로 덮어씌워서 자기가 원하는 기능 넣기
-            yesFunction : modalYesFuncNotDefined
+            yesFunction : modalYesFuncNotDefined,
+            title : '확인 취소 모달 제목',
+            body : '모달의 내용'
 
         }
 
@@ -86,7 +90,10 @@
         //네비게이션 쪽 아이콘만들어 주는 함수
         feather.replace();
     });
-
+    function yesNoModalTextDefine(title, body){
+        yesNoModal.title = title;
+        yesNoModal.body = body;
+    }
 </script>
 <!-- 스크립트 부분 끝 -->
 <div class="col body-bg">
@@ -108,7 +115,7 @@
                 <h1 class="modal-title fs-5" id="yesNoModalLabel">확인 취소 모달 제목</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div id="yesNoModalBodyTextDiv" class="modal-body">
                 모달의 내용
             </div>
             <div class="modal-footer">

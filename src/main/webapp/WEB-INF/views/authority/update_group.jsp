@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
     /*
     yes no 모달의 확인 버튼을 누를때 재정의할 function
@@ -8,22 +9,36 @@
       alert("재정의 됨");
     }
     */
+    const originalAuthorityName = '${dto.name}';
+    const authorityId = '${dto.id}';
     const authorityCategoryList = [
-        {'eng' : 'account', 'kor' : '계정'},
-        {'eng':'authority','kor' : '권한'},
-        {'eng' : 'productCategory', 'kor' : '제품 카테고리'},
-        {'eng': 'product' ,'kor' : '제품' },
-        {'eng':'prices' ,'kor' : '가격' },
-        {'eng': 'vendor' ,'kor' : '거래처' } ,
-        {'eng':'warehouse' ,'kor' : '창고' },
-        {'eng': 'stock' ,'kor' : '재고' } ,
-        {'eng':'planIn' ,'kor' : '입고 예정'},
-        {'eng':'productIn' ,'kor' : '입고'},
-        {'eng':'productOut' ,'kor' : '출고'},
-        {'eng':'board' ,'kor' : '게시판'}
+        {'eng' : 'account', 'kor' : '계정', 'value' : ${dto.account}},
+        {'eng':'authority','kor' : '권한', 'value' : ${dto.authority}},
+        {'eng' : 'productCategory', 'kor' : '제품 카테고리', 'value' : ${dto.productCategory}},
+        {'eng': 'product' ,'kor' : '제품', 'value' : ${dto.product}},
+        {'eng':'prices' ,'kor' : '가격', 'value' : ${dto.prices} },
+        {'eng': 'vendor' ,'kor' : '거래처' , 'value' : ${dto.vendor}} ,
+        {'eng':'warehouse' ,'kor' : '창고' , 'value' : ${dto.warehouse}},
+        {'eng': 'stock' ,'kor' : '재고', 'value' : ${dto.stock} } ,
+        {'eng':'planIn' ,'kor' : '입고 예정', 'value' : ${dto.planIn}},
+        {'eng':'productIn' ,'kor' : '입고', 'value' : ${dto.productIn}},
+        {'eng':'productOut' ,'kor' : '출고', 'value' : ${dto.productOut}},
+        {'eng':'board' ,'kor' : '게시판', 'value' : ${dto.board}}
     ]
 
-
+    /*뒤에서부터 index번째 비트가 1인가 확인하는 기능
+       ex) data : 9(1001), index : 1 = true
+                           index : 2 = false
+                           index : 3 = false
+                           index : 4 = true
+    */
+    function bitCalcResult(data, index){
+        let v = 1;
+        for(let i = 1 ; i < index; ++i ){
+            v*=2;
+        }
+        return (data & v) > 0;
+    }
 
     $(function(){
         const $div_check_box_body  = $("#table_check_box_body");
@@ -56,17 +71,42 @@
                 '                                            </div></td>\n' +
                 '                                        </tr>');
         });
-        yesNoModalTextDefine("새 타이틀", "새 바디");
+        authorityCategoryList.reverse().forEach(function(element) {
+
+            const value =element.value;
+            if(  bitCalcResult(value, 4 ))
+                $("#"+element.eng+"_read").attr('checked', true);
+            if(  bitCalcResult(value, 3 ))
+                $("#"+element.eng+"_create").attr('checked', true);
+            if(  bitCalcResult(value, 2 ))
+                $("#"+element.eng+"_update").attr('checked', true);
+            if(  bitCalcResult(value, 1 ))
+                $("#"+element.eng+"_delete").attr('checked', true);
+        });
+
+
     });
 
+
     function checkName(){
+        const name = $("#authority_name").val();
+
+
         if($("#btn_check_name").text() === "다시 설정"){
             $("#authority_name").removeAttr("disabled");
             $("#btn_check_name").text("중복 확인");
             return;
         }
 
-        const name = $("#authority_name").val();
+        if(originalAuthorityName === name){
+            console.log(originalAuthorityName);
+            console.log(name);
+            $("#authority_name").attr('disabled','true');
+            $("#btn_check_name").text("다시 설정");
+            return;
+        }
+
+
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
             url : '/authority/checkNameDuplicate',           // 요청할 서버url
@@ -86,7 +126,7 @@
         });
     }
 
-    function onAuthorityProcess(){
+    function onAuthorityUpdateProcess(){
         if($("#authority_name:disabled").length === 0 ){
             alert("'중복 확인'을 해주세요");
             return;
@@ -103,17 +143,19 @@
             data[category] += Number($(element).val());
         });
         data['isGroupAuthority'] = true;
-        data['activation'] = true;
+        data['activation'] = $('input[name="activation"]:checked').val();
+        data['id'] = authorityId;
+        console.log(data);
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
-            url : '/authority/create_process',           // 요청할 서버url
+            url : '/authority/update_process', // 요청할 서버url
             dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
             data : data,
             success : function(result) { // 결과 성공 콜백함수
                 if(Number(result) === 1){
-                    alert("권한 생성에 성공하였습니다");
+                    alert("권한 변경에 성공하였습니다");
                 }else{
-                    alert("권한 생성중 오류가 발생하였습니다")
+                    alert("업데이트 중에 오류기 발생하였습니다");
                 }
             },
             error : function(request, status, error) {
@@ -145,10 +187,25 @@
                 권한명
             </div>
             <div class="col-10">
-                <input class="form-control w-30 d-inline" id="authority_name" name='name' type="text" placeholder="권한 명을 입력하세요">
-                <button id="btn_check_name" class="btn btn-primary" onclick="checkName()">중복 확인</button>
+                <input disabled class="form-control w-30 d-inline" id="authority_name" name='name' type="text" placeholder="권한 명을 입력하세요" value="${dto.name}">
+                <button id="btn_check_name" class="btn btn-primary" onclick="checkName()">다시 설정</button>
             </div>
 
+        </div>
+        <div class="row">
+            <div class="col-2">
+                활성 여부
+            </div>
+            <div class="col-10">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="activation" id="inlineRadio1" value="true"  <c:if test="${dto.activation == true}"> checked</c:if>>
+                    <label class="form-check-label" for="inlineRadio1">활성</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="activation" id="inlineRadio2" value="false" <c:if test="${dto.activation == false}"> checked</c:if>>
+                    <label class="form-check-label" for="inlineRadio2">비활성</label>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-12">
@@ -162,7 +219,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <button class="btn btn-primary" onclick="onAuthorityProcess()">생성</button>
+                <button class="btn btn-primary" onclick="onAuthorityUpdateProcess()">수정</button>
                 <button class="btn btn-primary" onclick="window.history.back()">뒤로</button>
             </div>
         </div>

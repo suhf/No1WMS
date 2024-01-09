@@ -23,6 +23,12 @@
                 $("#div_personal_search").show();
             }
         });
+
+        $(".group_authority_tr").on("click", function(event){
+            readGroupAuthority($(event.currentTarget).data("tid"));
+        });
+
+
     });
 
     function onSearch(isPersonalSearch){
@@ -37,6 +43,16 @@
 
         console.log(JSON.stringify(jsonData));
     }
+
+    function readGroupAuthority(id){
+        $("#formInput").val(id);
+        $("#form").attr("action", "/authority/read" );
+        $("#form").trigger("submit");
+
+    }
+
+
+
 </script>
 <div class="container-fluid">
     <div class="row">
@@ -95,7 +111,12 @@
                                                 <td>${dto.accountDto.employeeNumber}</td>
                                                 <td>${dto.accountDto.name}</td>
                                                 <td>${dto.name}</td>
-                                                <td>${dto.activation}</td>
+                                                <td>
+                                                <c:choose>
+                                                    <c:when test="${dto.activation}">O</c:when>
+                                                    <c:otherwise>X</c:otherwise>
+                                                </c:choose>
+                                                </td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
@@ -105,12 +126,23 @@
                             <div class="tab-pane fade" id="group_authority_tab" role="tabpanel" aria-labelledby="group-authority-tab">
                                 <table class="table" >
                                     <thead class="table-dark">
-                                    <tr><th>번호</th><th>권한 명</th></tr>
+                                    <tr><th>번호</th><th>권한 명</th><th>활성 여부</th></tr>
                                     </thead>
                                     <tbody>
-                                    <tr><td>1</td><td>사장 권한</td></tr>
-                                    <tr><td>2</td><td>관리자 권한</td></tr>
-                                    <tr><td>3</td><td>사원 권한</td></tr>
+                                    <c:forEach items="${list }" var="dto" varStatus="status">
+                                        <c:if test="${dto.isGroupAuthority == true}">
+                                            <tr class="group_authority_tr" data-tid ="${dto.id}">
+                                                <td>${status.count}</td>
+                                                <td>${dto.name}</td>
+                                                <td>
+                                                    <c:choose>
+                                                        <c:when test="${dto.activation}">O</c:when>
+                                                        <c:otherwise>X</c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -123,3 +155,6 @@
         </div>
     </div>
 </div>
+<form id="form" method="post">
+    <input name="id" id="formInput" hidden>
+</form>
