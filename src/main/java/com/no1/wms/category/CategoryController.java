@@ -98,16 +98,14 @@ public class CategoryController {
 	}
 
 	// 삭제
-	@DeleteMapping("/category/delete/{kan_code}")
+	@DeleteMapping("/category/delete")
 	@ResponseBody
-	public int delete(@PathVariable String kan_code) {
+	public boolean delete(String kan_code) {
 		int i = categoryService.deactivateByKanCode(kan_code);
 		if (i == 1) {
-			return i;
+			return true;
 		} else {
-			// ajax테스트후 결정
-			// m.addAttribute("dto", dto);
-			return 0;
+			return false;
 		}
 	}
 	

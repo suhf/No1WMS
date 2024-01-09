@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.product.ProductMapper">
+	<resultMap id="authorityResultMap" type="AuthorityDto">
+		<id column="id"                     property="id"/>
+		<result column="name"				property="name"/>
+		<result column="company_name"		property="company_name"/>
+		<result column="kan_code"			property="kan_code"/>
+		<result column="vendor_id"			property="vendor_id"/>
+		<result column="registration_date"	property="registration_date"/>
+		<result column="manager_id"			property="manager_id"/>
+		<result column="activation"			property="activation"/>
+		<association property="vendorDto"  javaType="AccountDto">
+			<id column="personal_authority_id" property="personalAuthorityId" />
+		
+		</association>
+		<association property="accountDto"  javaType="AccountDto">
+			<id column="personal_authority_id" property="personalAuthorityId" />
+		
+		</association>
+		<association property="accountDto"  javaType="AccountDto">
+			<id column="personal_authority_id" property="personalAuthorityId" />
+		
+		</association>
+	</resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<!-- insert -->
+	
+	
+	<!-- update -->
+	
+	
+	<!-- delete -->
+	
+	
+	<!-- select -->
+	<select id="productList" parameterType="map" resultType="CategoryDto">
+		select * from product where activation != 0
+		order by registration_date limit #{start} , #{count}
+	</select>
+
+
+</mapper>
