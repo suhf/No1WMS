@@ -49,19 +49,16 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    ${count}
                                     <c:forEach items="${wlist }" var="dto">
-                                        <tr class="detailTr" data-w_id="${dto.id}" >
+                                        <tr class="detailTr" data-id="${dto.id}" >
                                             <td>${start} <c:set var="start" value="${start +1 }"/></td>
-                                            <td><a href="read/${dto.id }">
-                                                    ${dto.name }</a></td>
+                                            <td>${dto.name }</td>
                                             <td>${dto.capacity }</td>
                                             <td>${dto.current_capacity }</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
                             </table>
-
                         </div>
                     </div>
                 </div>
@@ -104,8 +101,30 @@
 </body>
 
 <script>
-    $("#createButton").on("click", function() {
-        window.location.href = "/warehouse/create";
-    });
+    $(document).ready(function(){
+        $("#createButton").on("click", function() {
+            window.location.href = "/warehouse/create";
+        });
+
+
+
+
+        $("body").on("click", ".detailTr", function(){
+            var id = $(this).data("id");
+
+            var form = document.createElement("form");
+            form.action = "/warehouse/read";
+            form.method = "POST";
+            document.body.appendChild(form);
+
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "id";
+            input.value = id;
+            form.appendChild(input);
+
+            form.submit();
+        });
+    });//ready
 </script>
 </html>

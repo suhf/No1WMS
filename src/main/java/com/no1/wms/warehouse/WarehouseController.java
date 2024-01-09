@@ -49,8 +49,8 @@ public class WarehouseController {
 				
 	
 	// 재고 상세페이지
-	@PostMapping("warehouse/read/{id}")
-	public String read(@PathVariable String id, Model m) {
+	@PostMapping("warehouse/read")
+	public String read(String id, Model m) {
 		//스톡서비스로 재고 상세페이지 출력 메서드 작성
 		WarehouseDto dto = service.warehouseOne(id);
 		m.addAttribute("dto", dto);

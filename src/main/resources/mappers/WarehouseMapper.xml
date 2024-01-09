@@ -29,7 +29,7 @@
     </select>
 
     <select id="warehouseOne" parameterType="String" resultType="com.no1.wms.warehouse.WarehouseDto">
-        selct * from warehouse where id = #{id}
+        select * from warehouse where id = #{id}
     </select>
     <!-- select -->
 
