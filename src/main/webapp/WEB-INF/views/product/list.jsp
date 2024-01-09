@@ -47,12 +47,17 @@
 						</thead>
 							<tbody>
 								<c:forEach items="${list }" var="dto">
-									<tr class="detailTr" data-kan_code="${dto.kan_code}" >
-										<td>${dto.cls_nm_1 }</td>
-										<td>${dto.cls_nm_2 }</td>
-										<td>${dto.cls_nm_3 }</td>
-										<td>${dto.cls_nm_4 }</td>
-										<td>${dto.kan_code }</td>
+									<tr class="detailTr" data-productId="${dto.id}" >
+										<td>${dto.name }</td>
+										<td>${dto.company_name }</td>
+										<!--  <td>${dto.categoryDto.cls_nm_4 }</td>
+										<td>${dto.vendorDto.name }</td>
+										<td>${dto.registration_date }</td>
+										<td>${dto.accountDto.name }</td>-->
+										<td>1</td>
+										<td>2</td>
+										<td>3</td>
+										<td>4</td>
 									</tr>
 								</c:forEach>
 							</tbody>
