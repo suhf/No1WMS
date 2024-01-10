@@ -10,9 +10,11 @@ import com.no1.wms.vendor.VendorDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 @Alias("ProductDto")
 public class ProductDto {
 	
