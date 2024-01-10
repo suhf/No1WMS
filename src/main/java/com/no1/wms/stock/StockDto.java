@@ -6,8 +6,8 @@ import lombok.Data;
 public class StockDto {
 	
 	private String id;
-	private int warehouse_id;
-	private int product_id;
+	private int warehouseId;
+	private int productId;
 	private int quantity;
 	private boolean activation;
 }

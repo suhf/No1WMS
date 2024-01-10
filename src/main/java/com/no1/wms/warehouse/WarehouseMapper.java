@@ -8,19 +8,22 @@ import java.util.Map;
 
 @Mapper
 public interface WarehouseMapper {
-	
-	int count(Map<String, Object> m);//검색 글 갯수
-	
+
 	List<WarehouseDto> list(Map<String, Object> m);
+
+	int count(Map<String, Object> m);//검색 글 갯수
+
+	List<Map<String, Object>> warehouseOne(Map<String, Object> m);
+
+	int warehouseOneCount(Map<String, Object> m);//검색 글 갯수
+
+	WarehouseDto One(String id);
 
 	int updateWarehouse(WarehouseDto dto);
 	
 	int createWarehouse(WarehouseDto dto);
-	
-	WarehouseDto warehouseOne(String id);
 
 	int deleteWarehouse(String id);
 
-	
 	
 }

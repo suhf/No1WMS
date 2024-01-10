@@ -4,33 +4,76 @@
 
 <mapper namespace="com.no1.wms.warehouse.WarehouseMapper">
 
-    <!-- select -->
+
     <select id="count" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from warehouse
+        select count(*)
+
+        from  warehouse w
+
         <where>
             <choose>
-                <when test="searchn == 0"> warehouse.activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> warehouse.activation = 1 and warehouse.capacity like concat('%',#{search},'%') </when>
-                <when test="searchn == 2"> warehouse.activation = 1 and warehouse.current_capacity like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> w.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.activation = 1 and w.capacity like concat('%',#{search},'%') </when>
+                <when test="searchn == 2"> w.activation = 1 and w.current_capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
     </select>
 
     <select id="list" parameterType="map" resultType="com.no1.wms.warehouse.WarehouseDto">
-        select * from warehouse
+        select *
+
+        from  warehouse w
+
         <where>
             <choose>
-                <when test="searchn == 0"> warehouse.activation = 1 and warehouse.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> warehouse.activation = 1 and warehouse.capacity like concat('%',#{search},'%') </when>
-                <when test="searchn == 2"> warehouse.activation = 1 and warehouse.current_capacity like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> w.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.activation = 1 and w.capacity like concat('%',#{search},'%') </when>
+                <when test="searchn == 2"> w.activation = 1 and w.current_capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
-        order by warehouse.id desc limit #{start}, #{perPage}
+        order by w.id desc limit #{start}, #{perPage}
     </select>
 
-    <select id="warehouseOne" parameterType="String" resultType="com.no1.wms.warehouse.WarehouseDto">
-        select * from warehouse where id = #{id}
+    <select id="warehouseOne" parameterType="Map" resultType="Map">
+        select p.name, s.quantity, w.id
+        from  warehouse w
+        LEFT JOIN stock s ON w.id = s.warehouse_id
+        LEFT JOIN product p ON s.product_id = p.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
+            </choose>
+        </where>
+
+<!--         order by p.id desc limit #{start}, #{perPage}-->
+
     </select>
+
+    <select id="warehouseOneCount" parameterType="Map" resultType="java.lang.Integer">
+        select count(*)
+
+        from  warehouse w
+        LEFT JOIN stock s ON w.id = s.warehouse_id
+        LEFT JOIN product p ON s.product_id = p.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="One" parameterType="String" resultType="com.no1.wms.warehouse.WarehouseDto">
+        select *
+
+        from  warehouse w
+
+        where w.id = #{dto.id}
+    </select>
+
     <!-- select -->
 
 
@@ -52,7 +95,7 @@
 
     <!-- delete -->
     <delete id="deleteWarehouse" parameterType="String">
-        delete from warehouse where no = #{id}
+        delete from warehouse where id = #{id}
     </delete>
     <!-- delete -->
 </mapper>

@@ -1,15 +1,21 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>창고 리스트</title>
+    <style>
+        .detailTr:hover {
+            background-color: #f5f5f5;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="body">
+<div class="body">
+    <div class="container-fluid">
         <div class="col-12">
             <div class="mt-5 mb-5 text-center">
                 <h1>창고 리스트</h1>
@@ -29,7 +35,8 @@
                                         <option value="2">적재량</option>
                                     </select>
                                 </div>
-                                <input type="text" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+                                <input type="text" name="search" class="form-control"
+                                       aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
                                 <input class="btn btn-info" type="submit" id="button-addon2 searchBtn" value="검색"/>
                             </div>
                         </form>
@@ -49,14 +56,14 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${wlist }" var="dto">
-                                        <tr class="detailTr" data-id="${dto.id}" >
-                                            <td>${start} <c:set var="start" value="${start +1 }"/></td>
-                                            <td>${dto.name }</td>
-                                            <td>${dto.capacity }</td>
-                                            <td>${dto.current_capacity }</td>
-                                        </tr>
-                                    </c:forEach>
+                                <c:forEach items="${wlist }" var="dto">
+                                    <tr class="detailTr" data-id="${dto.id}" )>
+                                        <td>${start} <c:set var="start" value="${start +1 }"/></td>
+                                        <td>${dto.name }</td>
+                                        <td>${dto.capacity }</td>
+                                        <td>${dto.currentCapacity }</td>
+                                    </tr>
+                                </c:forEach>
                                 </tbody>
                             </table>
                         </div>
@@ -69,47 +76,49 @@
                         </div>
                         <div class="col-6 d-flex justify-content-center">
                             <nev>
-                            <ul class="pagination">
-                                <c:if test="${begin > pageNum }">
-                                    <li class="page-item">
-                                        <a class="page-link" href="list?p=${begin - 1 }"><</a>
-                                    </li>
-                                </c:if>
-                                <c:forEach begin="${begin }" end="${end }" var="i">
-                                    <li class="page-item <c:if test="${p == i}"> active </c:if>">
-                                        <a class="page-link " href="list?p=${i }">${i }</a>
-                                    </li>
-                                </c:forEach>
-                                <c:if test="${end < totalPages }">
-                                    <li class="page-item">
-                                        <a class="page-link" href="list?p=${end + 1 }">></a>
-                                    </li>
-                                </c:if>
-                            </ul>
+                                <ul class="pagination">
+                                    <c:if test="${begin > pageNum }">
+                                        <li class="page-item">
+                                            <a class="page-link" href="list?p=${begin - 1 }"><</a>
+                                        </li>
+                                    </c:if>
+                                    <c:forEach begin="${begin }" end="${end }" var="i">
+                                        <li class="page-item <c:if test="${p == i}"> active </c:if>">
+                                            <a class="page-link " href="list?p=${i }">${i }</a>
+                                        </li>
+                                    </c:forEach>
+                                    <c:if test="${end < totalPages }">
+                                        <li class="page-item">
+                                            <a class="page-link" href="list?p=${end + 1 }">></a>
+                                        </li>
+                                    </c:if>
+                                </ul>
                             </nev>
                         </div>
                         <div class="col-3 text-end">
                             <button type="button" class="btn btn-primary" id="createButton">생성</button>
                         </div>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
 
     </div>
 </div>
-</body>
-
 <script>
-    $(document).ready(function(){
-        $("#createButton").on("click", function() {
-            window.location.href = "/warehouse/create";
+
+
+    $(document).ready(function () {
+        //POST방식으로 create폼화면 출력
+        $("#createButton").on("click", function () {
+            var form = document.createElement("form");
+            form.action = "/warehouse/create";
+            form.method = "POST";
+            document.body.appendChild(form);
+            form.submit();
         });
 
-
-
-
-        $("body").on("click", ".detailTr", function(){
+        $("body").on("click", ".detailTr", function () {
             var id = $(this).data("id");
 
             var form = document.createElement("form");
@@ -125,6 +134,8 @@
 
             form.submit();
         });
+
     });//ready
 </script>
+</body>
 </html>
