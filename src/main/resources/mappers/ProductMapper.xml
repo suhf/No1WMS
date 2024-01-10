@@ -30,13 +30,24 @@
 		</association>
 	</resultMap>
 
-	<!-- 설명한번 드릴게요 이거 원래 jsp를 부르려고했는데 오류가 자꾸 나서 원인을 찾아보다가 
-	결국 dto에 안담긴다는 것을 알고 컨트롤러코드를 수정했습니다ㅣ.mapper sql문이 아래 있는거?네 -->
-
+	<!-- insert -->
+		<insert id="createProcess" parameterType="ProductDto">
+		INSERT INTO product (id, name, company_name, kan_code, vendor_id, registration_date, manager_id, activation) 
+		VALUES (UUID(), #{name}, #{company_name}, #{kan_code}, #{vendor_id}, CURDATE(), #{manager_id}, 1)
+		</insert>
+		
+		
+		
+		
 
 	<!-- update -->
-
-
+		<update id="updateById" parameterType="ProductDto">
+			UPDATE product 
+			SET name = #{name}, company_name = #{company_name},kan_code = #{kan_code}, 
+			vendor_id = #{vendor_id}, manager_id = #{manager_id}, registration_date = CURDATE()
+			WHERE id = #{id}
+		</update>
+		
 	<!-- delete -->
 
 
@@ -55,6 +66,24 @@
 		WHERE p.activation != 0
 		ORDER BY p.registration_date limit #{start} , #{count}
 	</select>
-
+	
+	
+	<select id="selectById" parameterType="String" resultMap="productResultMap">
+		SELECT
+		p.id, p.name, p.company_name, p.kan_code, p.vendor_id, p.registration_date,
+		p.manager_id, p.activation,
+		v.name as vendor_name, v.president_name,
+		a.name as account_name,
+		pc.cls_nm_1, pc.cls_nm_2, pc.cls_nm_3, pc.cls_nm_4
+		FROM product as p
+		left join vendor as v on p.vendor_id = v.id
+		left join account as a on p.manager_id = a.id
+		left join product_category as pc on p.kan_code = pc.kan_code
+		WHERE p.id = #{id}
+		
+	</select>
+	
+	
+	
 
 </mapper>

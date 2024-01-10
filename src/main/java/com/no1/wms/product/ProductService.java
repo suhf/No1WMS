@@ -26,4 +26,16 @@ public class ProductService {
 		return mapper.productList(m);
 	}
 	
+	public int createProcess(ProductDto dto) {
+		return mapper.createProcess(dto);
+	}
+	
+	public ProductDto selectById(String id) {
+		return mapper.selectById(id);
+	}
+	
+	public int updateById(ProductDto dto) {
+		return mapper.updateById(dto);
+	}
+	
 }

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ProductMapper {
 	
 	List<ProductDto> productList(Map<String, Object> m);
-	
-	
-	
+	int createProcess(ProductDto dto);
+	ProductDto selectById(String id);
+	int updateById(ProductDto dto);
 }

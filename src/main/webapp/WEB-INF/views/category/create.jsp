@@ -5,9 +5,6 @@
 <meta charset="UTF-8">
 <title>카테고리 생성</title>
 <style>
-.body{
-	text-align: center;
-}
 .col-centered{
       margin: 0 auto;
       float: none;
@@ -56,8 +53,9 @@
 		                	aria-describedby="basic-addon1">
 	                	</div>
 	                	<div class="input-group mb-3 w-40 col-centered">
+	                		<span class="input-group-text" id="basic-addon5">KAN 분류코드</span>
   							<input type="number" min="1" name="kan_code" id="kan_code" class="form-control" 
-  							placeholder="KAN 분류코드" aria-label="KAN 분류코드" value="${dto.kan_code }" 
+  							placeholder="KAN 분류코드를 입력하세요" aria-label="KAN 분류코드" value="${dto.kan_code }" 
   							aria-describedby="button-addon2">
   							<button class="btn btn-outline-secondary rounded-end" id="checkKan" 
   							style="background-color:#FF5E5E;" type="button" >중복확인</button>
