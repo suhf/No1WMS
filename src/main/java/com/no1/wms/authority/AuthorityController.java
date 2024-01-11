@@ -1,6 +1,7 @@
 package com.no1.wms.authority;
 
 import com.google.gson.Gson;
+import com.no1.wms.utils.ConstantValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +15,10 @@ import java.util.UUID;
 public class AuthorityController {
     @Autowired
     AuthorityService authorityService;
-    private static final int PER_PAGE = 1000;
 
     @GetMapping("/list")
     public ModelAndView list(ModelAndView mav, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "0") int start){
-        List<AuthorityDto> list = authorityService.selectAll(search, start, PER_PAGE);
+        List<AuthorityDto> list = authorityService.selectAll(search, start, ConstantValues.PER_PAGE);
         mav.addObject("list", list);
         mav.setViewName("/authority/list");
         return mav;
