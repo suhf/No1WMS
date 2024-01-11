@@ -20,7 +20,7 @@
     </select>
 
     <select id="list" parameterType="map" resultType="com.no1.wms.warehouse.WarehouseDto">
-        select *
+        select w.id, w.name, w.capacity, w.current_capacity as currentCapacity
 
         from  warehouse w
 
@@ -36,18 +36,19 @@
 
     <select id="warehouseOne" parameterType="Map" resultType="Map">
         select p.name, s.quantity, w.id
+
         from  warehouse w
         LEFT JOIN stock s ON w.id = s.warehouse_id
         LEFT JOIN product p ON s.product_id = p.id
 
         <where>
             <choose>
-                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and p.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
+                <when test="searchn == 0"> w.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
             </choose>
         </where>
 
-<!--         order by p.id desc limit #{start}, #{perPage}-->
+<!--         order by p.name desc limit #{start}, #{perPage}-->
 
     </select>
 
@@ -60,14 +61,14 @@
 
         <where>
             <choose>
-                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and p.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
+                <when test="searchn == 0"> w.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
             </choose>
         </where>
     </select>
 
     <select id="One" parameterType="String" resultType="com.no1.wms.warehouse.WarehouseDto">
-        select *
+        select w.id, w.name, w.capacity, w.current_capacity as currentCapacity, w.address
 
         from  warehouse w
 
@@ -80,16 +81,16 @@
     <!-- update -->
     <update id="updateWarehouse" parameterType="com.no1.wms.warehouse.WarehouseDto">
         update warehouse
-        set capacity = #{dto.capacity}, name = #{dto.name}
-        where id = #{dto.id}
+        set capacity = #{capacity}, name = #{name}, address = #{address}
+        where id = #{id}
     </update>
     <!-- update -->
 
 
     <!-- insert -->
     <insert id="createWarehouse" parameterType="com.no1.wms.warehouse.WarehouseDto">
-        insert into warehouse (id, name, capacity, current_capacity, address, activation)
-        values (UUID(), #{dto.name}, #{dto.capacity}, 0, #{dto.address}, 1)
+        insert into warehouse (id, name, capacity, current_capacity as currentCapacity, manager_id as managerId, address, activation)
+        values (UUID(), #{dto.name}, #{dto.capacity}, 0, #{dto.managerId}, #{dto.address}, 1)
     </insert>
     <!-- insert -->
 

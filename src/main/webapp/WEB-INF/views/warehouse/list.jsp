@@ -25,19 +25,24 @@
             </div>
             <div class="row">
                 <div class="container-fluid">
-                    <div class="col-12" id="search">
+                    <div class="col-12">
                         <form action="list">
                             <div class="input-group mb-3 w-30 col-centered">
                                 <div class="w-25">
-                                    <select class="form-select" name="searchn">
+                                    <select class="form-select" name="searchn" id="searchn">
                                         <option value="0">창고명</option>
                                         <option value="1">용량</option>
                                         <option value="2">적재량</option>
                                     </select>
                                 </div>
-                                <input type="text" name="search" class="form-control"
+                                <input type="text" name="search" id="search" class="form-control"
                                        aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
-                                <input class="btn btn-info" type="submit" id="button-addon2 searchBtn" value="검색"/>
+                                <input class="btn btn-info" type="submit" id="searchBtn" value="검색"/>
+
+                                <!-- 페이징작업용 -->
+                                <input type="hidden" id="searchn1" value="${searchn}">
+                                <input type="hidden" id="search1" value="${search}">
+                                <!-- 페이징작업용 -->
                             </div>
                         </form>
                     </div>
@@ -57,7 +62,7 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${wlist }" var="dto">
-                                    <tr class="detailTr" data-id="${dto.id}" )>
+                                    <tr class="detailTr" data-id="${dto.id}">
                                         <td>${start} <c:set var="start" value="${start +1 }"/></td>
                                         <td>${dto.name }</td>
                                         <td>${dto.capacity }</td>
@@ -75,28 +80,29 @@
 
                         </div>
                         <div class="col-6 d-flex justify-content-center">
-                            <nev>
+                            <nav>
                                 <ul class="pagination">
+
                                     <c:if test="${begin > pageNum }">
                                         <li class="page-item">
-                                            <a class="page-link" href="list?p=${begin - 1 }"><</a>
+                                            <a href="javascript:void(0);" class="page-link" onclick="pageingFunction(this.id)" id="${begin - 1 }">&lt;</a>
                                         </li>
                                     </c:if>
                                     <c:forEach begin="${begin }" end="${end }" var="i">
                                         <li class="page-item <c:if test="${p == i}"> active </c:if>">
-                                            <a class="page-link " href="list?p=${i }">${i }</a>
+                                            <a href="javascript:void(0);" class="page-link " onclick="pageingFunction(this.id); return false;" id="${i }">${i }</a>
                                         </li>
                                     </c:forEach>
                                     <c:if test="${end < totalPages }">
                                         <li class="page-item">
-                                            <a class="page-link" href="list?p=${end + 1 }">></a>
+                                            <a href="javascript:void(0);" class="page-link" onclick="pageingFunction(this.id)" id="${end + 1 }">&gt;</a>
                                         </li>
                                     </c:if>
                                 </ul>
-                            </nev>
+                            </nav>
                         </div>
                         <div class="col-3 text-end">
-                            <button type="button" class="btn btn-primary" id="createButton">생성</button>
+                            <button type="button" class="btn btn-primary" onclick="window.location.href='/warehouse/create'">생성</button>
                         </div>
                     </div>
                 </div>
@@ -109,14 +115,7 @@
 
 
     $(document).ready(function () {
-        //POST방식으로 create폼화면 출력
-        $("#createButton").on("click", function () {
-            var form = document.createElement("form");
-            form.action = "/warehouse/create";
-            form.method = "POST";
-            document.body.appendChild(form);
-            form.submit();
-        });
+
 
         $("body").on("click", ".detailTr", function () {
             var id = $(this).data("id");
@@ -135,7 +134,70 @@
             form.submit();
         });
 
+        //검색기능
+        $("#searchBtn").on("click",function(){
+
+            var searchn = $("#searchn").val();
+            var search = $("#search").val();
+
+            var form = document.createElement("form");
+            form.action = "/warehouse/list";
+            form.method = "get";
+
+            var input1 = document.createElement("input");
+            input1.type = "hidden";
+            input1.name = "searchn";
+            input1.value = searchn;
+            form.appendChild(input1);
+
+            var input2 = document.createElement("input");
+            input2.type = "hidden";
+            input2.name = "search";
+            input2.value = search;
+            form.appendChild(input2);
+
+            var input3 = document.createElement("input");
+            input3.type = "hidden";
+            input3.name = "p";
+            input3.value = 1;
+            form.appendChild(input3);
+
+            document.body.appendChild(form);
+            form.submit();
+
+        });
+
     });//ready
+
+    function pageingFunction(clickedId){
+        var searchn1 = $("#searchn1").val();
+        var search1 = $("#search1").val();
+
+        var form = document.createElement("form");
+        form.action = "/warehouse/list";
+        form.method = "get";
+
+        var input1 = document.createElement("input");
+        input1.type = "hidden";
+        input1.name = "searchn";
+        input1.value = searchn1;
+        form.appendChild(input1);
+
+        var input2 = document.createElement("input");
+        input2.type = "hidden";
+        input2.name = "search";
+        input2.value = search1;
+        form.appendChild(input2);
+
+        var input3 = document.createElement("input");
+        input3.type = "hidden";
+        input3.name = "p";
+        input3.value = clickedId;
+        form.appendChild(input3);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
 </body>
 </html>

@@ -32,6 +32,13 @@
         <div class="ulTag">
             <div class="row">
                 <div class="col-12" style="text-align: center;">
+
+
+                    <-- 세션 만들어지고 value 수정-->
+                    <input type='hidden' id="managerId" value="e9882095-aeb2-11ee-935d-0242ac110006">
+
+
+
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon1">창고명</span>
                         <input type="text" name="name" id="name" class="form-control"
@@ -73,6 +80,7 @@
 
 
             $("#submitBtn").on("click", function(){
+                var managerId = $("#managerId").val();
                 var name = $("#name").val();
                 var capacity = $("#capacity").val();
                 var address = $("#address").val();
@@ -99,10 +107,11 @@
                     url: "/warehouse/create_process",
                     type: "post",
                     data: {
+                        "managerId" : managerId,
                         "name": name,
                         "capacity": capacity,
-                        "address": address,
-                        "activation": true
+                        "address": address
+
                     },
                     datatype:"json"
                 }).done(function(data) {
