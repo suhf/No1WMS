@@ -23,7 +23,7 @@
 <!-- body -->
 <!-- 스크립트 부분 안건들여도됨-->
 <script>
-
+    let searchModalBootStrap;
     $(function(){
         //네비게이션 관련
         const $listNavLink = $("a.nav-link");
@@ -71,17 +71,11 @@
         */
         //yes no 모달 관련 끝
         //검색 팝업 모달 관련
-        const searchModalBootStrap = new bootstrap.Modal("#search_modal");
+        searchModalBootStrap = new bootstrap.Modal("#search_modal");
         $("#search_modal_show_button").on("click", function(){
             searchModalBootStrap.show();
         });
 
-        /*
-        * 검색 팝업 모달 닫는 함수
-        */
-        function hideSearchModal(){
-            searchModalBootStrap.hide();
-        }
 
 
         //검색 팝업 모달 관련 끝
@@ -90,6 +84,13 @@
         //네비게이션 쪽 아이콘만들어 주는 함수
         feather.replace();
     });
+    /*
+       * 검색 팝업 모달 닫는 함수
+       */
+    function hideSearchModal(){
+        searchModalBootStrap.hide();
+    }
+
     function yesNoModalTextDefine(title, body){
         yesNoModal.title = title;
         yesNoModal.body = body;

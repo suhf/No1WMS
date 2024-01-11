@@ -12,7 +12,7 @@
         <put-attribute name="content" value="" />
     </definition>
 
-    <definition name="*" extends="layout-tiles" template="/WEB-INF/views/base/empty.jsp">
+    <definition name="*" extends="layout-tiles" template="/WEB-INF/views/modal/empty.jsp">
         <put-attribute name="content" value="/WEB-INF/views/modal/{1}.jsp" />
     </definition>
 

@@ -1,5 +1,6 @@
 package com.no1.wms.account;
 
+import com.no1.wms.authority.AuthorityDto;
 import com.no1.wms.department.DepartmentDto;
 import com.no1.wms.position.PositionDto;
 import lombok.AllArgsConstructor;
@@ -27,8 +28,14 @@ public class AccountDto {
     private Date birth;
     private String telephone;
     private String address;
-    private DepartmentDto department;
-    private PositionDto position;
+    private String departmentId;
+    private String positionId;
+
+    private DepartmentDto departmentDto;
+    private PositionDto positionDto;
+    private AuthorityDto groupAuthorityDto;
+    private AuthorityDto personalAuthorityDto;
+
     @Builder.Default
     private Boolean activation = true;
 

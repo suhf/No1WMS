@@ -25,7 +25,9 @@ public class AccountService {
 
     public List<AccountDto> selectAll(String search, int start, int perPage){
         HashMap<String, Object> map = new HashMap<String, Object>();
-
+        map.put("search", search);
+        map.put("start", start);
+        map.put("perPage", perPage);
 
 
 

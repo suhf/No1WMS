@@ -1,6 +1,72 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.no1.wms.authority.AuthorityMapper">
+<mapper namespace="com.no1.wms.account.AccountMapper">
+    <resultMap id="accountResultMap" type="AccountDto">
+        <id column="id"                     property="id"/>
+        <result column="name"               property="name"/>
+        <result column="employee_number"    property="employeeNumber"/>
+        <result column="password"           property="password"/>
+        <result column="email"              property="email"/>
+        <result column="gender"             property="gender"/>
+        <result column="birth"              property="birth"/>
+        <result column="telephone"          property="telephone"/>
+        <result column="address"            property="address"/>
+        <result column="activation"         property="activation"/>
+        <association property="groupAuthorityDto"  javaType="authorityDto">
+            <id column="auth2.id" property="id" />
+            <result column="group_auth_name" property="name" />
+        </association>
+        <association property="personalAuthorityDto"  javaType="authorityDto">
+            <id column="auth.id" property="id" />
+            <result column="personal_auth_name" property="name" />
+        </association>
+        <association property="departmentDto"  javaType="deptPositionDto">
+            <id column="dept.id" property="id" />
+            <result column="dept_name" property="name" />
+        </association>
+        <association property="positionDto"  javaType="deptPositionDto">
+            <id column="pos.id" property="id" />
+            <result column="pos_name" property="name" />
+        </association>
+    </resultMap>
+    <select id="selectById" resultMap="accountResultMap" parameterType="accountDto">
+        SELECT
+            acc.id, acc.name,
+            acc.employee_number, acc.password, acc.email, acc.gender,
+            acc.birth, acc.telephone, acc.address, acc.activation,
+            auth2.name group_auth_name, auth.name personal_auth_name,
+            dept.name dept_name, pos.name pos_name
+        from account acc join authority auth join authority auth2 join department dept join position pos
+        on acc.personal_authority_id = auth.id and acc.group_authority_id = auth2.id
+        and dept.id = acc.department_id and acc.position_id = pos.id
+        where acc.name like concat('%',#{search},'%')
+    </select>
 
+    <select id="selectAll" resultMap="accountResultMap" parameterType="map">
+        SELECT
+            acc.id, acc.name,
+            acc.employee_number, acc.password, acc.email, acc.gender,
+            acc.birth, acc.telephone, acc.address, acc.activation,
+            auth2.name group_auth_name, auth.name personal_auth_name
+        from account acc join authority auth join authority auth2 on acc.personal_authority_id = auth.id and acc.group_authority_id = auth2.id
+        where acc.name like concat('%',#{search},'%')
+        order by acc.activation desc, acc.id desc limit #{start}, #{perPage}
+    </select>
+    <insert id="insert" parameterType="accountDto">
+        insert into account
+        (
+            id, employee_number, password, email, group_authority_id,
+            personal_authority_id, name, gender, birth, telephone, address,
+            department_id, position_id, activation
+        )
+        VALUES
+        (
+           UUID(), #{employeeNumber}, #{password},
+           #{email}, #{groupAuthorityId},
+           #{personalAuthorityId},#{name},#{gender},
+           #{birth},#{stelephone}, #{address},
+           #{departmentId},#{positionId},#{activation}
+        )
+    </insert>
 </mapper>
