@@ -18,7 +18,7 @@
     <div class="row">
         <h1>창고 상세페이지</h1>
         <div class="col-10" style="text-align: right;">
-            <button type="button" class="btn btn-danger" id="yes_no_modal_show_button">삭제</button>
+            <button type="button" class="btn btn-danger" id="yes_no_modal_show">삭제</button>
         </div>
     </div>
 </div>
@@ -129,25 +129,21 @@
         </div>
     </div>
 </div>
-
-<!-- 모달내용 -->
-<div class="modal fade" id="yes_no_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="yes_no_modal_delete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="yesNoModalLabel">ㅎㅇ</h1>
+                <h1 class="modal-title fs-5" id="yesNoModalLabel">삭제 하시겠습니까?</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                모달의 내용
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button id="modal_yes_button" type="button" class="modal_yes btn btn-primary">확인</button>
+                <button id="modal_yes_button_warehouse_delete" type="button" class="modal_yes btn btn-primary">삭제</button>
             </div>
         </div>
     </div>
 </div>
+
 <script>
     $(document).ready(function () {
         $("#checkBtn").on("click", function () {
@@ -171,6 +167,10 @@
             form.submit();
 
         })//modifyBtn click
+
+
+
+
 
         yesNoModal.yesFunction = deleteCategoryFunction;
 
@@ -198,6 +198,21 @@
             });
 
         }//deleteCategoryFunction
+
+        const yesNoModalBootStrap = new bootstrap.Modal("#yes_no_modal_delete");
+        $("#yes_no_modal_show").on("click", function(){
+            yesNoModalBootStrap.show();
+        });
+
+        $("#modal_yes_button_warehouse_delete").on("click", function(){
+            yesNoModal.yesFunction();
+            yesNoModalBootStrap.hide();
+        });
+
+
+
+
+
 
 
         // 검색 버튼 클릭 시 Ajax로 검색 결과를 갱신
