@@ -56,5 +56,27 @@ public class CategoryService {
 		return mapper.kanCheck(kan_code);
 	}
 	
+	public int count(int searchn, String search) {
+		
+		Map<String,Object> m = new HashMap<String, Object>();
+		m.put("searchn",searchn);
+		m.put("search", search);
+		return mapper.count(m);
+	}
+	
+	public List<CategoryDto> categoryList2(int searchn, String search, int start, int perPage){
+		
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("searchn",searchn);
+		m.put("search", search);
+		m.put("start", start);
+		m.put("perPage", perPage);
+
+		return mapper.categoryList2(m);
+	}
+	
+	
+	
+	
 	
 }
