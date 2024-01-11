@@ -54,8 +54,39 @@
 	<select id="kanCheck" parameterType="String" resultType="String">
 		select kan_code from product_category where kan_code = #{kan_code}
 	</select>
-	
-	
+	<!-- 네비게이션바 전용 카운터 -->
+	<select id="count" parameterType="map" resultType="int">
+        select count(*)
+
+        from  product_category as p
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> p.activation = 1 and p.kan_code like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> p.activation = 1 and p.cls_nm_1 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> p.activation = 1 and p.cls_nm_2 like concat('%',#{search},'%')</when>
+                <when test="searchn == 3"> p.activation = 1 and p.cls_nm_3 like concat('%',#{search},'%')</when>
+                <when test="searchn == 4"> p.activation = 1 and p.cls_nm_4 like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+	<!-- 검색 -->
+	<select id="categoryList2" parameterType="map" resultType="CategoryDto">
+        select *
+
+        from  product_category as p
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> p.activation = 1 and p.kan_code like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> p.activation = 1 and p.cls_nm_1 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> p.activation = 1 and p.cls_nm_2 like concat('%',#{search},'%')</when>
+                <when test="searchn == 3"> p.activation = 1 and p.cls_nm_3 like concat('%',#{search},'%')</when>
+                <when test="searchn == 4"> p.activation = 1 and p.cls_nm_4 like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by kan_code limit #{start} , #{perPage}
+    </select>
 	
 	
 	
