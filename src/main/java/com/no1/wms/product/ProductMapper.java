@@ -12,4 +12,6 @@ public interface ProductMapper {
 	int createProcess(ProductDto dto);
 	ProductDto selectById(String id);
 	int updateById(ProductDto dto);
+	int deactivateById(String id);
+	
 }

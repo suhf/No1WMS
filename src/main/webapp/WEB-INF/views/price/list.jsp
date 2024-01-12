@@ -1,14 +1,15 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>제품 카테고리</title>
+<title>제품 가격</title>
 </head>
 <body>
 	<div class="mt-5 mb-5 text-center">
-		<h1>제품 카테고리 관리</h1>
+		<h1>제품 가격 관리</h1>
 	</div>
 	<hr>
 	<div class="body">
@@ -18,11 +19,9 @@
 					<div class="input-group mb-3 w-30 col-centered">
 						<div class="w-25">
 						<select class="form-select" name="searchn" id="searchn">
-							<option selected="selected" value="4">세분류</option>
-							<option value="1">대분류</option>
-							<option value="2">중분류</option>
-							<option value="3">소분류</option>
-							<option value="0">KAN코드</option>
+							<option selected="selected" value="0">제품명</option>
+							<option value="1">가격</option>
+							<option value="2">등록날짜</option>
 						</select>
 						</div>
 						<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
@@ -43,21 +42,22 @@
 					<table class="table">
 						<thead class="table-dark">
 							<tr>
-								<th>대분류</th>
-								<th>중분류</th>
-								<th>소분류</th>
-								<th>세분류</th>
-								<th>KAN코드</th>
+								<th>번호</th>
+								<th>제품명</th>
+								<th>가격</th>
+								<th>등록날짜</th>
+								<th>담당자</th>
 							</tr>
 						</thead>
 							<tbody>
-								<c:forEach items="${list }" var="dto">
-									<tr class="detailTr" data-kan_code="${dto.kan_code}" >
-										<td>${dto.cls_nm_1 }</td>
-										<td>${dto.cls_nm_2 }</td>
-										<td>${dto.cls_nm_3 }</td>
-										<td>${dto.cls_nm_4 }</td>
-										<td>${dto.kan_code }</td>
+								<c:forEach items="${list }" var="dto" varStatus="status">
+									<tr class="detailTr" data-id="${dto.id }" >
+										<td>${status.count }</td>
+										<td>${dto.productDto.name }</td>
+										<td>${dto.price }</td>
+										<td><fmt:formatDate value="${dto.registration_date }"
+												dateStyle="short" /></td>
+										<td>${dto.accountDto.name }</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -68,8 +68,6 @@
 		<div class="container-fluid">
 			<div class="row row-buttons">
 				<div class="col-3 text-start">
-					<!-- <img alt="엑셀이미지" src="엑셀이미지"> -->
-					<button type="button" class="btn btn-success" id="uploadExcel">업로드</button>
 				</div>
 				<div class="col-6 d-flex justify-content-center">
 					<nav>
@@ -102,101 +100,17 @@
 	
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>	
 	<script>
-	
-	
 	$(document).ready(function(){
 		//POST방식으로 create폼화면 출력
 		$("#createButton").on("click",function(){
 			var form = document.createElement("form");
-			form.action = "/category/create";
+			form.action = "/price/create";
 			form.method = "POST";
 			document.body.appendChild(form);
 			form.submit();
-		});
-	
-		 $("body").on("click", ".detailTr", function(){
-		    var kan_code = $(this).data("kan_code");
-			
-			var form = document.createElement("form");
-			form.action = "/category/read";
-			form.method = "POST";
-			document.body.appendChild(form);
-			
-			var input = document.createElement("input");
-			input.type = "hidden";
-			input.name = "kan_code";
-			input.value = kan_code;
-			form.appendChild(input);
-			
-			form.submit();
-
-		});
-		 
-		//검색기능
-		$("#searchBtn").on("click",function(){
-			
-			var searchn = $("#searchn").val();
-			var search = $("#search").val();
-			
-			var form = document.createElement("form");
-			form.action = "/category/list";
-			form.method = "get";
-			
-			var input1 = document.createElement("input");
-			input1.type = "hidden";
-			input1.name = "searchn";
-			input1.value = searchn;
-			form.appendChild(input1);
-			
-			var input2 = document.createElement("input");
-			input2.type = "hidden";
-			input2.name = "search";
-			input2.value = search;
-			form.appendChild(input2);
-			
-			var input3 = document.createElement("input");
-			input3.type = "hidden";
-			input3.name = "p";
-			input3.value = 1;
-			form.appendChild(input3);
-			
-			document.body.appendChild(form);
-			form.submit();
-
-		});
-		
-		
-		 
+		});//createButton
 	});//ready
-	function pagingFunction(clickedId){
-		var searchn1 = $("#searchn1").val();
-		var search1 = $("#search1").val();
-		
-		var form = document.createElement("form");
-		form.action = "/category/list";
-		form.method = "get";
-		
-		var input1 = document.createElement("input");
-		input1.type = "hidden";
-		input1.name = "searchn";
-		input1.value = searchn1;
-		form.appendChild(input1);
-		
-		var input2 = document.createElement("input");
-		input2.type = "hidden";
-		input2.name = "search";
-		input2.value = search1;
-		form.appendChild(input2);
-		
-		var input3 = document.createElement("input");
-		input3.type = "hidden";
-		input3.name = "p";
-		input3.value = clickedId;
-		form.appendChild(input3);
-		
-		document.body.appendChild(form);
-		form.submit();
-	}
 	</script>
+
 </body>
 </html>

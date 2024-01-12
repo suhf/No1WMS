@@ -84,85 +84,10 @@
 		</form>
 
 
-
-<!-- 모달화면  -->
-<div class="modal fade" id="searchKanModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-xl" >
-		<div class="modal-content" id="search_modal_content">
-			
-			<div class="modal-header">
-			  <h1 class="modal-title fs-5" id="searchModalLabel">KAN 분류코드 검색</h1>
-			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body" id="search_modal_body">
-				<form action="categorySearch">
-					<div class="input-group mb-3 w-50 col-centered">
-						<div class="w-25">
-						<select class="form-select">
-							<option selected="selected" value="cls_nm_4">세분류</option>
-							<option value="cls_nm_1">대분류</option>
-							<option value="cls_nm_2">중분류</option>
-							<option value="cls_nm_3">세분류</option>
-							<option value="kan_code">KAN코드</option>
-						</select>
-						</div>
-						<input type="text" name="categorySearch" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
-						<button class="btn btn-info" type="button" id="button-addon2 searchBtn">검색</button>
-					</div>
-				</form>
-			</div>	
-				<div class="container-fluid">
-					<div class="row row-table">
-						<div class="col-12">	
-							<table class="table">
-								<thead class="table-dark">
-									<tr>
-										<th>대분류</th>
-										<th>중분류</th>
-										<th>소분류</th>
-										<th>세분류</th>
-										<th>KAN코드</th>
-									</tr>
-								</thead>
-									<tbody>
-										<c:forEach items="${list }" var="dto">
-											<tr class="detailTr" data-kan_code="${dto.kan_code}" >
-												<td>${dto.cls_nm_1 }</td>
-												<td>${dto.cls_nm_2 }</td>
-												<td>${dto.cls_nm_3 }</td>
-												<td>${dto.cls_nm_4 }</td>
-												<td>${dto.kan_code }</td>
-											</tr>
-										</c:forEach>
-									</tbody>
-							</table>
-						
-						</div>
-					</div>
-				</div>
-			
-			<div class="modal-footer">
-				<button id="modal_yes_button" type="button" class="modal_yes btn btn-primary">확인</button>
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
 <!-- 스크립트 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script>
 		$(document).ready(function() {
-			
-			const searchKanModalBootStrap = new bootstrap.Modal("#searchKanModal");
-			$("#searchKan").on("click", function(){
-	            searchKanModalBootStrap.show();
-	          });//searchKan
-		
-			$("#searchVendor").on("click", function(){
-	            searchModalBootStrap.show();
-	          });//searcVendor
 			
 	        $("#submitBtn").on("click", function(){
 	        	var name = $("#name").val();
@@ -240,19 +165,34 @@
 	        })
 	          
 	          
+			$("#searchKan").on("click", function(){
+				searchKanCode();
+	          });//searchKan
+		
+			$("#searchVendor").on("click", function(){
+	            searchModalBootStrap.show();
+	          });//searcVendor      
 	          
-	          
-	          
-	          
-		 });//ready
-		function searchKanCode(){
-			 
-		}
+			
+			function searchKanCode(){
+				 $.ajax({
+					 url:"/category/categorysearch",
+					 type:"get",
+					 datatype:"html"
+				 }).done(function(data){
+					 $("body").append(data);
+					 $("#searchKanModal").modal("show"); 
+				 }).fail(function() {
+		             alert("오류가 발생했습니다.");
+		         }).always(function() {
+		        	 //alert("항상뜨는 창입니다.");		
+		         });
+			}
 		 
 		function searchVendor(){
 			 
 		}
-		 
+		 });//ready
 		 
 		</script>			
 </body>

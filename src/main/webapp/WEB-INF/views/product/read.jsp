@@ -101,9 +101,34 @@
 				
 			})//modifyBtn click
 			
-			
+			yesNoModal.yesFunction = deleteProductFunction;
 		});//ready
-
+	
+		
+		function deleteProductFunction(){
+			var id = $("#id").val();
+			$.ajax({
+            	url: "/product/delete",
+            	type: "delete",
+            	data: {
+            		   "id": id
+            		},
+            	datatype:"json"
+            }).done(function(data) {
+                if (data == true) {
+                	alert("삭제되었습니다.");
+    				$(location).attr("href", "/product/list");
+                } else {
+                	alert("정상적으로 삭제되지 않았습니다..");
+                }
+            }).fail(function() {
+                alert("오류가 발생했습니다.");
+            }).always(function() {
+				//		
+            });
+			
+		}//deleteCategoryFunction
+		
 	</script>
 </body>
 </html>

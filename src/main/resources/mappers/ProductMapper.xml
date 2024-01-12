@@ -48,6 +48,12 @@
 			WHERE id = #{id}
 		</update>
 		
+		<update id="deactivateById" parameterType="String">
+		UPDATE product
+		SET activation = 0
+		WHERE id = #{id}
+		</update>
+		
 	<!-- delete -->
 
 

@@ -21,10 +21,10 @@
 			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body" id="search_modal_body">
-				<form action="list">
+				<form>
 					<div class="input-group mb-3 w-30 col-centered">
 						<div class="w-25">
-						<select class="form-select" name="searchn">
+						<select class="form-select" name="searchn" id="searchn">
 							<option selected="selected" value="4">세분류</option>
 							<option value="1">대분류</option>
 							<option value="2">중분류</option>
@@ -32,8 +32,14 @@
 							<option value="0">KAN코드</option>
 						</select>
 						</div>
-						<input type="text" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
-						<button class="btn btn-info" type="submit" id="button-addon2 searchBtn">검색</button>
+						<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+						<button class="btn btn-info" type="button" id="searchBtn">검색</button>
+						
+						<!-- 페이징작업용 -->
+						<input type="hidden" id="searchn1" value="${searchn}">
+						<input type="hidden" id="search1" value="${search}">
+						<!-- 페이징작업용 -->
+						
 					</div>
 				</form>
 			</div>	
@@ -73,22 +79,23 @@
 					<div class="col-6 d-flex justify-content-center">
 						<nav>
 							<ul class="pagination">
-		                        <c:if test="${begin > pageNum }">
-		                            <li class="page-item">
-		                                <a class="page-link" href="list?p=${begin - 1 }"><</a>
-		                            </li>
-		                        </c:if>
-		                        <c:forEach begin="${begin }" end="${end }" var="i">
-		                            <li class="page-item <c:if test="${p == i}"> active </c:if>">
-		                                <a class="page-link " href="list?p=${i }">${i }</a>
-		                            </li>
-		                        </c:forEach>
-		                        <c:if test="${end < totalPages }">
-		                            <li class="page-item">
-		                                <a class="page-link" href="list?p=${end + 1 }">></a>
-		                            </li>
-		                        </c:if>
-                    		</ul>
+							
+	                        <c:if test="${begin > pageNum }">
+	                            <li class="page-item">
+	                                <a href="javascript:void(0);" class="page-link" onclick="pagingFunction(this.id)" id="${begin - 1 }">&lt;</a>
+	                            </li>
+	                        </c:if>
+	                        <c:forEach begin="${begin }" end="${end }" var="i">
+	                            <li class="page-item <c:if test="${p == i}"> active </c:if>">
+	                                <a href="javascript:void(0);" class="page-link " onclick="pagingFunction(this.id); return false;" id="${i }">${i }</a>
+	                            </li>
+	                        </c:forEach>
+	                        <c:if test="${end < totalPages }">
+	                            <li class="page-item">
+	                                <a href="javascript:void(0);" class="page-link" onclick="pagingFunction(this.id)" id="${end + 1 }">&gt;</a>
+	                            </li>
+	                        </c:if>
+                    	</ul>
 						</nav>
 					</div>
 				</div><!-- row row-buttons -->
@@ -102,13 +109,96 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>	
 <script>
-	
+$(document).ready(function(){
+	//검색기능
+		$("#searchBtn").on("click",function(){
+			
+			var searchn = $("#searchn").val();
+			var search = $("#search").val();
+			var existingModal = $("#searchKanModal");
+			
+			if (existingModal.length === 0) {
+			$.ajax({
+				 url:"/category/categorysearch",
+				 type:"get",
+				 data: {
+          		   "searchn": searchn,
+          		   "search": search,
+          		   "p": 1,
+          		},
+				 datatype:"html"
+			 }).done(function(data){
+				 $("body").append(data);
+				 $("#searchKanModal").modal("show"); 
+			 }).fail(function() {
+	             alert("오류가 발생했습니다.");
+	         }).always(function() {
+	        	 //alert("항상뜨는 창입니다.");		
+	         }); } else {
+	             // 이미 생성된 모달이 있을 경우 기존 모달을 열기
+	             existingModal.modal("show");
+	         }
+			/*
+			var input1 = document.createElement("input");
+			input1.type = "hidden";
+			input1.name = "searchn";
+			input1.value = searchn;
+			form.appendChild(input1);
+			
+			var input2 = document.createElement("input");
+			input2.type = "hidden";
+			input2.name = "search";
+			input2.value = search;
+			form.appendChild(input2);
+			
+			var input3 = document.createElement("input");
+			input3.type = "hidden";
+			input3.name = "p";
+			input3.value = 1;
+			form.appendChild(input3);
+			
+			document.body.appendChild(form);
+			form.submit();
+			*/
+		});
+		
+		
+		 
+	});//ready
+	function pagingFunction(clickedId){
+		var searchn1 = $("#searchn1").val();
+		var search1 = $("#search1").val();
+		
+		var form = document.createElement("form");
+		form.action = "/category/categorysearch";
+		form.method = "get";
+		
+		var input1 = document.createElement("input");
+		input1.type = "hidden";
+		input1.name = "searchn";
+		input1.value = searchn1;
+		form.appendChild(input1);
+		
+		var input2 = document.createElement("input");
+		input2.type = "hidden";
+		input2.name = "search";
+		input2.value = search1;
+		form.appendChild(input2);
+		
+		var input3 = document.createElement("input");
+		input3.type = "hidden";
+		input3.name = "p";
+		input3.value = clickedId;
+		form.appendChild(input3);
+		
+		document.body.appendChild(form);
+		form.submit();
+	}
+
 	
 	
 	
 </script>	
-
-
 
 </body>
 </html>
