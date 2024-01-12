@@ -6,13 +6,13 @@
         //
     }
 
-    function onSelectAuth(tag){
+    function onSelectDept(tag){
         const $tag = $(tag);
         const tid = $tag.data('tid');
         const name = $tag.data('tname');
 
-        $("#account_auth_group_name").val(name);
-        $("#groupAuthorityId").val(tid);
+        $("#account_dept_name").val(name);
+        $("#departmentId").val(tid);
         hideSearchModal();
     }
 </script>
@@ -32,13 +32,13 @@
         <div class="col-12">
             <table class="table">
                 <thead class="table-dark">
-                <tr><th>권한명</th><th></th></tr>
+                <tr><th>부서 명</th><th></th></tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${list }" var="dto" varStatus="status">
                 <tr>
                     <td>${dto.name}</td>
-                    <td><button data-tid="${dto.id}" data-tname="${dto.name}" class="btn btn-primary" onclick="onSelectAuth(this)">선택</button></td>
+                    <td><button data-tid="${dto.id}" data-tname="${dto.name}" class="btn btn-primary" onclick="onSelectDept(this)">선택</button></td>
                 </tr>
                 </c:forEach>
                 </tbody>

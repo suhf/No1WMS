@@ -76,7 +76,7 @@
                             <tr><th>사번</th><th>사용자 명</th><th>활성 여부</th></tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${list }" var="dto" varStatus="status">
+                                <c:forEach items="${list }" var="dto" varStatus="status">
                                 <tr class="group_tr" data-tid="${dto.id}">
                                     <td>${dto.employeeNumber}</td>
                                     <td>${dto.name}</td>

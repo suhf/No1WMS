@@ -1,18 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
-    function onSearch(){
-        //
+    function onSearchAuth(){
         //
     }
 
-    function onSelectAuth(tag){
+    function onSelectPos(tag){
         const $tag = $(tag);
         const tid = $tag.data('tid');
         const name = $tag.data('tname');
 
-        $("#account_auth_group_name").val(name);
-        $("#groupAuthorityId").val(tid);
+        $("#account_pos_name").val(name);
+        $("#positionId").val(tid);
         hideSearchModal();
     }
 </script>
@@ -26,7 +25,7 @@
                     <option value="30">30</option>
                 </select>
                 <input id="search_auth_input" type="text" class="w-30 d-inline form-control" placeholder="검색">
-                <button id="search_auth_btn" type="button" class="btn btn-primary" onclick="onSearch()">검색</button>
+                <button id="search_auth_btn" type="button" class="btn btn-primary" onclick="onSearchAuth()">검색</button>
             </div>
         </div>
         <div class="col-12">
@@ -38,7 +37,7 @@
                 <c:forEach items="${list }" var="dto" varStatus="status">
                 <tr>
                     <td>${dto.name}</td>
-                    <td><button data-tid="${dto.id}" data-tname="${dto.name}" class="btn btn-primary" onclick="onSelectAuth(this)">선택</button></td>
+                    <td><button data-tid="${dto.id}" data-tname="${dto.name}" class="btn btn-primary" onclick="onSelectPos(this)">선택</button></td>
                 </tr>
                 </c:forEach>
                 </tbody>

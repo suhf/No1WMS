@@ -10,6 +10,7 @@
       alert("재정의 됨");
     }
     */
+    const tid = '${dto.id}';
     function showSearchModal(title, val){
         $("#searchModalLabel").text(title);
         const data = { name : val};
@@ -28,8 +29,10 @@
         });
     }
 
-    function createProcess(){
+    function updateProcess(){
         let data = {};
+        data.id = tid;
+        data.activation = $("input[name='activation']:checked").val();
         const $dataInputList = $("input.create_data");
         $dataInputList.each(function(index, element){
            const $element = $(element);
@@ -40,7 +43,7 @@
 
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
-            url : '/account/create_process',           // 요청할 서버url
+            url : '/account/update_process',           // 요청할 서버url
             dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
             data : data,
             success : function(result) { // 결과 성공 콜백함수
@@ -69,52 +72,63 @@
     <div class="row">
         <div class="col-12">
             <div class="input-group w-50">
-                <span id='account_name_label' class="input-group-text">사용자 명</span>
-                <input name="name" id="account_name" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_name_label">
-                <span class="me-5"></span>
-                <span id='employee_number_label' class="input-group-text">사번</span>
-                <input id=employee_number" name="employeeNumber" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_number_label">
+                <span class="input-group-text">활성화</span>
+                <div class="form-check form-check-inline">
+                    <input <c:if test="${dto.activation == true}">checked </c:if> class="form-check-input" type="radio" name="activation" id="inlineRadio1" value="true">
+                    <label class="form-check-label" for="inlineRadio1">활성</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input <c:if test="${dto.activation == false}">checked </c:if> class="form-check-input" type="radio" name="activation" id="inlineRadio2" value="false">
+                    <label class="form-check-label" for="inlineRadio2">비활성</label>
+                </div>
             </div>
             <div class="input-group w-50 mt-3">
-                <span id='account_dept_label' class="input-group-text">부서 명</span>
-                <input readonly id="account_dept_name" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="account_dept_label">
-                <input hidden name="departmentId" readonly id="departmentId" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_dept_label">
+                <span id='account_name_label' class="input-group-text">이름</span>
+                <input value = "${dto.name}" name="name" id="account_name" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_name_label">
+                <span class="me-5"></span>
+                <span id='employee_number_label' class="input-group-text">사번</span>
+                <input value = "${dto.employeeNumber}" id=employee_number" name="employeeNumber" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_number_label">
+            </div>
+            <div class="input-group w-50 mt-3">
+                <span id='account_dept_label' class="input-group-text">부서</span>
+                <input value = "${dto.departmentDto.name}" readonly id="account_dept_name" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="account_dept_label">
+                <input value = "${dto.departmentId}" hidden name="departmentId" readonly id="departmentId" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_dept_label">
                 <button id="btn_dept" type="button" class="btn btn-primary" onclick="showSearchModal('부서 검색','dept')">검색</button>
                 <span class="me-5"></span>
                 <span id='employee_pos_label' class="input-group-text">직책</span>
-                <input readonly id="account_pos_name" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="employee_number_pos">
-                <input hidden name="positionId" readonly id="positionId" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_number_pos">
+                <input value = "${dto.positionDto.name}" readonly id="account_pos_name" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="employee_number_pos">
+                <input value = "${dto.positionId}" hidden name="positionId" readonly id="positionId" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_number_pos">
                 <button id="btn_pos" type="button" class="btn btn-primary" onclick="showSearchModal('직책 검색','pos')">검색</button>
             </div>
             <div class="input-group w-50 mt-3">
                 <span id='account_group_label' class="input-group-text">권한</span>
-                <input readonly id="account_auth_group_name" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="account_group_label">
-                <input hidden name="groupAuthorityId" readonly id="groupAuthorityId" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_group_label">
+                <input value = "${dto.personalAuthorityDto.name}" readonly id="account_auth_group_name" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="account_group_label">
+                <input value = "${dto.personalAuthorityId}" hidden name="personalAuthorityId" readonly id="personalAuthorityId" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_group_label">
                 <button id="account_search_button" class="btn-primary btn" onclick="showSearchModal('권한 검색','auth')">검색</button>
             </div>
             <div class="input-group w-50 mt-3">
                 <span id='account_email_label' class="input-group-text">이메일</span>
-                <input id="account_email" name="email" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_email_label">
+                <input value = "${dto.email} "id="account_email" name="email" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_email_label">
                 <span class="me-5"></span>
                 <span id='employee_telephone_label' class="input-group-text">전화번호</span>
-                <input id=employee_telephone" name="telephone" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_telephone_label">
+                <input value = "${dto.telephone}" id=employee_telephone" name="telephone" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_telephone_label">
             </div>
             <div class="input-group w-50 mt-3">
                 <span id='account_gender_label' class="input-group-text">성별</span>
-                <input id="account_gender" name="gender" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_gender_label">
+                <input value = "${dto.gender}" id="account_gender" name="gender" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_gender_label">
                 <span class="me-5"></span>
                 <span id='employee_birth_label' class="input-group-text">생일</span>
-                <input id="employee_birth" name="birth" type="date" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_birth_label">
+                <input value = "${dto.birth}" id="employee_birth" name="birth" type="date" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_birth_label">
             </div>
             <div class="input-group w-50 mt-3">
                 <span id='account_address_label' class="input-group-text">주소</span>
-                <input id="account_address" type="text" name="address" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_address_label">
+                <input value = "${dto.address}" id="account_address" type="text" name="address" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_address_label">
             </div>
         </div>
     </div>
     <div class="row mt-4">
         <div class="col-12">
-            <button class="btn btn-primary" id="btn_confirm" onclick="createProcess()">확인</button>
+            <button class="btn btn-primary" id="btn_confirm" onclick="updateProcess()">확인</button>
             <button class="btn btn-danger" id="btn_exit" onclick="window.history.back()">뒤로</button>
         </div>
     </div>

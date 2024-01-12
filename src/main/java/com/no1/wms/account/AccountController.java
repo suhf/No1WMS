@@ -1,15 +1,16 @@
 package com.no1.wms.account;
 
+import com.google.gson.Gson;
+import com.no1.wms.authority.AuthorityDto;
+import com.no1.wms.authority.AuthorityService;
 import com.no1.wms.utils.ConstantValues;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/account")
@@ -17,6 +18,8 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
+    @Autowired
+    AuthorityService authorityService;
 
     @GetMapping("/list")
     public ModelAndView list(ModelAndView mav, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "0") int start){
@@ -34,11 +37,63 @@ public class AccountController {
         return mav;
     }
 
-    @PostMapping("/show_modal")
-    public ModelAndView showModal(ModelAndView mav, @RequestParam String name){
-        //db에서 데이터 가져오는거 필요
+    @PostMapping("/create_process")
+    @ResponseBody
+    public String createProcess(AccountDto dto, Gson gson){
+        String uuid = UUID.randomUUID().toString();
+        AuthorityDto authorityDto = new AuthorityDto();
+        authorityDto.setId(dto.getGroupAuthorityId());
+        authorityDto = authorityService.selectById(authorityDto);
+        authorityDto.setId(uuid);
+        authorityDto.setIsGroupAuthority(false);
+        authorityDto.setName(dto.getEmployeeNumber());
 
+        accountService.insertToAuthority(authorityDto);
+        dto.setPersonalAuthorityId(uuid);
+        accountService.insert(dto);
+
+        return gson.toJson("s");
+    }
+
+    @PostMapping("/read")
+    public ModelAndView read(AccountDto dto, ModelAndView mav){
+        dto = accountService.selectById(dto);
+        mav.addObject("dto", dto);
+        mav.setViewName("/account/read");
+        return mav;
+    }
+
+    @PostMapping("/update")
+    public ModelAndView update(AccountDto dto, ModelAndView mav){
+        dto = accountService.selectById(dto);
+        mav.addObject("dto", dto);
+        mav.setViewName("/account/update");
+        return mav;
+    }
+
+    @PostMapping("/update_process")
+    @ResponseBody
+    public String updateProcess(AccountDto dto, Gson gson){
+
+        accountService.update(dto);
+
+        return gson.toJson("s");
+    }
+
+    @PostMapping("/show_modal")
+    public ModelAndView showModal(ModelAndView mav, @RequestParam(defaultValue = "") String search,
+                                  @RequestParam(defaultValue = "0") int start, @RequestParam String name){
+        //db에서 데이터 가져오는거 필요
+        List list = null;
+        if(name.equals("auth")){
+            list = authorityService.selectAll(search, start, ConstantValues.PER_PAGE);
+        }else if(name.equals("dept")){
+            list = accountService.selectDeptAll(search, start, ConstantValues.PER_PAGE);
+        }else if(name.equals("pos")){
+            list = accountService.selectPosAll(search, start, ConstantValues.PER_PAGE);
+        }
         //
+        mav.addObject("list", list);
         mav.setViewName(name);
         return mav;
     }

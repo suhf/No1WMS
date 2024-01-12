@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -25,6 +26,7 @@ public class AccountDto {
     private String personalAuthorityId;
     private String name;
     private String gender;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birth;
     private String telephone;
     private String address;
