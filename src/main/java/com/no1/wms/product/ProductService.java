@@ -7,22 +7,20 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 @Service
 public class ProductService {
 	
 	@Autowired
 	ProductMapper mapper;
 	
-	public List<ProductDto> productList(int p){
-		//페이징 완료되면 수정해야함.
-		
-		int start = 0;
-		int count = 10;
-		
-		Map m = new HashMap<String, Object>();
+	public List<ProductDto> productList(int searchn, String search, int start, int perPage){
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("searchn",searchn);
+		m.put("search", search);
 		m.put("start", start);
-		m.put("count", count);
-		
+		m.put("perPage", perPage);
+
 		return mapper.productList(m);
 	}
 	
@@ -42,4 +40,11 @@ public class ProductService {
 		return mapper.deactivateById(id);
 	}
 
+	
+	public int count(int searchn, String search) {
+		Map<String,Object> m = new HashMap<String, Object>();
+		m.put("searchn",searchn);
+		m.put("search", search);
+		return mapper.count(m);
+	};//카운터
 }

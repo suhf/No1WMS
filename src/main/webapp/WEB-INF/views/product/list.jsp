@@ -18,16 +18,20 @@
 				<form action="productSearch">
 					<div class="input-group mb-3 w-30 col-centered">
 						<div class="w-25">
-						<select class="form-select">
-							<option selected="selected" value="name">제품명</option>
-							<option value="cls_nm_1">회사명</option>
-							<option value="cls_nm_2">등록날짜</option>
-							<option value="cls_nm_3">담당자명</option>
-							<option value="kan_code">KAN코드</option>
+						<select class="form-select" name="searchn" id="searchn">
+							<option selected="selected" value="0">제품명</option>
+							<option value="1">회사명</option>
+							<option value="2">분류</option>
+							<option value="3">담당자명</option>
 						</select>
 						</div>
-						<input type="text" name="productSearch" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
-						<button class="btn btn-info" type="button" id="button-addon2 searchBtn">검색</button>
+						<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+						<button class="btn btn-info" type="button" id="searchBtn">검색</button>
+						
+						<!-- 페이징작업용 -->
+						<input type="hidden" id="searchn1" value="${searchn}">
+						<input type="hidden" id="search1" value="${search}">
+						<!-- 페이징작업용 -->
 					</div>
 				</form>
 			</div>
@@ -73,31 +77,23 @@
 				<div class="col-6 d-flex justify-content-center">
 					<nav>
 						<ul class="pagination">
-							<li class="page-item">
-								<a class="page-link" href="#">&lt;</a>
-							</li>
-							<li class="page-item active">
-								<a class="page-link" href="#">1</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">2</a>
-							</li>								
-							<li class="page-item">
-								<a class="page-link" href="#">3</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">4</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">5</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">6</a>
-							</li>
-							<li class="page-item">
-								<a class="page-link" href="#">&gt;</a>
-							</li>
-						</ul>
+							
+	                        <c:if test="${begin > pageNum }">
+	                            <li class="page-item">
+	                                <a href="javascript:void(0);" class="page-link" onclick="pagingFunction(this.id)" id="${begin - 1 }">&lt;</a>
+	                            </li>
+	                        </c:if>
+	                        <c:forEach begin="${begin }" end="${end }" var="i">
+	                            <li class="page-item <c:if test="${p == i}"> active </c:if>">
+	                                <a href="javascript:void(0);" class="page-link " onclick="pagingFunction(this.id); return false;" id="${i }">${i }</a>
+	                            </li>
+	                        </c:forEach>
+	                        <c:if test="${end < totalPages }">
+	                            <li class="page-item">
+	                                <a href="javascript:void(0);" class="page-link" onclick="pagingFunction(this.id)" id="${end + 1 }">&gt;</a>
+	                            </li>
+	                        </c:if>
+                    	</ul>
 					</nav>
 				</div>
 				<div class="col-3 text-end">
@@ -136,16 +132,76 @@
 			form.appendChild(input);
 			
 			form.submit();
+	
+		});//body detailTr
+		
+		$("#searchBtn").on("click",function(){
 			
+			var searchn = $("#searchn").val();
+			var search = $("#search").val();
 			
+			var form = document.createElement("form");
+			form.action = "/product/list";
+			form.method = "get";
+			
+			var input1 = document.createElement("input");
+			input1.type = "hidden";
+			input1.name = "searchn";
+			input1.value = searchn;
+			form.appendChild(input1);
+			
+			var input2 = document.createElement("input");
+			input2.type = "hidden";
+			input2.name = "search";
+			input2.value = search;
+			form.appendChild(input2);
+			
+			var input3 = document.createElement("input");
+			input3.type = "hidden";
+			input3.name = "p";
+			input3.value = 1;
+			form.appendChild(input3);
+			
+			document.body.appendChild(form);
+			form.submit();
+
 		});
 		
 		
 		
 		
 		
-		
 	});//ready
+	
+	function pagingFunction(clickedId){
+		var searchn1 = $("#searchn1").val();
+		var search1 = $("#search1").val();
+		
+		var form = document.createElement("form");
+		form.action = "/product/list";
+		form.method = "get";
+		
+		var input1 = document.createElement("input");
+		input1.type = "hidden";
+		input1.name = "searchn";
+		input1.value = searchn1;
+		form.appendChild(input1);
+		
+		var input2 = document.createElement("input");
+		input2.type = "hidden";
+		input2.name = "search";
+		input2.value = search1;
+		form.appendChild(input2);
+		
+		var input3 = document.createElement("input");
+		input3.type = "hidden";
+		input3.name = "p";
+		input3.value = clickedId;
+		form.appendChild(input3);
+		
+		document.body.appendChild(form);
+		form.submit();
+	}
 	
 	
 	

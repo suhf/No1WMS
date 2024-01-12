@@ -127,7 +127,7 @@
 				//		
             });
 			
-		}//deleteCategoryFunction
+		}//deleteProductFunction
 		
 	</script>
 </body>

@@ -22,12 +22,27 @@
 	</resultMap>
 	
 	<!-- insert -->
-	<insert id="createProcess" parameterType="priceDto">
+	<insert id="createProcess" parameterType="PriceDto">
 		INSERT INTO prices (id, price, registration_date, manager_id, product_id, activation) 
 		VALUES (UUID(), #{price}, curdate(), #{manager_id}, #{product_id}, 1)
 	</insert>
 	
+	
+	
 	<!-- update -->
+	<update id="updateById" parameterType="PriceDto">
+		UPDATE prices
+		SET price = #{price}, registration_date = CURDATE()
+		WHERE id = #{id}
+	</update>
+		
+	<update id="deactivateById" parameterType="String">
+		UPDATE prices
+		SET activation = 0
+		WHERE id = #{id}
+	</update>
+	
+	
 	
 	
 	<!-- delete -->
@@ -86,10 +101,66 @@
         order by p.registration_date limit #{start} , #{perPage}
     </select>
 	
+	<select id="priceList3" parameterType="map" resultMap="priceResultMap">
+	    SELECT
+	    p.id, p.price, p.registration_date, p.manager_id, p.product_id, p.activation,
+	    p.manager_id, p.activation,
+	    pro.name as product_name,
+	    a.name as account_name
 	
+	    FROM prices as p
+	    LEFT JOIN product as pro ON p.product_id = pro.id
+	    LEFT JOIN account as a ON p.manager_id = a.id
 	
+	    <where>
+	        <choose>
+	            <when test="searchn == 0">
+	                p.activation = 1 AND pro.id IN (SELECT id FROM product WHERE name LIKE CONCAT('%',#{search},'%'))
+	            </when>
+	            <when test="searchn == 1">
+	                p.activation = 1 AND p.price LIKE CONCAT('%',#{search},'%')
+	            </when>
+	            <when test="searchn == 2">
+	                p.activation = 1 AND p.registration_date LIKE CONCAT('%',#{search},'%')
+	            </when>
+	        </choose>
+	    </where>
+	    ORDER BY p.registration_date LIMIT #{start} , #{perPage}
+	</select>
 	
+	<select id="count2" parameterType="map" resultType="int">
+	    SELECT COUNT(*)
 	
+	    FROM prices as p
+	    LEFT JOIN product as pro ON p.product_id = pro.id
+	    LEFT JOIN account as a ON p.manager_id = a.id
+	
+	    <where>
+	        <choose>
+	            <when test="searchn == 0">
+	                p.activation = 1 AND pro.id IN (SELECT id FROM product WHERE name LIKE CONCAT('%',#{search},'%'))
+	            </when>
+	            <when test="searchn == 1">
+	                p.activation = 1 AND p.price LIKE CONCAT('%',#{search},'%')
+	            </when>
+	            <when test="searchn == 2">
+	                p.activation = 1 AND p.registration_date LIKE CONCAT('%',#{search},'%')
+	            </when>
+	        </choose>
+	    </where>
+	</select>
+	
+	<select id="selectById" resultMap="priceResultMap" parameterType="String" >
+		SELECT
+		p.id, p.price, p.registration_date, p.manager_id, p.product_id, p.activation,
+		p.manager_id, p.activation,
+		pro.name as product_name,
+		a.name as account_name
+		FROM prices as p
+		left join product as pro on p.product_id = pro.id
+        left join account as a on p.manager_id = a.id
+		WHERE p.id = #{id}
+	</select>
 	
 	
 </mapper>

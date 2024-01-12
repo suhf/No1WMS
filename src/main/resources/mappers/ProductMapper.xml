@@ -58,6 +58,7 @@
 
 
 	<!-- select -->
+	<!--  
 	<select id="productList" resultMap="productResultMap" parameterType="map" >
 		SELECT
 		p.id, p.name, p.company_name, p.kan_code, p.vendor_id, p.registration_date,
@@ -72,7 +73,7 @@
 		WHERE p.activation != 0
 		ORDER BY p.registration_date limit #{start} , #{count}
 	</select>
-	
+	-->
 	
 	<select id="selectById" parameterType="String" resultMap="productResultMap">
 		SELECT
@@ -89,7 +90,64 @@
 		
 	</select>
 	
+	<select id="count" parameterType="map" resultType="int">
+	    SELECT COUNT(*)
 	
+	    FROM product as p
+		left join vendor as v on p.vendor_id = v.id
+		left join account as a on p.manager_id = a.id
+		left join product_category as pc on p.kan_code = pc.kan_code
+	    <where>
+	        <choose>
+	            <when test="searchn == 0">
+	                p.activation = 1 AND p.name LIKE CONCAT('%',#{search},'%')
+	            </when>
+	            <when test="searchn == 1">
+	                p.activation = 1 AND p.company_name LIKE CONCAT('%',#{search},'%')
+	            </when>
+	            <when test="searchn == 2">
+	                p.activation = 1 AND p.manager_id IN (SELECT id FROM account WHERE name LIKE CONCAT('%',#{search},'%'))
+	            </when>
+	            <when test="searchn == 3">
+	                p.activation = 1 AND p.kan_code LIKE CONCAT('%',#{search},'%')
+	            </when>
+	        </choose>
+	    </where>
+	</select>
+	
+	
+	<select id="productList" parameterType="map" resultMap="productResultMap">
+	    SELECT
+	    p.id, p.name, p.company_name, p.kan_code, p.vendor_id, p.registration_date,
+		p.manager_id, p.activation,
+		v.name as vendor_name, v.president_name,
+		a.name as account_name,
+		pc.cls_nm_1, pc.cls_nm_2, pc.cls_nm_3, pc.cls_nm_4
+	
+	    FROM product as p
+		left join vendor as v on p.vendor_id = v.id
+		left join account as a on p.manager_id = a.id
+		left join product_category as pc on p.kan_code = pc.kan_code
+	    <where>
+	        <choose>
+	            
+	            <when test="searchn == 0">
+	                p.activation = 1 AND p.name LIKE CONCAT('%',#{search},'%')
+	            </when>
+	            <when test="searchn == 1">
+	                p.activation = 1 AND p.company_name LIKE CONCAT('%',#{search},'%')
+	            </when>
+	            <when test="searchn == 2">
+	                p.activation = 1 AND p.kan_code IN (SELECT kan_code FROM product_category WHERE cls_nm_4 LIKE CONCAT('%',#{search},'%'))
+	            </when>
+	            <when test="searchn == 3">
+	                p.activation = 1 AND p.manager_id IN (SELECT id FROM account WHERE name LIKE CONCAT('%',#{search},'%'))
+	            </when>
+	            
+	        </choose>
+	    </where>
+	    ORDER BY p.registration_date LIMIT #{start} , #{perPage}
+	</select>
 	
 
 </mapper>

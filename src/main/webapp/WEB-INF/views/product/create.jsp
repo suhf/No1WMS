@@ -44,12 +44,13 @@
 	                	
 	                	<div class="input-group mb-3 w-40 col-centered">
 	                		<span class="input-group-text" id="basic-addon3">분류</span>
-  							<input type="number" min="1" name="cls_nm_4" id="cls_nm_4" class="form-control" 
-  							placeholder="KAN 분류코드를 입력하세요(모달이 만들어지면 분류로 바꿀예정)" aria-label="분류" 
-  							aria-describedby="button-addon2">
+  							<input type="text" name="cls_nm_4" id="cls_nm_4" class="form-control" 
+  							placeholder="분류를 검색하세요" aria-label="분류" 
+  							aria-describedby="button-addon2" readonly>
   							<button class="btn btn-outline-secondary rounded-end" id="searchKan" 
-  							style="background-color:#FF5E5E;" type="button" >검색</button>
-  							<input type='hidden' id='searchKanChack' value='0'>
+  							style="background-color:#FF5E5E;" type="button" onclick="showSearchModal('분류 검색','category')" >검색</button>
+  							<input type='hidden' id="kan_code" value="">
+  							
 						</div>
 						
 						<div class="input-group mb-3 w-40 col-centered">
@@ -58,14 +59,14 @@
   							placeholder="거래처를 입력하세요" aria-label="거래처"
   							aria-describedby="button-addon2">
   							<button class="btn btn-outline-secondary rounded-end" id="searchVendor" 
-  							style="background-color:#FF5E5E;" type="button" >검색</button>
+  							style="background-color:#FF5E5E;" type="button" onclick="showSearchModal2('거래처 검색','vendor')">검색</button>
   							<input type='hidden' id='searchVendorChack' value='0'>
 						</div>
 						
 	                	<!-- 추후 수정 -->
 	                	<input type='hidden' id="manager_id" value="83bdda69-ae95-11ee-935d-0242ac110006">
-	                	<input type='hidden' id="vendor_id" value="">
-	                	<input type='hidden' id="kan_code" value="">
+	                	<input type='hidden' id="vendor_id" value="52f16bb8-aeb9-11ee-935d-0242ac110006">
+	                	
 	                	
 	                	<!-- 추후 수정 -->
 	                	
@@ -92,8 +93,8 @@
 	        $("#submitBtn").on("click", function(){
 	        	var name = $("#name").val();
 	        	var company_name = $("#company_name").val();
-	        	var kan_code = $("#cls_nm_4").val();// 수정해야함.
-	        	var vendor = $("#vendor").val();
+	        	var kan_code = $("#kan_code").val();
+	        	var vendor = $("#vendor_id").val();// 수정해야함.
 	        	var manager_id = $("#manager_id").val();
 	    		if(!name){
 	    			alert("제품명을 입력해야 합니다.");
@@ -104,8 +105,7 @@
 	    			company_name = "미지정";
 	    		}
 	    		if(!kan_code){
-	    			alert("KAN 분류코드를 입력해야 합니다.");
-	    			$("#kan_code").focus();
+	    			alert("분류를 검색해야 합니다.");
 	    			return false;
 	    		}
 	    		if(!vendor){
@@ -164,35 +164,44 @@
 	        	
 	        })
 	          
-	          
-			$("#searchKan").on("click", function(){
-				searchKanCode();
-	          });//searchKan
-		
-			$("#searchVendor").on("click", function(){
-	            searchModalBootStrap.show();
-	          });//searcVendor      
-	          
-			
-			function searchKanCode(){
-				 $.ajax({
-					 url:"/category/categorysearch",
-					 type:"get",
-					 datatype:"html"
-				 }).done(function(data){
-					 $("body").append(data);
-					 $("#searchKanModal").modal("show"); 
-				 }).fail(function() {
-		             alert("오류가 발생했습니다.");
-		         }).always(function() {
-		        	 //alert("항상뜨는 창입니다.");		
-		         });
-			}
-		 
-		function searchVendor(){
-			 
-		}
+	      
 		 });//ready
+		 
+		 function showSearchModal(title, val){
+		        $("#searchModalLabel").text(title);
+		        const data = { name : val};
+		        $.ajax({
+		            type : 'post',           // 타입 (get, post, put 등등)
+		            url : '/product/show_modal',           // 요청할 서버url
+		            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+		            data : data,
+		            success : function(result) { // 결과 성공 콜백함수
+		                $("#search_modal_body").html(result);
+		                searchModalBootStrap.show();
+		            },
+		            error : function(request, status, error) {
+		                alert(error)
+		            }
+		        });
+		    }
+		 
+		 function showSearchModal2(title, val){
+		        $("#searchModalLabel").text(title);
+		        const data = { name : val};
+		        $.ajax({
+		            type : 'post',           // 타입 (get, post, put 등등)
+		            url : '/category/show_modal',           // 요청할 서버url
+		            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+		            data : data,
+		            success : function(result) { // 결과 성공 콜백함수
+		                $("#search_modal_body").html(result);
+		                searchModalBootStrap.show();
+		            },
+		            error : function(request, status, error) {
+		                alert(error)
+		            }
+		        });
+		    }
 		 
 		</script>			
 </body>

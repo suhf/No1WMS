@@ -48,9 +48,42 @@ public class PriceService {
 		return mapper.priceList2(m);
 	}
 	
+	public List<PriceDto> priceList3(int searchn, String search, int start, int perPage){
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("searchn",searchn);
+		m.put("search", search);
+		m.put("start", start);
+		m.put("perPage", perPage);
+
+		return mapper.priceList3(m);
+	}
+	
+	
 	public int createProcess(PriceDto dto) {
 		return mapper.createProcess(dto);
 	}
+	
+	public int count2(int searchn, String search) {
+		Map<String,Object> m = new HashMap<String, Object>();
+		m.put("searchn",searchn);
+		m.put("search", search);
+		return mapper.count2(m);
+	};//카운터
+	
+	public PriceDto selectById(String id) {
+		return mapper.selectById(id);
+	}
+	
+	
+	public int updateById(PriceDto dto) {
+		return mapper.updateById(dto);
+	}
+	public int deactivateById(String id) {
+		return mapper.deactivateById(id);
+	}
+	
+	
+	
 	
 	
 }
