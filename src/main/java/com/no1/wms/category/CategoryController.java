@@ -158,7 +158,8 @@ public class CategoryController {
 		return checkkan;
 	}
 	
-	@PostMapping("/category/categorysearch")
+	//카테고리 검색 모달
+	@GetMapping("/category/categorysearch")
 	public String categorySearch(@RequestParam(name = "searchn", defaultValue = "4") int searchn,
    								@RequestParam(name = "search", defaultValue = "") String search,
    								@RequestParam(name = "p", defaultValue = "1") int page, Model m) {
@@ -181,6 +182,8 @@ public class CategoryController {
 		if (end > totalPages) {
 			end = totalPages;
 		}
+		m.addAttribute("searchn",searchn);
+		m.addAttribute("search",search);
 		m.addAttribute("begin", begin);
 		m.addAttribute("end", end);
 		m.addAttribute("pageNum", pageNum);

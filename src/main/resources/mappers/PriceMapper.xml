@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.price.PriceMapper">
+	<resultMap id="priceResultMap" type="PriceDto">
+		<id column="id" 						property="id" />
+		<result column="price" 					property="price" />
+		<result column="registration_date" 		property="registration_date" />
+		<result column="manager_id" 			property="manager_id" />
+		<result column="product_id" 			property="product_id" />
+		<result column="activation" 			property="activation" />
+		<association property="productDto" 		javaType="ProductDto">
+			<id column="id" 					property="id" />
+			<result column="product_name" 		property="name" />
+		</association>
+		<association property="accountDto" 		javaType="AccountDto">
+			<id column="id" 					property="id" />
+			<result column="account_name" 		property="name" />
+		</association>
+	
+	</resultMap>
+	
+	<!-- insert -->
+	<insert id="createProcess" parameterType="priceDto">
+		INSERT INTO prices (id, price, registration_date, manager_id, product_id, activation) 
+		VALUES (UUID(), #{price}, curdate(), #{manager_id}, #{product_id}, 1)
+	</insert>
+	
+	<!-- update -->
+	
+	
+	<!-- delete -->
+
+
+	<!-- select -->
+	<select id="priceList" resultMap="priceResultMap" parameterType="map" >
+		SELECT
+		p.id, p.price, p.registration_date, p.manager_id, p.product_id, p.activation,
+		p.manager_id, p.activation,
+		pro.name as product_name,
+		a.name as account_name
+		FROM prices as p
+		left join product as pro on p.product_id = pro.id
+        left join account as a on p.manager_id = a.id
+		WHERE p.activation != 0
+		ORDER BY p.registration_date limit #{start} , #{count};
+	</select>
+	
+	<!-- 네비게이션바 전용 카운터 -->
+	<select id="count" parameterType="map" resultType="int">
+        select count(*)
+
+		FROM prices as p
+		left join product as pro on p.product_id = pro.id
+        left join account as a on p.manager_id = a.id
+        
+        <where>
+            <choose>
+                <when test="searchn == 0"> p.activation = 1 and pro.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> p.activation = 1 and p.price like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> p.activation = 1 and p.registration_date like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+	
+	<!-- 검색 -->
+	<select id="priceList2" parameterType="map" resultMap="priceResultMap">
+        SELECT
+		p.id, p.price, p.registration_date, p.manager_id, p.product_id, p.activation,
+		p.manager_id, p.activation,
+		pro.name as product_name,
+		a.name as account_name
+
+        FROM prices as p
+		left join product as pro on p.product_id = pro.id
+        left join account as a on p.manager_id = a.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> p.activation = 1 and pro.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> p.activation = 1 and p.price like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> p.activation = 1 and p.registration_date like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by p.registration_date limit #{start} , #{perPage}
+    </select>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

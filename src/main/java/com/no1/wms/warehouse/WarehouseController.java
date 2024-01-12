@@ -24,7 +24,7 @@ public class WarehouseController {
 
 		int count = service.count(searchn, search);
 		
-		int perPage = 5; // 한 페이지에 보일 글의 갯수
+		int perPage = 10; // 한 페이지에 보일 글의 갯수
 		int startRow = (page - 1) * perPage;
 		
 		//스톡서비스로 재고 리스트 출력 메서트 작성
@@ -97,10 +97,10 @@ public class WarehouseController {
 
 	
 	// 수정 - 폼 
-	@GetMapping("/warehouse/update/{id}")
-	public String update(@PathVariable String id, Model m) {
+	@PostMapping("/warehouse/update")
+	public String update(String id, Model m) {
 		WarehouseDto dto = service.One(id);
-		m.addAttribute("One", dto);
+		m.addAttribute("dto", dto);
 		return "warehouse/update";
 	}
 
@@ -108,9 +108,14 @@ public class WarehouseController {
 	// 수정 프로세스
 	@PutMapping("/warehouse/update_process")
 	@ResponseBody
-	public String updateProcess(WarehouseDto dto) {
-		service.updateWarehouse(dto);
-		return "redirect:list";
+	public boolean updateProcess(WarehouseDto dto) {
+
+		int i = service.updateWarehouse(dto);
+		if (i == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 

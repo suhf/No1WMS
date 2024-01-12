@@ -38,4 +38,8 @@ public class ProductService {
 		return mapper.updateById(dto);
 	}
 	
+	public int deactivateById(String id) {
+		return mapper.deactivateById(id);
+	}
+
 }
