@@ -22,6 +22,7 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
+
     @Autowired
     AuthorityService authorityService;
 
@@ -75,6 +76,7 @@ public class AccountController {
         return mav;
     }
 
+
     @PostMapping("/update_process")
     @ResponseBody
     public String updateProcess(@RequestBody Map<String, Object> data, Gson gson){
@@ -98,6 +100,15 @@ public class AccountController {
 
         return gson.toJson("s");
     }
+
+    @PostMapping("/delete_process")
+    @ResponseBody
+    public String deleteProcess(AccountDto dto, Gson gson){
+        accountService.delete(dto);
+
+        return gson.toJson("s");
+    }
+
 
     @PostMapping("/show_modal")
     public ModelAndView showModal(ModelAndView mav, @RequestParam(defaultValue = "") String search,

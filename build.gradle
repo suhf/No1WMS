@@ -51,6 +51,9 @@ dependencies {
 	implementation 'org.apache.tiles:tiles-api:3.0.8'
 	implementation 'org.apache.tiles:tiles-core:3.0.8'
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-aop
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-aop', version: '2.5.0'
+
 
 }
 tasks.named('test') {

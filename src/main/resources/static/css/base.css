@@ -1,6 +1,10 @@
 .navi-bg {
-    background-color : antiquewhite;
+    background-color : #222831;
 }
+.nav-item a{
+    color : #EEEEEE;
+}
+
 .img-user{
     width : 100%;
 }

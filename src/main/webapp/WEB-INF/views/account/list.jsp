@@ -27,9 +27,6 @@
         $(".group_tr").on("click", function(event){
             read($(event.currentTarget).data("tid"));
         });
-
-
-
     });
 
     function onSearch(isPersonalSearch){
@@ -59,7 +56,7 @@
     <div class="row">
         <div class="col-12">
             <div class="mt-5 mb-5 text-center">
-                <h1>그룹 권한 관리</h1><form method="post" action="/account/create"><button class="btn btn-primary" type="submit" id="btn_create">생성</button></form>
+                <h1>계정 관리</h1><form method="post" action="/account/create"><button class="btn btn-primary" type="submit" id="btn_create">생성</button></form>
             </div>
             <div>
                 <hr>
@@ -77,7 +74,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach items="${list }" var="dto" varStatus="status">
-                                <tr class="group_tr" data-tid="${dto.id}">
+                                <tr class="group_tr" data-mingu = "111" data-tid="${dto.id}">
                                     <td>${dto.employeeNumber}</td>
                                     <td>${dto.name}</td>
                                     <td>

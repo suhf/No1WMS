@@ -61,6 +61,12 @@ public class AccountService {
         return mapper.resetPassword(dto);
     }
 
+    int delete(AccountDto dto){
+        return mapper.delete(dto);
+    }
 
+    public AccountDto selectByLogin(AccountDto dto){
+           return mapper.selectByLogin(dto);
+    }
 
 }

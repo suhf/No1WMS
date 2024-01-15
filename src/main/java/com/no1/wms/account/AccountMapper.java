@@ -28,5 +28,7 @@ public interface AccountMapper {
 
     int resetPassword(AccountDto dto);
 
+    int delete(AccountDto dto);
 
+    AccountDto selectByLogin(AccountDto dto);
 }

@@ -24,6 +24,8 @@
 <!-- 스크립트 부분 안건들여도됨-->
 <script>
     let searchModalBootStrap;
+    let yesNoModalBootStrap;
+    let featherLoad = false;
     $(function(){
         //네비게이션 관련
         const $listNavLink = $("a.nav-link");
@@ -36,7 +38,7 @@
         //네비게이션 관련 끝
 
         //yes no 모달 관련
-        const yesNoModalBootStrap = new bootstrap.Modal("#yes_no_modal");
+        yesNoModalBootStrap = new bootstrap.Modal("#yes_no_modal");
         $("#yes_no_modal_show_button").on("click", function(){
             $("#yesNoModalLabel").text(yesNoModal.title);
             $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
@@ -82,7 +84,10 @@
 
 
         //네비게이션 쪽 아이콘만들어 주는 함수
-        feather.replace();
+        if(!featherLoad) {
+            featherLoad = true;
+            feather.replace();
+        }
     });
     /*
        * 검색 팝업 모달 닫는 함수

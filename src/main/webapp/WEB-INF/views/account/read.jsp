@@ -11,6 +11,7 @@
       alert("재정의 됨");
     }
     */
+
     const tid = '${dto.id}';
     $(function(){
 
@@ -25,6 +26,35 @@
         const $form =$("<form method='post' action='/account/update'><input hidden name='id' value='"+tid+"'></form>");
         $(".c_body").after($form);
         $form.submit();
+    }
+    function goDelete(){
+        yesNoModalTextDefine("계정 삭제", "해당 계정을 더이상 사용 안하시겠습니까?");
+        $("#yesNoModalLabel").text(yesNoModal.title);
+        $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
+        yesNoModal.yesFunction = deleteProcess;
+        yesNoModalBootStrap.show();
+
+
+    }
+
+    function deleteProcess(){
+        const data = {};
+        data.id = tid;
+
+        $.ajax({
+            type: 'post',           // 타입 (get, post, put 등등)
+            url: '/account/delete_process',           // 요청할 서버url
+            dataType: 'json',       // 데이터 타입 (html, xml, json, text 등등)
+            data: data,
+            success: function (result) { // 결과 성공 콜백함수
+                const $form =$("<form method='get' action='/account/list'></form>");
+                $(".c_body").after($form);
+                $form.submit();
+            },
+            error: function (request, status, error) {
+                alert(error)
+            }
+        });
     }
     function resetPassword(){
         const data = {};
@@ -93,6 +123,7 @@
             <button class="btn btn-primary" id="password_reset_button" onclick="resetPassword()">비밀번호 리셋</button>
             <button class="btn btn-primary" id="btn_edit" onclick="goUpdate()">수정</button>
             <button class="btn btn-danger" id="btn_exit" onclick="goList()">뒤로</button>
+            <button class="btn btn-danger" id="btn_delete" onclick="goDelete()">삭제</button>
         </div>
     </div>
 </div>

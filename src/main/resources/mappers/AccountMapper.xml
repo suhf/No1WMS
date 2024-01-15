@@ -48,6 +48,13 @@
         and dept.id = acc.department_id and acc.position_id = pos.id
         where acc.id = #{id}
     </select>
+    <select id="selectByLogin" resultMap="accountResultMap" parameterType="accountDto">
+        SELECT
+            id, name, activation, password,
+            personal_authority_id , group_authority_id
+        from account
+        where employee_number = #{employeeNumber} and password = #{password}
+    </select>
 
     <select id="selectAll" resultMap="accountResultMap" parameterType="map">
         SELECT
@@ -123,5 +130,8 @@
              position_id = #{positionId},
              activation = #{activation}
         WHERE id = #{id}
+    </update>
+    <update id="delete" parameterType="accountDto">
+        update account SET activation = false WHERE id = #{id}
     </update>
 </mapper>
