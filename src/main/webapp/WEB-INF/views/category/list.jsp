@@ -69,7 +69,9 @@
 			<div class="row row-buttons">
 				<div class="col-3 text-start">
 					<!-- <img alt="엑셀이미지" src="엑셀이미지"> -->
-					<button type="button" class="btn btn-success" id="uploadExcel">업로드</button>
+					<button type="button" class="btn btn-success" id="downlodeExcelForm">양식다운로드</button>
+
+					
 				</div>
 				<div class="col-6 d-flex justify-content-center">
 					<nav>
@@ -97,6 +99,28 @@
 					<button type="button" class="btn btn-primary" id="createButton">생성</button>
 				</div>	
 			</div><!-- row row-buttons -->
+			<div class="row row-buttons">
+				<form name="uplodeExcleForm" id="uplodeExcleForm" method="post" onsubmit="return _onSubmit();" action="/category/uplodeExcel"   enctype="multipart/form-data" class="form-horizontal">
+					<div class="col-4 text-start">
+						<table id="datatable-scroller" class="table table-bordered tbl_Form">
+							<tbody>
+								<tr>
+									<th class="active" style="text-align:right"><label class="control-label" for="">파일 업로드</label></th>
+									<td>
+										<input type="file" name="file" id="file" accept=".xlsx, .xls"/>
+									</td>
+								</tr>
+							</tbody>
+							
+						</table>
+					</div>
+					<div class="col-4 text-start">
+						<div class="d-flex justify-content-start align-items-center">
+			                <button type="submit" class="btn btn-success" id="uploadExcel">업로드</button>
+			            </div>
+					</div>
+				</form><!-- uplodeExcleForm -->
+			</div><!-- row row-buttons -->
 		</div>
 	</div>
 	
@@ -113,6 +137,16 @@
 			document.body.appendChild(form);
 			form.submit();
 		});
+		
+		$("#downlodeExcelForm").on("click",function(){
+			var form = document.createElement("form");
+			form.action = "/category/downlodeCategoryForm";
+			form.method = "GET";
+			document.body.appendChild(form);
+			form.submit();
+		});
+		
+		
 	
 		 $("body").on("click", ".detailTr", function(){
 		    var kan_code = $(this).data("kan_code");
@@ -166,8 +200,13 @@
 		});
 		
 		
-		 
+		
+		var msg = "${resMap.msg}";
+		if (msg != "") alert(msg);
+		
 	});//ready
+	
+	
 	function pagingFunction(clickedId){
 		var searchn1 = $("#searchn1").val();
 		var search1 = $("#search1").val();
@@ -196,7 +235,27 @@
 		
 		document.body.appendChild(form);
 		form.submit();
-	}
+
+	}//pagingFunction
+	
+	
+	 function _onSubmit(){
+	        
+	        if($("#file").val() == ""){
+	            alert("파일을 업로드해주세요.");
+	            $("#file").focus();
+	            return false;
+	        }
+	        
+	       
+	        
+	        return true;
+	    }
+	
+	
+	
+	
+	
 	</script>
 </body>
 </html>
