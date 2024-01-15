@@ -14,4 +14,12 @@ public interface PriceMapper {
 	int count(Map<String, Object> m);//카운터
 	List<PriceDto> priceList2(Map<String, Object> m);//검색기능까지 포함
 	int createProcess(PriceDto dto);
+	
+	List<PriceDto> priceList3(Map<String, Object> m);
+	int count2(Map<String, Object> m);//카운터
+	
+	PriceDto selectById(String id);
+	int updateById(PriceDto dto);
+	int deactivateById(String id);
+	
 }

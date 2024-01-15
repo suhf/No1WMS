@@ -30,17 +30,18 @@
                             <input type="text" class="form-control" name="newCompanyName" placeholder="회사명을 입력하세요(선택)" 
                             aria-label="회사명" id="company_name"  value="${dto.company_name }">
                         </div>
-
-                        <div class="input-group mb-3 w-40 col-centered">
-                            <span class="input-group-text" id="basic-addon3">분류</span>
-                            <input type="text" class="form-control" name="newCategory" placeholder="분류를 입력해도 바뀌는건 없습니다 ㅎㅎ(수정예정)" 
-                            aria-label="분류" id="cls_nm_4"  value="${dto.categoryDto.cls_nm_4 }">
-                            
-                            <button class="btn btn-outline-secondary rounded-end" id="searchKan" 
-  							style="background-color:#FF5E5E;" type="button" >검색</button>
-  							<input type='hidden' id='searchKanChack' value='0'>
-                        </div>
-
+                        
+						<div class="input-group mb-3 w-40 col-centered">
+	                		<span class="input-group-text" id="basic-addon3">분류</span>
+  							<input type="text" name="cls_nm_4" id="cls_nm_4" class="form-control" 
+  							placeholder="분류를 검색하세요" aria-label="분류" value="${dto.categoryDto.cls_nm_4 }"
+  							aria-describedby="button-addon2" readonly>
+  							<button class="btn btn-outline-secondary rounded-end" id="searchKan" 
+  							style="background-color:#FF5E5E;" type="button" onclick="showSearchModal('분류 검색','category')" >검색</button>
+  							<input type='hidden' id="kan_code" value="${dto.kan_code }">
+  							
+						</div>
+						
                         <div class="input-group mb-3 w-40 col-centered">
                             <span class="input-group-text" id="basic-addon4">거래처</span>
                             <input type="text" class="form-control" name="newVendor" placeholder="거래처를 입력해도 바뀌는 건 없습니다." 
@@ -61,7 +62,7 @@
                         <!-- 추후 수정 -->
 	                	<input type='hidden' id="manager_id" value="83bdda69-ae95-11ee-935d-0242ac110006">
 	                	<input type='hidden' id="vendor_id" value="${dto.vendor_id }">
-	                	<input type='hidden' id="kan_code" value="${dto.kan_code }">
+	                	
 	                	
 	                	<!-- 추후 수정 -->
                         
@@ -117,8 +118,7 @@
 	    			company_name = "미지정";
 	    		}
 	    		if(!kan_code){
-	    			alert("KAN 분류코드를 입력해야 합니다.");
-	    			//$("#kan_code").focus();
+	    			alert("분류를 검색해야 합니다.");
 	    			return false;
 	    		}
 	    		if(!vendor_id){
@@ -126,15 +126,7 @@
 	    			//$("#vendor").focus();
 	    			return false;
 	    		}
-	    		
-	    		console.log(name);
-	    		console.log(company_name);
-	    		console.log(kan_code);
-	    		console.log(vendor_id);
-	    		console.log(manager_id);
-	    		console.log(id);
-	    		
-	    		
+
 	    		$.ajax({
 	            	url: "/product/update_process",
 	            	type: "put",
@@ -180,7 +172,23 @@
 	        
 		
 		});//ready
-	
+		function showSearchModal(title, val){
+	        $("#searchModalLabel").text(title);
+	        const data = { name : val};
+	        $.ajax({
+	            type : 'post',           // 타입 (get, post, put 등등)
+	            url : '/product/show_modal',           // 요청할 서버url
+	            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+	            data : data,
+	            success : function(result) { // 결과 성공 콜백함수
+	                $("#search_modal_body").html(result);
+	                searchModalBootStrap.show();
+	            },
+	            error : function(request, status, error) {
+	                alert(error)
+	            }
+	        });
+	    }
 	
 	
 	</script>
