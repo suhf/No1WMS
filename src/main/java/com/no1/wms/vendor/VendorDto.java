@@ -14,14 +14,14 @@ public class VendorDto {
 	
 	private String id;
 	private String name;
-	private String presidentName;
+	private String president_name;
 	private String address;
-	private String registrationNumber;
+	private String registration_number;
 	private String email;
-	private String presidentTelephone;
-	private String vendorManager;
-	private String vendorManagerTelephone;
-	private String mainProduct;
-	private String managerId;
+	private String president_telephone;
+	private String vendor_manager;
+	private String vendor_manager_telephone;
+	private String main_product;
+	private String manager_id;
 	private boolean activation;
 }

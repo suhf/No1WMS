@@ -23,15 +23,15 @@
     <select id="list" parameterType="map" resultType="VendorDto">
         select id,
                name,
-               president_name as presidentName,
+               president_name,
                address,
-               registration_number as registrationNumber,
+               registration_number,
                email,
-               president_telephone as presidentTelephone,
-               vendor_manager as vendorManager,
-               vendor_manager_telephone as vendorManagerTelephone,
-               main_product as mainProduct,
-               manager_id as managerId,
+               president_telephone,
+               vendor_manager,
+               vendor_manager_telephone,
+               main_product,
+               manager_id,
                activation
 
         from  vendor
@@ -51,15 +51,15 @@
     <select id="vendorOne" parameterType="String" resultType="VendorDto">
         select id,
                name,
-               president_name as presidentName,
+               president_name,
                address,
-               registration_number as registrationNumber,
+               registration_number,
                email,
-               president_telephone as presidentTelephone,
-               vendor_manager as vendorManager,
-               vendor_manager_telephone as vendorManagerTelephone,
-               main_product as mainProduct,
-               manager_id as managerId,
+               president_telephone,
+               vendor_manager,
+               vendor_manager_telephone,
+               main_product,
+               manager_id,
                activation
 
         from  vendor
@@ -76,15 +76,15 @@
     <update id="updateVendor" parameterType="VendorDto">
         update vendor
         set name = #{name},
-            president_name = #{presidentName},
+            president_name = #{president_name},
             address = #{address},
-            registration_number = #{registrationNumber},
+            registration_number = #{registration_number},
             email = #{email},
-            president_telephone = #{presidentTelephone},
-            vendor_manager = #{vendorManager},
-            vendor_manager_telephone = #{vendorManagerTelephone},
-            main_product = #{mainProduct},
-            manager_id = #{managerId},
+            president_telephone = #{president_telephone},
+            vendor_manager = #{vendor_manager},
+            vendor_manager_telephone = #{vendor_manager_telephone},
+            main_product = #{main_product},
+            manager_id = #{manager_id},
             activation = #{activation}
         where id = #{id}
     </update>
@@ -94,7 +94,7 @@
     <!-- insert -->
     <insert id="createVendor" parameterType="VendorDto">
         insert into vendor (id, name, president_name, address, registration_number, email, president_telephone, vendor_manager, vendor_manager_telephone, main_product, manager_id, activation)
-        values (UUID(), #{name}, #{presidentName}, #{address}, #{registrationNumber}, #{email}, #{presidentTelephone}, #{vendorManager}, #{vendorManagerTelephone}, #{mainProduct}, #{managerId}, #{activation})
+        values (UUID(), #{name}, #{president_name}, #{address}, #{registration_number}, #{email}, #{president_telephone}, #{vendor_manager}, #{vendor_manager_telephone}, #{main_product}, #{manager_id}, #{activation})
     </insert>
     <!-- insert -->
 
