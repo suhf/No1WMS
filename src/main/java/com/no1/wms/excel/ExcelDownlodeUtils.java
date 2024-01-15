@@ -1,16 +1,21 @@
 package com.no1.wms.excel;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import com.no1.wms.category.CategoryDto;
@@ -19,8 +24,12 @@ import com.no1.wms.category.CategoryDto;
 
 
 @Service
-public class ExcelUtils {
+public class ExcelDownlodeUtils {
 	
+	
+	
+	
+	//마지막 List<CategoryDto> dto 이부분을 수정해서 만들어야함.
 	public void downloadCategoryExcelFile(String excelFileName, HttpServletResponse response,
 			String sheetName, String[] columnName, List<CategoryDto> dto) {
 		String fileName = "";
@@ -32,7 +41,7 @@ public class ExcelUtils {
 		response.setContentType("ms-vnd/excel");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
 		
-		Workbook workbook = new HSSFWorkbook();
+		Workbook workbook = new XSSFWorkbook();
 		Sheet sheet = workbook.createSheet(sheetName);
 		
 		Row row = null;
@@ -45,6 +54,7 @@ public class ExcelUtils {
 			cell.setCellValue(columnName[i]);	
 		}
 		rowNum += 1;
+		
 		//수정부분
 		makeCategoryBody(dto,row,sheet,cell,rowNum);
 		
@@ -77,5 +87,43 @@ public class ExcelUtils {
 		}
 	}
 
+	//엑셀 폼 파일 다운로드 
+	//엑셀 폼은 직접 만들어서 src/main/webapp/excelfiles/excelform 이 경로의 폴더안에 넣으면 됩니다.
+	//확장자는 .xlsx로 해주세요.
+	//매개변수는 HttpServletResponse response와 파일명 String을 넣으면 되고 파일명은 한글도 가능합니다.
+	public void downlodeExcelForm(HttpServletResponse response, String formName) throws IOException {
+		String excelfilesDirectory = "src/main/webapp/excelfiles/excelform/";
+		
+		
+		File file = new File(excelfilesDirectory+formName);
+		
+		try( FileInputStream fis = new FileInputStream(file);
+		        BufferedInputStream bis = new BufferedInputStream(fis);
+		        OutputStream out = response.getOutputStream()){
+			String encodedFilename = URLEncoder.encode(formName, "UTF-8").replaceAll("\\+", "%20");
+                    
+			response.addHeader("Content-Disposition", "attachment;filename=\""+encodedFilename+"\"");
+			response.setContentType("application/vnd.ms-excel");
+			// 응답 크기 명시
+	        response.setContentLength((int)file.length());
+	        int read = 0;
+	        while((read = bis.read()) != -1) {
+	            out.write(read);
+	        }
+	        
+	        
+		}catch(IOException e) {
+	        e.printStackTrace();
+	    }
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }
