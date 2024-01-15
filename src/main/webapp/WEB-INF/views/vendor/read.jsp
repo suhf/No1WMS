@@ -38,7 +38,7 @@
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon2">대표자명</span>
-                        <input type="text" class="form-control" aria-label="용적" value="${One.presidentName }" readonly>
+                        <input type="text" class="form-control" aria-label="용적" value="${One.president_name }" readonly>
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
@@ -48,7 +48,7 @@
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon4">사업자등록번호</span>
-                        <input type="text" class="form-control" aria-label="적재량" value="${One.registrationNumber }"
+                        <input type="text" class="form-control" aria-label="적재량" value="${One.registration_number }"
                                readonly>
                     </div>
 
@@ -59,24 +59,24 @@
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon6">대표번호</span>
-                        <input type="text" class="form-control" aria-label="적재량" value="${One.presidentTelephone }"
+                        <input type="text" class="form-control" aria-label="적재량" value="${One.president_telephone }"
                                readonly>
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon7">거래처 담당자 이름</span>
-                        <input type="text" class="form-control" aria-label="적재량" value="${One.vendorManager }" readonly>
+                        <input type="text" class="form-control" aria-label="적재량" value="${One.vendor_manager }" readonly>
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon8">거래처 담당자 연락 번호</span>
-                        <input type="text" class="form-control" aria-label="적재량" value="${One.vendorManagerTelephone }"
+                        <input type="text" class="form-control" aria-label="적재량" value="${One.vendor_manager_telephone }"
                                readonly>
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon9">주요품목</span>
-                        <input type="text" class="form-control" aria-label="적재량" value="${One.mainProduct }" readonly>
+                        <input type="text" class="form-control" aria-label="적재량" value="${One.main_product }" readonly>
                     </div>
                 </div>
             </div>

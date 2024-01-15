@@ -55,9 +55,9 @@
 									<tr class="detailTr col-5" data-id="${dto.id}" >
 										<td class="col-1">${start} <c:set var="start" value="${start +1 }"/></td>
 										<td class="col-1">${dto.name }</td>
-										<td class="col-1">${dto.presidentTelephone }</td>
-										<td class="col-1">${dto.vendorManager }</td>
-										<td class="col-1">${dto.vendorManagerTelephone }</td>
+										<td class="col-1">${dto.president_telephone }</td>
+										<td class="col-1">${dto.vendor_manager }</td>
+										<td class="col-1">${dto.vendor_manager_telephone }</td>
 									</tr>
 								</c:forEach>
 							</tbody>

@@ -37,7 +37,7 @@
 
                     <%--                     세션 만들어지고 value 수정--%>
 
-                        <input type='hidden' id="managerId" value="15b68e54-b0f0-11ee-935d-0242ac110006"/>
+                        <input type='hidden' id="manager_id" value="15b68e54-b0f0-11ee-935d-0242ac110006"/>
                         <input type='hidden' id="activation" value="1">
 
 
@@ -50,8 +50,8 @@
                     <!-- 설명만 있는 입력 -->
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon2">대표자명</span>
-                        <input type="text" name="presidentName" id="presidentName" class="form-control"
-                               placeholder="대표자명을 입력하세요" aria-label="대표자명" value="${dto.presidentName }"
+                        <input type="text" name="president_name" id="president_name" class="form-control"
+                               placeholder="대표자명을 입력하세요" aria-label="대표자명" value="${dto.president_name }"
                                aria-describedby="basic-addon1">
                     </div>
 
@@ -64,8 +64,8 @@
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon4">사업자등록번호</span>
-                        <input type="text" name="registrationNumber" id="registrationNumber" class="form-control"
-                               placeholder="사업자등록번호를 입력하세요" aria-label="사업자등록번호" value="${dto.registrationNumber }"
+                        <input type="text" name="registration_number" id="registration_number" class="form-control"
+                               placeholder="사업자등록번호를 입력하세요" aria-label="사업자등록번호" value="${dto.registration_number }"
                                aria-describedby="basic-addon1">
                     </div>
 
@@ -78,29 +78,29 @@
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon6">대표번호</span>
-                        <input type="text" name="presidentTelephone" id="presidentTelephone" class="form-control"
-                               placeholder="대표번호를 입력하세요" aria-label="대표번호" value="${dto.presidentTelephone }"
+                        <input type="text" name="president_telephone" id="president_telephone" class="form-control"
+                               placeholder="대표번호를 입력하세요" aria-label="대표번호" value="${dto.president_telephone }"
                                aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon7">거래처 담당자 이름</span>
-                        <input type="text" name="vendorManager" id="vendorManager" class="form-control"
-                               placeholder="거래처 담당자 이름을 입력하세요" aria-label="거래처 담당자 이름" value="${dto.vendorManager }"
+                        <input type="text" name="vendor_manager" id="vendor_manager" class="form-control"
+                               placeholder="거래처 담당자 이름을 입력하세요" aria-label="거래처 담당자 이름" value="${dto.vendor_manager }"
                                aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon8">거래처 담당자 연락 번호</span>
-                        <input type="text" name="vendorManagerTelephone" id="vendorManagerTelephone" class="form-control"
-                               placeholder="거래처 담당자 연락 번호를 입력하세요" aria-label="거래처 담당자 연락 번호" value="${dto.vendorManagerTelephone }"
+                        <input type="text" name="vendor_manager_telephone" id="vendor_manager_telephone" class="form-control"
+                               placeholder="거래처 담당자 연락 번호를 입력하세요" aria-label="거래처 담당자 연락 번호" value="${dto.vendor_manager_telephone }"
                                aria-describedby="basic-addon1">
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon9">주요품목</span>
-                        <input type="text" name="mainProduct" id="mainProduct" class="form-control"
-                               placeholder="주요품목을 입력하세요" aria-label="주요품목" value="${dto.mainProduct }"
+                        <input type="text" name="main_product" id="main_product" class="form-control"
+                               placeholder="주요품목을 입력하세요" aria-label="주요품목" value="${dto.main_product }"
                                aria-describedby="basic-addon1">
                     </div>
 
@@ -125,17 +125,17 @@
 
 
             $("#submitBtn").on("click", function () {
-                var managerId = $("#managerId").val();
+                var managerId = $("#manager_id").val();
 
                 var name = $("#name").val();
-                var presidentName = $("#presidentName").val();
+                var president_name = $("#president_name").val();
                 var address = $("#address").val();
-                var registrationNumber = $("#registrationNumber").val();
+                var registration_number = $("#registration_number").val();
                 var email = $("#email").val();
-                var presidentTelephone = $("#presidentTelephone").val();
-                var vendorManager = $("#vendorManager").val();
-                var vendorManagerTelephone = $("#vendorManagerTelephone").val();
-                var mainProduct = $("#mainProduct").val();
+                var president_telephone = $("#president_telephone").val();
+                var vendor_manager = $("#vendor_manager").val();
+                var vendor_manager_telephone = $("#vendor_manager_telephone").val();
+                var main_product = $("#main_product").val();
                 var activation = $("#activation").val();
 
                 if (!name) {
@@ -145,7 +145,7 @@
                 }
                 if (!presidentName) {
                     alert("대표자명을 입력해야 합니다.");
-                    $("#presidentName").focus();
+                    $("#president_name").focus();
                     return false;
                 }
 
@@ -157,7 +157,7 @@
 
                 if (!registrationNumber) {
                     alert("사업자등록번호를 입력해야 합니다.");
-                    $("#registrationNumber").focus();
+                    $("#registration_number").focus();
                     return false;
                 }
 
@@ -169,25 +169,25 @@
 
                 if (!presidentTelephone) {
                     alert("대표번호를 입력해야 합니다.");
-                    $("#presidentTelephone").focus();
+                    $("#president_telephone").focus();
                     return false;
                 }
 
                 if (!vendorManager) {
                     alert("거래처 담당자 이름을 입력해야 합니다.");
-                    $("#vendorManager").focus();
+                    $("#vendor_manager").focus();
                     return false;
                 }
 
                 if (!vendorManagerTelephone) {
                     alert("거래처 담당자 연락 번호를 입력해야 합니다.");
-                    $("#vendorManagerTelephone").focus();
+                    $("#vendor_manager_telephone").focus();
                     return false;
                 }
 
                 if (!mainProduct) {
                     alert("주요품목을 입력해야 합니다.");
-                    $("#mainProduct").focus();
+                    $("#main_product").focus();
                     return false;
                 }
 
@@ -195,17 +195,17 @@
                     url: "/vendor/create_process",
                     type: "post",
                     data: {
-                        "managerId": managerId,
+                        "manager_id": manager_id,
 
                         "name": name,
-                        "presidentName": presidentName,
+                        "president_name": president_name,
                         "address": address,
-                        "registrationNumber": registrationNumber,
+                        "registration_number": registration_number,
                         "email": email,
-                        "presidentTelephone": presidentTelephone,
-                        "vendorManager": vendorManager,
-                        "vendorManagerTelephone": vendorManagerTelephone,
-                        "mainProduct": mainProduct,
+                        "president_telephone": president_telephone,
+                        "vendor_manager": vendor_manager,
+                        "vendor_manager_telephone": vendor_manager_telephone,
+                        "main_product": main_product,
                         "activation" : activation
 
                     },
