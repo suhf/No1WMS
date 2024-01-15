@@ -30,9 +30,16 @@ public class AuthorityController {
 
     @PostMapping("/read")
     public ModelAndView read(ModelAndView mav, AuthorityDto dto){
-        dto = authorityService.selectById(dto);
+        if( dto.getIsGroupAuthority() ) {
+            dto = authorityService.selectById(dto);
+
+            mav.setViewName("/authority/update_group");
+        }else{
+            dto = authorityService.selectPersonalAuthorityById(dto);
+            mav.setViewName("/authority/update_personal");
+        }
         mav.addObject("dto", dto);
-        mav.setViewName("/authority/update_group");
+        System.out.println(dto);
         return mav;
     }
 

@@ -57,5 +57,10 @@ public class AccountService {
 
         return mapper.selectPosAll(map);
     }
+    int resetPassword(AccountDto dto){
+        return mapper.resetPassword(dto);
+    }
+
+
 
 }

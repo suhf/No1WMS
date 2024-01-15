@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!-- 이 안에 내용 복사해서 jsp에 붙여넣기 -->
 <script>
     /*
@@ -10,6 +11,7 @@
       alert("재정의 됨");
     }
     */
+    let personalAuthData = null;
     const tid = '${dto.id}';
     function showSearchModal(title, val){
         $("#searchModalLabel").text(title);
@@ -28,37 +30,94 @@
             }
         });
     }
+    //다른거하고 달리 auth의 경우 list가 아닌 값을 가져옴
+    function showAuthModal(title, val){
+        if(personalAuthData == null) {
+            $("#searchModalLabel").text(title);
+            const data = {};
+            data.id = $("#personalAuthorityId").val();
+            $.ajax({
+                type: 'post',           // 타입 (get, post, put 등등)
+                url: '/account/show_personal_auth_modal',           // 요청할 서버url
+                dataType: 'html',       // 데이터 타입 (html, xml, json, text 등등)
+                data: data,
+                success: function (result) { // 결과 성공 콜백함수
+                    $("#search_modal_body").html(result);
+                    searchModalBootStrap.show();
+                },
+                error: function (request, status, error) {
+                    alert(error)
+                }
+            });
+        }else{
+            searchModalBootStrap.show();
+        }
+    }
 
     function updateProcess(){
         let data = {};
-        data.id = tid;
-        data.activation = $("input[name='activation']:checked").val();
+        data.personalAuthorityDto = {};
+        data.personalAuthorityDto.name = originalAuthorityName;
+        data.personalAuthorityDto.activation = authorityActivation;
+        data.personalAuthorityDto.isGroupAuthority = "false";
+        data.account = {};
+        data.account.id = tid;
+        data.account.activation = $("input[name='activation']:checked").val();
         const $dataInputList = $("input.create_data");
         $dataInputList.each(function(index, element){
            const $element = $(element);
            const name = $element.attr("name");
            const val = $element.val();
-           data[name] = val;
+           data.account[name] = '"'+val.trim()+'"';
         });
-
+        const $checkBoxList = $(".auth_input:checked");
+        $checkBoxList.each(function(index, element){
+            const category = $(element).data('category');
+            if(data.personalAuthorityDto[category] == null){
+                data.personalAuthorityDto[category] = 0;
+            }
+            data.personalAuthorityDto[category] += Number($(element).val());
+        });
+        data.personalAuthorityDto.id = '${dto.personalAuthorityId}';
+        aaa = data;
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
             url : '/account/update_process',           // 요청할 서버url
+            contentType : "application/json; charset=UTF-8",
             dataType : 'json',       // 데이터 타입 (html, xml, json, text 등등)
-            data : data,
+            data : JSON.stringify(data),
             success : function(result) { // 결과 성공 콜백함수
-                alert("성공");
+                const $form = $("<form method='post' action='/account/read'><input name='id' value='"+tid+"'></form>")
+                $("#c-body").after($form);
+                $form.submit();
             },
             error : function(request, status, error) {
                 alert(error)
             }
         });
-
-
-
     }
+
+
+    $(function (){
+        $("#searchModalLabel").text('개인 권한 수정');
+        const data = {};
+        data.id = $("#personalAuthorityId").val();
+        $.ajax({
+            type: 'post',           // 타입 (get, post, put 등등)
+            url: '/account/show_personal_auth_modal',           // 요청할 서버url
+            dataType: 'html',       // 데이터 타입 (html, xml, json, text 등등)
+            data: data,
+            success: function (result) { // 결과 성공 콜백함수
+                $("#search_modal_body").html(result);
+            },
+            error: function (request, status, error) {
+                alert(error)
+            }
+        });
+    });
+
 </script>
-<div class="container-fluid">
+<div id='c-body' class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="mt-5 mb-5 text-center">
@@ -104,7 +163,7 @@
                 <span id='account_group_label' class="input-group-text">권한</span>
                 <input value = "${dto.personalAuthorityDto.name}" readonly id="account_auth_group_name" type="text" class="form-control" placeholder="" aria-label="Username" aria-describedby="account_group_label">
                 <input value = "${dto.personalAuthorityId}" hidden name="personalAuthorityId" readonly id="personalAuthorityId" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_group_label">
-                <button id="account_search_button" class="btn-primary btn" onclick="showSearchModal('권한 검색','auth')">검색</button>
+                <button id="account_search_button" class="btn-primary btn" onclick="showAuthModal('개인 권한 수정','personal_auth')">수정</button>
             </div>
             <div class="input-group w-50 mt-3">
                 <span id='account_email_label' class="input-group-text">이메일</span>
@@ -118,7 +177,7 @@
                 <input value = "${dto.gender}" id="account_gender" name="gender" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="account_gender_label">
                 <span class="me-5"></span>
                 <span id='employee_birth_label' class="input-group-text">생일</span>
-                <input value = "${dto.birth}" id="employee_birth" name="birth" type="date" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_birth_label">
+                <input value = "<fmt:formatDate value='${dto.birth}' pattern='yyyy-MM-dd' type='date'/>" id="employee_birth" name="birth" type="date" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_birth_label">
             </div>
             <div class="input-group w-50 mt-3">
                 <span id='account_address_label' class="input-group-text">주소</span>

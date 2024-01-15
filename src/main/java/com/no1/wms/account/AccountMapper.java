@@ -25,4 +25,8 @@ public interface AccountMapper {
     List<DepartmentDto> selectDeptAll(Map<String, Object> m);
 
     List<PositionDto> selectPosAll(Map<String, Object> m);
+
+    int resetPassword(AccountDto dto);
+
+
 }

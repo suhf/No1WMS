@@ -1,6 +1,8 @@
 package com.no1.wms.account;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
 import com.no1.wms.authority.AuthorityDto;
 import com.no1.wms.authority.AuthorityService;
 import com.no1.wms.utils.ConstantValues;
@@ -9,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.StringReader;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -73,9 +77,24 @@ public class AccountController {
 
     @PostMapping("/update_process")
     @ResponseBody
-    public String updateProcess(AccountDto dto, Gson gson){
+    public String updateProcess(@RequestBody Map<String, Object> data, Gson gson){
+        AuthorityDto personalAuthorityDto= gson.fromJson(data.get("personalAuthorityDto").toString(), AuthorityDto.class);
 
-        accountService.update(dto);
+
+        AccountDto accountDto = gson.fromJson(data.get("account").toString(), AccountDto.class);
+
+        System.out.println(accountDto);
+        System.out.println(personalAuthorityDto);
+        accountService.update(accountDto);
+        authorityService.update(personalAuthorityDto);
+
+        return gson.toJson("s");
+    }
+
+    @PostMapping("/reset_password")
+    @ResponseBody
+    public String resetPassword(AccountDto dto, Gson gson){
+        accountService.resetPassword(dto);
 
         return gson.toJson("s");
     }
@@ -95,6 +114,17 @@ public class AccountController {
         //
         mav.addObject("list", list);
         mav.setViewName(name);
+        return mav;
+    }
+
+    @PostMapping("/show_personal_auth_modal")
+    public ModelAndView showPersonalAuthModal(ModelAndView mav, AuthorityDto dto){
+        //db에서 데이터 가져오는거 필요
+        dto = authorityService.selectById(dto);
+
+        //
+        mav.addObject("dto", dto);
+        mav.setViewName("personal_auth");
         return mav;
     }
 

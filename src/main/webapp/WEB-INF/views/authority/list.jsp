@@ -24,8 +24,8 @@
             }
         });
 
-        $(".group_authority_tr").on("click", function(event){
-            readGroupAuthority($(event.currentTarget).data("tid"));
+        $(".authority_tr").on("click", function(event){
+            readAuthority($(event.currentTarget).data("tid"), $(event.currentTarget).data("tgroup"));
         });
 
 
@@ -44,8 +44,9 @@
         console.log(JSON.stringify(jsonData));
     }
 
-    function readGroupAuthority(id){
+    function readAuthority(id, group){
         $("#formInput").val(id);
+        $("#isGroupInput").val(group);
         $("#form").attr("action", "/authority/read" );
         $("#form").trigger("submit");
 
@@ -107,7 +108,7 @@
                                     <tbody>
                                     <c:forEach items="${list }" var="dto" varStatus="status">
                                         <c:if test="${dto.isGroupAuthority == false}">
-                                            <tr>
+                                            <tr class="authority_tr" data-tid ="${dto.id}" data-tgroup = "${dto.isGroupAuthority}">
                                                 <td>${dto.accountDto.employeeNumber}</td>
                                                 <td>${dto.accountDto.name}</td>
                                                 <td>${dto.name}</td>
@@ -131,7 +132,7 @@
                                     <tbody>
                                     <c:forEach items="${list }" var="dto" varStatus="status">
                                         <c:if test="${dto.isGroupAuthority == true}">
-                                            <tr class="group_authority_tr" data-tid ="${dto.id}">
+                                            <tr class="authority_tr" data-tid ="${dto.id}" data-tgroup = "${dto.isGroupAuthority}">
                                                 <td>${status.count}</td>
                                                 <td>${dto.name}</td>
                                                 <td>
@@ -157,4 +158,5 @@
 </div>
 <form id="form" method="post">
     <input name="id" id="formInput" hidden>
+    <input name="isGroupAuthority" id="isGroupInput" hidden>
 </form>

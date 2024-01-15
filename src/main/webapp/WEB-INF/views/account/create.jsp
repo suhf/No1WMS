@@ -12,7 +12,7 @@
     */
     function showSearchModal(title, val){
         $("#searchModalLabel").text(title);
-        const data = { name : val};
+        const data = { name : val };
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
             url : '/account/show_modal',           // 요청할 서버url
@@ -50,10 +50,8 @@
                 alert(error)
             }
         });
-
-
-
     }
+
 </script>
 <div class="container-fluid">
     <div class="row">
@@ -74,6 +72,7 @@
                 <span class="me-5"></span>
                 <span id='employee_number_label' class="input-group-text">사번</span>
                 <input id=employee_number" name="employeeNumber" type="text" class="create_data form-control" placeholder="" aria-label="Username" aria-describedby="employee_number_label">
+
             </div>
             <div class="input-group w-50 mt-3">
                 <span id='account_dept_label' class="input-group-text">부서 명</span>

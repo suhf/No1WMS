@@ -26,6 +26,23 @@
         $(".c_body").after($form);
         $form.submit();
     }
+    function resetPassword(){
+        const data = {};
+        data.id = tid;
+
+        $.ajax({
+            type: 'post',           // 타입 (get, post, put 등등)
+            url: '/account/reset_password',           // 요청할 서버url
+            dataType: 'json',       // 데이터 타입 (html, xml, json, text 등등)
+            data: data,
+            success: function (result) { // 결과 성공 콜백함수
+                alert("비밀번호가 사번으로 변경되었습니다");
+            },
+            error: function (request, status, error) {
+                alert(error)
+            }
+        });
+    }
 </script>
 <div class="container-fluid c_body">
     <div class="row">
@@ -45,6 +62,7 @@
 
                 <span class="me-5"></span>
                 <span>사번 : ${dto.employeeNumber}</span>
+
             </div>
             <div class="w-50 mt-3">
                 <span>부서 : ${dto.departmentDto.name}</span>
@@ -72,6 +90,7 @@
     </div>
     <div class="row mt-4">
         <div class="col-12">
+            <button class="btn btn-primary" id="password_reset_button" onclick="resetPassword()">비밀번호 리셋</button>
             <button class="btn btn-primary" id="btn_edit" onclick="goUpdate()">수정</button>
             <button class="btn btn-danger" id="btn_exit" onclick="goList()">뒤로</button>
         </div>

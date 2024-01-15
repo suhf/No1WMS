@@ -40,5 +40,4 @@ public class AccountDto {
 
     @Builder.Default
     private Boolean activation = true;
-
 }

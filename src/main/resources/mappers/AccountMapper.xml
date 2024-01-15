@@ -15,6 +15,8 @@
         <result column="activation"         property="activation"/>
         <result column="personal_authority_id" property="personalAuthorityId" />
         <result column="group_authority_id" property="groupAuthorityId" />
+        <result column="department_id" property="departmentId" />
+        <result column="position_id" property="positionId" />
         <association property="groupAuthorityDto"  javaType="authorityDto">
             <id column="auth2.id" property="id" />
             <result column="group_auth_name" property="name" />
@@ -101,6 +103,11 @@
         where name like concat('%',#{search},'%')
         order by name limit  #{start}, #{perPage}
     </select>
+    <update id="resetPassword" parameterType="accountDto">
+        update account SET
+                           password = ( SELECT employee_number from account where id = #{id} )
+        WHERE id = #{id}
+    </update>
 
     <update id="update" parameterType="accountDto">
         update account SET

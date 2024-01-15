@@ -1,6 +1,7 @@
 package com.no1.wms.authority;
 
 
+import com.no1.wms.account.AccountDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,4 +36,10 @@ public class AuthorityService {
     }
 
     public int update(AuthorityDto dto) { return mapper.update(dto); }
+
+    public AuthorityDto selectPersonalAuthorityById(AuthorityDto dto){
+        return mapper.selectPersonalAuthorityById(dto);
+    }
+
+
 }

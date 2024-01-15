@@ -31,6 +31,16 @@
     <select id="selectById" resultType="AuthorityDto">
         SELECT * FROM authority WHERE id = #{id}
     </select>
+    <select id="selectPersonalAuthorityById" resultMap="authorityResultMap">
+        SELECT
+            auth.id, auth.name,
+            auth.account, auth.authority, auth.product_category, auth.product,
+            auth.prices, auth.vendor, auth.warehouse, auth.stock, auth.plan_in, auth.product_in,
+            auth.product_out, auth.board, auth.activation, auth.is_group_authority,
+            acc.employee_number, acc.name acc_name
+            from authority auth join account acc on acc.personal_authority_id = auth.id
+            WHERE auth.id = #{id}
+    </select>
     <select id="selectAll" resultMap="authorityResultMap" parameterType="map">
         SELECT
             auth.id, auth.name,

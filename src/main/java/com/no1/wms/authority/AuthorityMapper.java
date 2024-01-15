@@ -1,5 +1,6 @@
 package com.no1.wms.authority;
 
+import com.no1.wms.account.AccountDto;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,6 @@ public interface AuthorityMapper {
     int update(AuthorityDto dto);
 
     List<AuthorityDto> selectAll(Map<String, Object> m);
+
+    AuthorityDto selectPersonalAuthorityById(AuthorityDto dto);
 }
