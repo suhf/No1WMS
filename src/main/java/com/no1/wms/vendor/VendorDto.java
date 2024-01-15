@@ -8,20 +8,20 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 @Alias("VendorDto")
 public class VendorDto {
 	
 	private String id;
 	private String name;
-	private String president_name;
+	private String presidentName;
 	private String address;
-	private String registration_number;
+	private String registrationNumber;
 	private String email;
-	private String president_telephone;
-	private String vendor_manager;
-	private String vendor_manager_telephone;
-	private String main_product;
-	private String manager_id;
-	private boolean activation;	
+	private String presidentTelephone;
+	private String vendorManager;
+	private String vendorManagerTelephone;
+	private String mainProduct;
+	private String managerId;
+	private boolean activation;
 }

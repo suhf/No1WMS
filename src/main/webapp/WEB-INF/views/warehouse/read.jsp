@@ -79,7 +79,7 @@
                         </thead>
                         <tbody>
                         <c:forEach items="${wlist }" var="dto">
-                            <tr class="detailTr" data-id="${dto.id}">
+                            <tr class="detailTr">
                                 <td>${start} <c:set var="start" value="${start +1 }"/></td>
                                 <td>${dto.name }</td>
                                 <td>${dto.quantity }</td>
@@ -172,10 +172,10 @@
 
 
 
-        yesNoModal.yesFunction = deleteCategoryFunction;
+        yesNoModal.yesFunction = deleteWarehouseFunction;
 
 
-        function deleteCategoryFunction(){
+        function deleteWarehouseFunction(){
             var id = $("#id").val();
             $.ajax({
                 url: "/warehouse/delete",

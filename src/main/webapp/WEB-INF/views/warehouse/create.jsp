@@ -1,23 +1,24 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>창고 생성</title>
     <style>
-        .body{
+        .body {
             text-align: center;
         }
-        .col-centered{
+
+        .col-centered {
             margin: 0 auto;
             float: none;
         }
-        .col-margin-left-32{
+
+        .col-margin-left-32 {
             margin-left: 32%;
         }
-
 
 
     </style>
@@ -34,9 +35,10 @@
                 <div class="col-12" style="text-align: center;">
 
 
-                    <-- 세션 만들어지고 value 수정-->
+                    <%--                     세션 만들어지고 value 수정--%>
                     <input type='hidden' id="managerId" value="e9882095-aeb2-11ee-935d-0242ac110006">
-
+                    <input type='hidden' id="currentCapacity" value="0">
+                    <input type='hidden' id="activation" value="1">
 
 
                     <div class="input-group mb-3 w-40 col-centered">
@@ -75,28 +77,29 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
 
 
-
-            $("#submitBtn").on("click", function(){
+            $("#submitBtn").on("click", function () {
                 var managerId = $("#managerId").val();
                 var name = $("#name").val();
                 var capacity = $("#capacity").val();
                 var address = $("#address").val();
+                var currentCapacity = $("#currentCapacity").val();
+                var activation = $("#activation").val();
 
-                if(!name){
+                if (!name) {
                     alert("창고명을 입력해야 합니다.");
                     $("#name").focus();
                     return false;
                 }
-                if(!capacity){
+                if (!capacity) {
                     alert("중분류를 입력해야 합니다.");
                     $("#capacity").focus();
                     return false;
                 }
 
-                if(!address){
+                if (!address) {
                     alert("중분류를 입력해야 합니다.");
                     $("#address").focus();
                     return false;
@@ -107,14 +110,16 @@
                     url: "/warehouse/create_process",
                     type: "post",
                     data: {
-                        "managerId" : managerId,
+                        "managerId": managerId,
                         "name": name,
                         "capacity": capacity,
-                        "address": address
+                        "address": address,
+                        "currentCapacity": currentCapacity,
+                        "activation": activation
 
                     },
-                    datatype:"json"
-                }).done(function(data) {
+                    datatype: "json"
+                }).done(function (data) {
                     if (data == true) {
                         alert("창고가 생성되었습니다.");
 
@@ -130,25 +135,23 @@
                         form.appendChild(input);
 
                         form.submit();
+
+                        window.location.href = "/warehouse/list";
                     } else {
                         alert("창고 생성에 실패하였습니다.");
                     }
-                }).fail(function() {
+                }).fail(function () {
                     alert("오류가 발생했습니다.");
-                }).always(function() {
+                }).always(function () {
                     //
                 });
 
             })
 
-            $("#cancelBtn").on("click", function(){
+            $("#cancelBtn").on("click", function () {
                 $(location).attr("href", "/warehouse/list");
 
             })
-
-
-
-
 
 
         });

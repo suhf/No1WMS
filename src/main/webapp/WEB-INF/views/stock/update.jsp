@@ -2,8 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <div class="mt-5 mb-5 text-center">
-    <h1>재고 생성</h1>
+    <h1>재고 수정</h1>
 </div>
 <hr>
 <div class="container" style="text-align: center">
@@ -12,59 +13,67 @@
                 <div class="col-12">
 
 
+                    <input type="hidden" class="form-control" aria-label="id" id="id" value="${dto.id }" readonly>
                     <input type='hidden' id="activation" value="1">
 
 
                     <!--제품 관련 -->
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='Product_label' class="input-group-text">제품</span>
-                        <input readonly id="stock_pro_name" type="text" class="form-control" placeholder="제품 검색">
-                        <input hidden name="ProductName" id="product_id" value="${dto.product_id}">
-                        <button id="product_search_button" class="btn-primary btn" onclick="showSearchModals('제품 검색','product_category_company_search')">검색</button>
+                        <input readonly id="stock_pro_name" type="text" class="form-control" placeholder="제품 검색" value="${dto.productName}">
+                        <input hidden name="ProductName" id="product_id" value="${dto.productId}">
+                        <%--                        <button id="product_search_button" class="btn-primary btn" onclick="showSearchModals('제품 검색','product_category_company_search')">검색</button>--%>
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='Category_label' class="input-group-text">카테고리</span>
-                        <input readonly id="stock_category_name" type="text" class="form-control" placeholder="">
+                        <input readonly id="stock_category_name" type="text" class="form-control" placeholder="" value="${dto.cls_nm_4}">
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='Company_name_label' class="input-group-text">제조사</span>
-                        <input readonly id="stock_company_name_name" type="text" class="form-control" placeholder="">
+                        <input readonly id="stock_company_name_name" type="text" class="form-control" placeholder="" value="${dto.company_name}">
                     </div>
 
 
                     <!--창고 관련 -->
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='Warehouse_label' class="input-group-text">창고</span>
-                        <input readonly id="warehouse_name" type="text" class="form-control" placeholder="창고 검색">
-                        <input hidden name="product_id" id="warehouse_id" value="${dto.warehouse_id}">
-                        <button id="Warehouse_search_button" class="btn-primary btn" onclick="showSearchModals('창고 검색','warehouse_capacity_currentCapacity')">검색</button>
+                        <input readonly id="warehouse_name" type="text" class="form-control" placeholder="창고 검색" value="${dto.company_name}">
+                        <input hidden name="product_id" id="warehouse_id" value="${dto.warehouseId}">
+                        <%--                        <button id="Warehouse_search_button" class="btn-primary btn" onclick="showSearchModals('창고 검색','warehouse_capacity_currentCapacity')">검색</button>--%>
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='Address_label' class="input-group-text">주소</span>
-                        <input readonly id="Address_name" type="text" class="form-control" placeholder="">
+                        <input readonly id="Address_name" type="text" class="form-control" placeholder="" value="${dto.address}">
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='Capacity_label' class="input-group-text">용적</span>
-                        <input readonly id="Capacity_name" type="text" class="form-control" placeholder="">
+                        <input readonly id="Capacity_name" type="text" class="form-control" placeholder="" value="${dto.capacity}">
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
-                        <span id='RemainingCapacity_label' class="input-group-text">잔여 용량</span>
-                        <input readonly id="remainingcapacity" type="text" placeholder="" value="${dto.capacity - dto.current_capacity}" class="form-control">
+                        <span id='RemainingCapacity_label' class="input-group-text">재고량 한도</span>
+                        <input readonly id="remainingcapacity" type="text" placeholder="" value="${dto.capacity - dto.current_capacity + dto.quantity}" class="form-control">
                     </div>
-
 
                     <!--적재할 상품의 재고수-->
                     <div class="input-group mb-3 w-40 col-centered">
-                        <span class="input-group-text" id="basic-addon4">재고량</span>
+                        <span class="input-group-text" id="basic-addon4">기존 재고량</span>
                         <input type="text" name="quantity" id="quantity" class="form-control"
-                               placeholder="재고량을 입력하세요" aria-label="재고량" value="${dto.quantity }"
+                               placeholder="재고량을 입력하세요" aria-label="재고량" value="${dto.quantity }" readonly
                                aria-describedby="basic-addon1">
                     </div>
+
+                    <div class="input-group mb-3 w-40 col-centered">
+                        <span class="input-group-text" id="basic-addon5">수정 할 재고량</span>
+                        <input type="text" name="quantity" id="quantityAdjustment" class="form-control"
+                               placeholder="재고량을 입력하세요" aria-label="재고량"
+                               aria-describedby="basic-addon1">
+                    </div>
+
 
 
 
@@ -75,7 +84,7 @@
         <div class="row">
             <div class="col-12 ">
                 <div class="w-40 col-centered" style="text-align: right">
-                    <button type="button" class="btn btn-success" id="submitBtn">생성</button>
+                    <button type="button" class="btn btn-success" id="updateBtn">수정 완료</button>
                     <button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
 
                 </div>
@@ -83,6 +92,8 @@
         </div>
 </div>
 <script>
+
+
 
     function showSearchModals(title, val){
         $("#searchModalLabel").text(title);
@@ -104,14 +115,15 @@
 
 
     $(document).ready(function () {
-
-
-        $("#submitBtn").on("click", function () {
+        $("#updateBtn").on("click", function () {
             var product_id = $("#product_id").val();
             var warehouse_id = $("#warehouse_id").val();
             var quantity = $("#quantity").val();
             var activation = $("#activation").val();
             var remainingcapacity = $("#remainingcapacity").val();
+            var id = $("#id").val();
+            var quantityAdjustment = $("#quantityAdjustment").val();
+
 
             if (!product_id) {
                 alert("제품을 선택해야 합니다.");
@@ -131,25 +143,26 @@
             }
 
             if (quantity > remainingcapacity) {
-                alert("적재 할 재고량이 잔여 용량을 넘을 수 없습니다.");
+                alert("적재 할 재고량이 재고량 한도를 넘을 수 없습니다.");
                 $("#quantity").focus();
                 return false;
             }
 
             $.ajax({
-                url: "/stock/create_process",
-                type: "post",
+                url: "/stock/update_process",
+                type: "put",
                 data: {
-                    "productId": product_id,
+                    "id": id,
                     "warehouseId": warehouse_id,
                     "quantity": quantity,
-                    "activation": activation
+                    "activation": activation,
+                    "quantityAdjustment": quantityAdjustment
 
                 },
                 datatype: "json"
             }).done(function (data) {
                 if (data == true) {
-                    alert("재고 정보가 생성되었습니다.");
+                    alert("재고 정보가 수정되었습니다.");
 
                     var form = document.createElement("form");
                     form.action = "/stock/read";
@@ -166,7 +179,7 @@
 
                     window.location.href = "/stock/list";
                 } else {
-                    alert("재고 정보 생성에 실패하였습니다.");
+                    alert("재고 정보 수정에 실패하였습니다.");
                 }
             }).fail(function () {
                 alert("오류가 발생했습니다.");
@@ -180,6 +193,7 @@
             $(location).attr("href", "/stock/list");
 
         })
+
 
 
     });

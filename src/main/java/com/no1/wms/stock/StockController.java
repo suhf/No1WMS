@@ -1,101 +1,223 @@
 package com.no1.wms.stock;
 
+
+import com.no1.wms.vendor.VendorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @Slf4j
+@RequestMapping("/stock")
 public class StockController {
 
 	@Autowired
 	StockService service;
 	
-	// 재고 리스트 출력
-	@GetMapping("stock/list")
+	// 탭 1 재고 리스트 출력
+	@GetMapping("/list")
 	public String list(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
 					   @RequestParam(name = "search", defaultValue = "") String search,
 					   @RequestParam(name = "p", defaultValue = "1") int page, Model m) {
 		int count = service.count(searchn, search);
-		
+
 		int perPage = 10; // 한 페이지에 보일 글의 갯수
 		int startRow = (page - 1) * perPage;
-		
+
 		//스톡서비스로 재고 리스트 출력 메서트 작성
-		List<Object> dto = service.list(searchn, search, perPage);
-		m.addAttribute("list", dto);
-		
-		int pageNum = 4;//보여질 페이지 번호 수
+		List<Map<String, Object>> dto = service.list(searchn, search, startRow ,perPage);
+		m.addAttribute("slist", dto);
+
+		m.addAttribute("start", startRow + 1);
+
+		int pageNum = 5;//보여질 페이지 번호 수
 		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
-	
+
 		int begin = (page - 1) / pageNum * pageNum + 1;
 		int end = begin + pageNum - 1;
 		if (end > totalPages) {
 			end = totalPages;
 		}
+		m.addAttribute("searchn", searchn);
+		m.addAttribute("search", search);
 		m.addAttribute("begin", begin);
 		m.addAttribute("end", end);
 		m.addAttribute("pageNum", pageNum);
 		m.addAttribute("totalPages", totalPages);
+		m.addAttribute("p" , page);
+
+
 		
+		return "stock/list";
+	}
+
+
+	// 탭 2 재고 리스트 출력
+	@GetMapping("/list2")
+	public String list2(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
+					   @RequestParam(name = "search", defaultValue = "") String search,
+					   @RequestParam(name = "p2", defaultValue = "1") int page, Model m) {
+		int count = service.count(searchn, search);
+
+		int perPage = 10; // 한 페이지에 보일 글의 갯수
+		int startRow = (page - 1) * perPage;
+
+		//스톡서비스로 재고 리스트 출력 메서트 작성
+		List<Map<String, Object>> dto = service.list(searchn, search, startRow ,perPage);
+		m.addAttribute("slist2", dto);
+
+		m.addAttribute("start2", startRow + 1);
+
+		int pageNum = 5;//보여질 페이지 번호 수
+		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
+
+		int begin = (page - 1) / pageNum * pageNum + 1;
+		int end = begin + pageNum - 1;
+		if (end > totalPages) {
+			end = totalPages;
+		}
+		m.addAttribute("searchn2", searchn);
+		m.addAttribute("search2", search);
+		m.addAttribute("begin2", begin);
+		m.addAttribute("end2", end);
+		m.addAttribute("pageNum2", pageNum);
+		m.addAttribute("totalPages2", totalPages);
+		m.addAttribute("p2" , page);
+
+
+
 		return "stock/list";
 	}
 				
 	
 	// 재고 상세페이지
-	@PostMapping("stock/read/{id}")
-	public String read(@PathVariable String id, Model m) {
+	@PostMapping("/read")
+	public String read(@RequestParam String id, Model m) {
 		//스톡서비스로 재고 상세페이지 출력 메서드 작성
-		StockDto dto = service.stockOne(id);
+		Map<String, Object> dto = service.stockOne(id);
 		m.addAttribute("dto", dto);
-		return "stock/read/";
+		return "stock/read";
 	}
 
 	
 	// 수정 - 폼 
-	@GetMapping("/stock/update/{id}")
-	public String update(@PathVariable String id, Model m) {
-		StockDto dto = service.stockOne(id);
+	@PostMapping("/update")
+	public String update(String id, Model m) {
+		Map<String, Object>  dto = service.stockOne(id);
 		m.addAttribute("dto", dto);
 		return "stock/update";
 	}
 
 
 	// 수정 프로세스
-	@PutMapping("/board/update_process")
+	@PutMapping("/update_process")
 	@ResponseBody
-	public String updateProcess(StockDto dto) {
-		service.updateStock(dto);
-		return "redirect:list";
+	public boolean updateProcess(StockDto dto) {
+
+		int i = service.updateStock(dto);
+		if (i == 1) {
+			service.updateWarehouse(dto);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
+
 	// 생성 폼
-	@GetMapping ("/stock/create")
-	public String create()
-	{
+	@PostMapping("/create")
+	public String create() {
 		return "stock/create";
 	}
 
 
-	// 생성 프로세스
-	@PostMapping("/stock/create_process")
+	// 생성 - Ajax
+	@PostMapping("/create_process")
 	@ResponseBody
-	public String createProcess(StockDto dto) {
-		service.createStock(dto);
-		return "redirect:list";// 글목록
+	public boolean createProcess(StockDto dto) {
+		int i = service.createStock(dto);
+		if (i != 0) {
+			service.updateWarehousePlus(dto);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
 	// 삭제
-	@DeleteMapping("/stock/delete")
+	@DeleteMapping("/delete")
 	@ResponseBody
-	public int delete(String id) {
-		int i = service.deleteBoard(id);
+	public int delete(StockDto dto) {
+		System.out.println("데이터 :: " + dto);
+		int i = service.deleteStock(dto);
+		service.updateWarehouseDeleteStock(dto);
 		return i;
+	}
+
+
+
+	@PostMapping("/show_modal")
+	public ModelAndView showModal(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
+								  @RequestParam(name = "search", defaultValue = "") String search,
+								  @RequestParam(name = "p",  defaultValue = "1") int page,
+								  @RequestParam String name, ModelAndView mav){
+
+		int perPage = 5; // 한 페이지에 보일 글의 갯수
+		int startRow = (page - 1) * perPage;
+
+		List<Map<String, Object>> list = null;
+		int count = 0;
+
+		//테스트
+		System.out.println("name : " + name);
+		System.out.println("list : " + list);
+		System.out.println("count : " + count);
+		System.out.println("mav : " + mav);
+		//테스트
+
+		// 모달 선택
+		if(name.equals("product_category_company_search")){
+			list = service.productSelect(searchn, search, startRow, perPage);
+			count = service.productCount(searchn, search);
+		}else if(name.equals("warehouse_capacity_currentCapacity")) {
+			list = service.warehousesSelect(searchn, search, startRow, perPage);
+			count = service.warehouseCount(searchn, search);
+		}
+
+		mav.addObject("list", list);
+
+		mav.addObject("start", startRow + 1);
+
+		int pageNum = 5;//보여질 페이지 번호 수
+		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
+
+		int begin = (page - 1) / pageNum * pageNum + 1;
+		int end = begin + pageNum - 1;
+		if (end > totalPages) {
+			end = totalPages;
+		}
+		mav.addObject("begin", begin);
+		mav.addObject("end", end);
+		mav.addObject("pageNum", pageNum);
+		mav.addObject("totalPages", totalPages);
+		mav.addObject("p" , page);
+
+		mav.setViewName(name);
+
+		//테스트
+		System.out.println("name : " + name);
+		System.out.println("list : " + list);
+		System.out.println("count : " + count);
+		System.out.println("mav : " + mav);
+		//테스트
+		return mav;
 	}
 }

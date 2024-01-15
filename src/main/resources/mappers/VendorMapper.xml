@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.vendor.VendorMapper">
+
+
+    <select id="count" parameterType="map" resultType="java.lang.Integer">
+        select count(name)
+
+        from  vendor
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> activation = 1 and name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> activation = 1 and president_telephone like concat('%',#{search},'%') </when>
+                <when test="searchn == 2"> activation = 1 and vendor_manager like concat('%',#{search},'%')</when>
+                <when test="searchn == 3"> activation = 1 and vendor_manager_telephone like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="list" parameterType="map" resultType="VendorDto">
+        select id,
+               name,
+               president_name as presidentName,
+               address,
+               registration_number as registrationNumber,
+               email,
+               president_telephone as presidentTelephone,
+               vendor_manager as vendorManager,
+               vendor_manager_telephone as vendorManagerTelephone,
+               main_product as mainProduct,
+               manager_id as managerId,
+               activation
+
+        from  vendor
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> activation = 1 and name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> activation = 1 and president_telephone like concat('%',#{search},'%') </when>
+                <when test="searchn == 2"> activation = 1 and vendor_manager like concat('%',#{search},'%')</when>
+                <when test="searchn == 3"> activation = 1 and vendor_manager_telephone like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+
+        order by name desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="vendorOne" parameterType="String" resultType="VendorDto">
+        select id,
+               name,
+               president_name as presidentName,
+               address,
+               registration_number as registrationNumber,
+               email,
+               president_telephone as presidentTelephone,
+               vendor_manager as vendorManager,
+               vendor_manager_telephone as vendorManagerTelephone,
+               main_product as mainProduct,
+               manager_id as managerId,
+               activation
+
+        from  vendor
+
+        where id = #{id}
+
+    </select>
+
+
+    <!-- select -->
+
+
+    <!-- update -->
+    <update id="updateVendor" parameterType="VendorDto">
+        update vendor
+        set name = #{name},
+            president_name = #{presidentName},
+            address = #{address},
+            registration_number = #{registrationNumber},
+            email = #{email},
+            president_telephone = #{presidentTelephone},
+            vendor_manager = #{vendorManager},
+            vendor_manager_telephone = #{vendorManagerTelephone},
+            main_product = #{mainProduct},
+            manager_id = #{managerId},
+            activation = #{activation}
+        where id = #{id}
+    </update>
+    <!-- update -->
+
+
+    <!-- insert -->
+    <insert id="createVendor" parameterType="VendorDto">
+        insert into vendor (id, name, president_name, address, registration_number, email, president_telephone, vendor_manager, vendor_manager_telephone, main_product, manager_id, activation)
+        values (UUID(), #{name}, #{presidentName}, #{address}, #{registrationNumber}, #{email}, #{presidentTelephone}, #{vendorManager}, #{vendorManagerTelephone}, #{mainProduct}, #{managerId}, #{activation})
+    </insert>
+    <!-- insert -->
+
+    <!-- delete -->
+    <delete id="deleteVendor" parameterType="String">
+        delete from vendor where id = #{id}
+    </delete>
+    <!-- delete -->
+</mapper>
