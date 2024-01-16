@@ -10,17 +10,37 @@ import java.util.Map;
 public interface StockMapper {
 	
 	int count(Map<String, Object> m);//검색 글 갯수
-	
-	List<Object> list(Map<String, Object> m);
-//	List<StockDto> list(Map<String, Object> m);
+
+	List<Map<String, Object>> list(Map<String, Object> m);
+
+
+	int count2(Map<String, Object> m);//검색 글 갯수
+
+	List<Map<String, Object>> list2(Map<String, Object> m);
+
 
 	int updateStock(StockDto dto);
+
+	int updateWarehouse(StockDto dto);
+
+	int updateWarehousePlus(StockDto dto);
+
+	int updateWarehouseDeleteStock(StockDto dto);
 	
 	int createStock(StockDto dto);
-	
-	StockDto stockOne(String id);
 
-	int deleteStock(String id);
+	Map<String, Object> stockOne(String id);
+
+	int deleteStock(StockDto dto);
+
+	List<Map<String, Object>> productSelect(Map<String, Object> m);
+
+	int productCount(Map<String, Object> m);//검색 글 갯수
+
+	List<Map<String, Object>> warehouseSelect(Map<String, Object> m);
+
+	int warehouseCount(Map<String, Object> m);//검색 글 갯수
+
 
 	
 	

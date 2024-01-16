@@ -3,6 +3,7 @@ package com.no1.wms.category;
 import org.apache.ibatis.type.Alias;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,5 +17,6 @@ public class CategoryDto {
 	private String cls_nm_2;
 	private String cls_nm_3;
 	private String cls_nm_4;
-	private boolean activation;
+	@Builder.Default
+	private Boolean activation = true;
 }

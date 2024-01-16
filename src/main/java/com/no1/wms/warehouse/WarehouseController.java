@@ -33,6 +33,10 @@ public class WarehouseController {
 
 		m.addAttribute("wlist", dto);
 		m.addAttribute("start", startRow + 1);
+
+		//테스트
+		System.out.println("list" + dto);
+		//테스트
 		
 		int pageNum = 5;//보여질 페이지 번호 수
 		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
@@ -42,6 +46,8 @@ public class WarehouseController {
 		if (end > totalPages) {
 			end = totalPages;
 		}
+		m.addAttribute("searchn", searchn);
+		m.addAttribute("search", search);
 		m.addAttribute("begin", begin);
 		m.addAttribute("end", end);
 		m.addAttribute("pageNum", pageNum);
@@ -60,19 +66,16 @@ public class WarehouseController {
 		//스톡서비스로 재고 상세페이지 출력 메서드 작성
 
 		WarehouseDto One = service.One(id);
-		System.out.println("one :: " + One);
-		log.debug("Osne테스트 :: " + One);
-
 		m.addAttribute("One", One);
 
-		int warehouseOneCount = service.warehouseOneCount(searchn, search, id);
 
-		log.debug("warehouseOneCount테스트 :: " + warehouseOneCount);
+
 
 		int perPage = 5; // 한 페이지에 보일 글의 갯수
 		int startRow = (page - 1) * perPage;
 		m.addAttribute("start", startRow + 1);
 
+		int warehouseOneCount = service.warehouseOneCount(searchn, search, id);
 		List<Map<String, Object>> dto = service.warehouseOne(searchn, search, id, startRow, perPage);
 		m.addAttribute("wlist", dto);
 		System.out.println("list ::" + dto);
@@ -86,6 +89,8 @@ public class WarehouseController {
 		if (end > totalPages) {
 			end = totalPages;
 		}
+		m.addAttribute("searchn", searchn);
+		m.addAttribute("search", search);
 		m.addAttribute("begin", begin);
 		m.addAttribute("end", end);
 		m.addAttribute("pageNum", pageNum);
@@ -130,9 +135,13 @@ public class WarehouseController {
 	// 생성 프로세스
 	@PostMapping("/warehouse/create_process")
 	@ResponseBody
-	public String createProcess(WarehouseDto dto) {
-		service.createWarehouse(dto);
-		return "redirect:list";// 글목록
+	public boolean createProcess(WarehouseDto dto) {
+		int i = service.createWarehouse(dto);
+		if (i == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 

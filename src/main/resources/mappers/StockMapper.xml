@@ -3,55 +3,188 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.no1.wms.stock.StockMapper">
-   
-   <!-- select -->
-   <select id="count" parameterType="map" resultType="java.lang.Integer">
-   		select count(*) from stock left join warehouse on stock.warehouse_id = warehouse.id left join product on stock.product_id = product.id left join product_category on product.kan_code = product_category.kan_code
-   		<where>
-			<choose>
-				<when test="searchn == 0"> stock.activation = 1 and product.name like concat('%',#{search},'%')</when>
-				<when test="searchn == 1"> stock.activation = 1 and product_category.cls_Nm_4 like concat('%',#{search},'%') </when>
-			</choose>
-		</where> 
-   		order by stock.id desc limit #{start}, #{perPage}
-   </select>
 
-	<select id="list" parameterType="map" resultType="java.lang.Integer">
-		select * from stock left join warehouse on stock.warehouse_id = warehouse.id left join product on stock.product_id = product.id left join product_category on product.kan_code = product_category.kan_code
-		<where>
-			<choose>
-				<when test="searchn == 0"> stock.activation = 1 and product.name like concat('%',#{search},'%')</when>
-				<when test="searchn == 1"> stock.activation = 1 and product_category.cls_Nm_4 like concat('%',#{search},'%') </when>
-			</choose>
-		</where>
-		order by stock.id desc limit #{start}, #{perPage}
-	</select>
-   
-   <select id="stockOne" parameterType="String" resultType="com.no1.wms.stock.StockDto">
-   		selct * from stock where id = #{id}
-   </select>
-   <!-- select -->
-   
-   
-   <!-- update -->
-   <update id="updateStock" parameterType="com.no1.wms.stock.StockDto">
-   		update stock
-   		set quantity = #{dto.quantity}
-		where id = #{dto.id}
-   </update>
-   <!-- update -->
-   
-   
-   <!-- insert -->
-   <insert id="createStock" parameterType="com.no1.wms.stock.StockDto">
-   		insert into stock (id, warehouse_id, product_id, quantity, activation)
-   		values (#{dto.id}, #{dto.warehouse_id}, #{dto.product_id}, #{dto.quantity}, 1)
-   </insert>
-   <!-- insert -->
+    <!-- select -->
+    <select id="count" parameterType="Map" resultType="java.lang.Integer">
+        select count(s.id)
 
-	<!-- delete -->
-	<delete id="deleteStock" parameterType="String">
-		delete from stock where no = #{id}
-	</delete>
-	<!-- delete -->
+        from stock s
+        left join warehouse w on s.warehouse_id = w.id
+        left join product p on s.product_id = p.id
+        left join product_category c on p.kan_code = c.kan_code
+
+        <where>
+            <choose>
+                <when test="searchn == 0">s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1">s.activation = 1 and c.cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2">s.activation = 1 and s.quantity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="list" parameterType="Map" resultType="Map">
+        select s.id as id, s.warehouse_id as warehouseId, s.product_id as productId, s.quantity, p.name as productName, p.kan_code, c.cls_nm_4, w.name as warehouseName
+
+        from stock s
+        left join warehouse w on s.warehouse_id = w.id
+        left join product p on s.product_id = p.id
+        left join product_category c on p.kan_code = c.kan_code
+
+        <where>
+            <choose>
+                <when test="searchn == 0">s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1">s.activation = 1 and c.cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2">s.activation = 1 and s.quantity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by s.id desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="count2" parameterType="Map" resultType="java.lang.Integer">
+        select count(s.id)
+
+        from stock s
+        left join warehouse w on s.warehouse_id = w.id
+        left join product p on s.product_id = p.id
+        left join product_category c on p.kan_code = c.kan_code
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> quantity &lt;= 200 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> quantity &lt;= 200 and s.activation = 1 and c.cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> quantity &lt;= 200 and s.activation = 1 and s.quantity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="list2" parameterType="Map" resultType="Map">
+        select s.id as id, s.warehouse_id as warehouseId, s.product_id as productId, s.quantity, p.name as productName, p.kan_code, c.cls_nm_4, w.name as warehouseName
+
+        from stock s
+        left join warehouse w on s.warehouse_id = w.id
+        left join product p on s.product_id = p.id
+        left join product_category c on p.kan_code = c.kan_code
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> quantity &lt;= 200 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> quantity &lt;= 200 and s.activation = 1 and c.cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> quantity &lt;= 200 and s.activation = 1 and s.quantity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by s.id desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="stockOne" parameterType="Map" resultType="Map">
+        select s.id as id, s.warehouse_id as warehouseId, s.product_id as productId, s.quantity, p.name as productName, p.kan_code, c.cls_nm_4, w.name as warehouseName, p.company_name, w.address, w.capacity, w.current_capacity
+
+        from stock s
+        left join warehouse w on s.warehouse_id = w.id
+        left join product p on s.product_id = p.id
+        left join product_category c on p.kan_code = c.kan_code
+
+        where s.id = #{id}
+    </select>
+
+    <select id="productSelect" parameterType="Map" resultType="Map">
+        SELECT p.id as productId, name, company_name, cls_Nm_4
+        FROM product p
+        LEFT JOIN stock s ON s.product_id = p.id
+        left join product_category c on p.kan_code = c.kan_code
+        <where>
+            <choose>
+                <when test="searchn == 0"> s.id IS NULL and p.activation = 1 and name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> s.id IS NULL and p.activation = 1 and cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> s.id IS NULL and p.activation = 1 and company_name like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by name desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="productCount" parameterType="Map" resultType="java.lang.Integer">
+        SELECT count(name)
+        FROM product p
+        LEFT JOIN stock s ON s.product_id = p.id
+        left join product_category c on p.kan_code = c.kan_code
+        <where>
+            <choose>
+                <when test="searchn == 0"> s.id IS NULL and p.activation = 1 and name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> s.id IS NULL and p.activation = 1 and cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> s.id IS NULL and p.activation = 1 and company_name like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="warehouseSelect" parameterType="Map" resultType="Map">
+        select w.id as warehouseId, w.name as warehouseName, capacity, current_capacity ,address
+        from warehouse w
+        left join stock s on s.warehouse_id = w.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> s.id IS NULL and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by w.name desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="warehouseCount" parameterType="Map" resultType="java.lang.Integer">
+        select count(w.id)
+        from warehouse w
+        left join stock s on s.warehouse_id = w.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> s.id IS NULL and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+    <!-- select -->
+
+
+    <!-- update -->
+    <update id="updateStock" parameterType="com.no1.wms.stock.StockDto">
+        update stock
+        set warehouse_id = #{warehouseId}, quantity = #{quantityAdjustment}
+        where id = #{id}
+    </update>
+
+    <update id="updateWarehousePlus" parameterType="com.no1.wms.stock.StockDto">
+        update warehouse w
+            left join stock s on w.id = s.warehouse_id
+            set w.current_capacity = w.current_capacity + #{quantity}
+        where w.id = #{warehouseId};
+    </update>
+
+    <update id="updateWarehouse" parameterType="com.no1.wms.stock.StockDto">
+        update warehouse w
+            left join stock s on w.id = s.warehouse_id
+            set w.current_capacity = w.current_capacity + (#{quantityAdjustment} - #{quantity})
+        where w.id = #{warehouseId};
+    </update>
+
+    <update id="updateWarehouseDeleteStock" parameterType="com.no1.wms.stock.StockDto">
+        update warehouse
+        set current_capacity = current_capacity - #{quantity}
+        where id = #{warehouseId};
+    </update>
+    <!-- update -->
+
+
+    <!-- insert -->
+    <insert id="createStock" parameterType="com.no1.wms.stock.StockDto">
+        insert into stock (id, warehouse_id, product_id, quantity, activation)
+        values (UUID(), #{warehouseId}, #{productId}, #{quantity}, #{activation})
+    </insert>
+    <!-- insert -->
+
+    <!-- delete -->
+    <delete id="deleteStock" parameterType="com.no1.wms.stock.StockDto">
+        delete
+        from stock
+        where id = #{id}
+    </delete>
+    <!-- delete -->
 </mapper>

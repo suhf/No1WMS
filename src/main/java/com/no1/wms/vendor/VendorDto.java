@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+
 @Alias("VendorDto")
 public class VendorDto {
 	
@@ -23,5 +23,5 @@ public class VendorDto {
 	private String vendor_manager_telephone;
 	private String main_product;
 	private String manager_id;
-	private boolean activation;	
+	private boolean activation;
 }

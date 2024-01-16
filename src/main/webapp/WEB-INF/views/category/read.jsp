@@ -12,7 +12,7 @@
 		<div class="row">
 		<h1>제품 카테고리 상세페이지</h1>
 			<div class="col-10" style="text-align: right;">
-				<button type="button" class="btn btn-danger" id="yes_no_modal_show_button">삭제</button>
+				<button type="button" class="btn btn-danger" onclick="goDelete()">삭제</button>
 			</div>
 		</div>
 	</div>
@@ -91,8 +91,6 @@
 				form.submit();
 				
 			})//modifyBtn click
-			
-			yesNoModal.yesFunction = deleteCategoryFunction;
 		});//ready
 		
 		
@@ -123,6 +121,15 @@
 		}//deleteCategoryFunction
 		
 		
+		function goDelete(){
+	        yesNoModalTextDefine("카테고리 삭제", "해당 카테고리를 삭제하시겠습니까?");
+	        $("#yesNoModalLabel").text(yesNoModal.title);
+	        $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
+	        yesNoModal.yesFunction = deleteCategoryFunction;
+	        yesNoModalBootStrap.show();
+
+
+	    }
 		
 		
         

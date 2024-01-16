@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.no1.wms.category.CategoryDto;
 import com.no1.wms.category.CategoryService;
 import com.no1.wms.price.PriceDto;
+import com.no1.wms.vendor.VendorDto;
+import com.no1.wms.vendor.VendorService;
 
 @Controller
 @RequestMapping("/product")
@@ -26,6 +28,8 @@ public class ProductController {
 	ProductService productService;
 	@Autowired
 	CategoryService categoryService;
+	@Autowired
+	VendorService service;
 	
 	/*
 	@GetMapping("list")
@@ -141,7 +145,7 @@ public class ProductController {
 				@RequestParam(name = "p", defaultValue = "1") int page, ModelAndView m, String name) {
 		int count = categoryService.count(searchn, search);
 		
-		int perPage = 10; // 한 페이지에 보일 글의 개수
+		int perPage =9; // 한 페이지에 보일 글의 개수
 		int startRow = (page - 1) * perPage;
 		
 		List<CategoryDto> dto = categoryService.categoryList2(searchn, search, startRow ,perPage);
@@ -170,6 +174,44 @@ public class ProductController {
 	
 	
 	
+	
+
+	@PostMapping("/show_modal2")
+	public ModelAndView vendorShowModal(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
+					   @RequestParam(name = "search", defaultValue = "") String search,
+					   @RequestParam(name = "p", defaultValue = "1") int page, ModelAndView m, String name) {
+
+		int count = service.count(searchn, search);
+		
+		int perPage = 9; // 한 페이지에 보일 글의 갯수
+		int startRow = (page - 1) * perPage;
+		
+		//스톡서비스로 재고 리스트 출력 메서트 작성
+		List<VendorDto> dto = service.list(searchn, search, startRow ,perPage);
+
+
+		m.addObject("vlist", dto);
+		m.addObject("start", startRow + 1);
+		
+		int pageNum = 5;//보여질 페이지 번호 수
+		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
+	
+		int begin = (page - 1) / pageNum * pageNum + 1;
+		int end = begin + pageNum - 1;
+		if (end > totalPages) {
+			end = totalPages;
+		}
+		m.addObject("searchn", searchn);
+		m.addObject("search", search);
+		m.addObject("begin", begin);
+		m.addObject("end", end);
+		m.addObject("pageNum", pageNum);
+		m.addObject("totalPages", totalPages);
+		m.addObject("p" , page);
+		m.setViewName(name);
+		
+		return m;
+	}
 	
 	
 	

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 
@@ -8,14 +9,14 @@
         const tid = $tag.data('tid');
         const name = $tag.data('tname');
 
-        $("#cls_nm_4").val(name);
-        $("#kan_code").val(tid);
+        $("#vendor").val(name);
+        $("#vendor_id").val(tid);
         hideSearchModal();
     }//onSelect
     
     function pagingFunction(clickedId){
-    	var title = "분류 검색";
-		var val = "category";
+    	var title = "거래처 검색";
+		var val = "vendor";
     	var searchn = $("#searchn1").val();
 		var search = $("#search1").val();
 		$("#searchModalLabel").text(title);
@@ -24,10 +25,9 @@
         		search : search,
         		p : parseInt(clickedId)
         		};
-		
 		$.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
-            url : '/product/show_modal',           // 요청할 서버url
+            url : '/product/show_modal2',           // 요청할 서버url
             dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
             data : data,
             success : function(result) { // 결과 성공 콜백함수
@@ -42,18 +42,15 @@
     	
     }//pagingFunction
     
-    
-    
-    
     $(document).ready(function() {
-    	 $("#searchBtn").on("click", function(){
-    		var title = "분류 검색";
-    		var val = "category";
-    		var searchn = $("#searchn").val();
-    		var search = $("#search").val();
-    		
-    		$("#searchModalLabel").text(title);
-    		
+   	 $("#searchBtn").on("click", function(){
+   		var title = "거래처 검색";
+		var val = "vendor";
+   		var searchn = $("#searchn").val();
+   		var search = $("#search").val();
+   		
+   		$("#searchModalLabel").text(title);
+   		
 	        const data = { name : val,
 	        		searchn : searchn,
 	        		search : search,
@@ -61,7 +58,7 @@
 	        		};
 	        $.ajax({
 	            type : 'post',           // 타입 (get, post, put 등등)
-	            url : '/product/show_modal',           // 요청할 서버url
+	            url : '/product/show_modal2',           // 요청할 서버url
 	            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
 	            data : data,
 	            success : function(result) { // 결과 성공 콜백함수
@@ -72,9 +69,10 @@
 	                alert(error)
 	            }
 	        });
-    	})//searchBtn
+   	})//searchBtn
+   
+   });//ready
     
-    });//ready
 </script>
 <div class="container">
     <div class="row">
@@ -83,11 +81,10 @@
 	            <div class="input-group mb-3 w-50 col-centered">
 							<div class="w-30">
 	                <select class="form-select" name="searchn" id="searchn">
-						<option selected="selected" value="4">세분류</option>
-						<option value="1">대분류</option>
-						<option value="2">중분류</option>
-						<option value="3">소분류</option>
-						<option value="0">KAN코드</option>
+						<option selected="selected" value="0">업체명</option>
+						<option value="1">업체명</option>
+						<option value="2">거래처 담당자</option>
+						<option value="3">거래처 담당자 전화번호</option>
 					</select>
 					</div>
 					<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
@@ -103,23 +100,23 @@
             <table class="table">
                 <thead class="table-dark">
                 <tr>
-					<th>대분류</th>
-					<th>중분류</th>
-					<th>소분류</th>
-					<th>세분류</th>
-					<th>KAN코드</th>
+					<th>번호</th>
+					<th>업체명</th>
+					<th>대표번호</th>
+					<th>거래처 담당자</th>
+					<th>거래처 담당자 전화번호</th>
 					<th>선택</th>
 				</tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${list }" var="dto">
-					<tr class="detailTr" data-kan_code="${dto.kan_code}" >
-						<td>${dto.cls_nm_1 }</td>
-						<td>${dto.cls_nm_2 }</td>
-						<td>${dto.cls_nm_3 }</td>
-						<td>${dto.cls_nm_4 }</td>
-						<td>${dto.kan_code }</td>
-						<td><button data-tid="${dto.kan_code}" data-tname="${dto.cls_nm_4}" class="btn btn-primary" onclick="onSelect(this)">선택</button></td>
+                <c:forEach items="${vlist }" var="dto">
+					<tr class="detailTr" data-product_id="${dto.id}" >
+						<td>${start} <c:set var="start" value="${start +1 }"/></td>
+						<td>${dto.name }</td>
+						<td>${dto.president_telephone }</td>
+						<td>${dto.vendor_manager }</td>
+						<td>${dto.vendor_manager_telephone }</td>
+						<td><button data-tid="${dto.id}" data-tname="${dto.name}" class="btn btn-primary" onclick="onSelect(this)">선택</button></td>
 					</tr>
 				</c:forEach>
                 </tbody>

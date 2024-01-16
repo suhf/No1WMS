@@ -26,7 +26,7 @@
             <div class="row">
                 <div class="container-fluid">
                     <div class="col-12">
-                        <form action="list">
+                        <form>
                             <div class="input-group mb-3 w-30 col-centered">
                                 <div class="w-25">
                                     <select class="form-select" name="searchn" id="searchn">
@@ -62,11 +62,11 @@
                                 </thead>
                                 <tbody>
                                 <c:forEach items="${wlist }" var="dto">
-                                    <tr class="detailTr" data-id="${dto.id}">
-                                        <td>${start} <c:set var="start" value="${start +1 }"/></td>
-                                        <td>${dto.name }</td>
-                                        <td>${dto.capacity }</td>
-                                        <td>${dto.currentCapacity }</td>
+                                    <tr class="detailTr col-4" data-id="${dto.id}">
+                                        <td class="col-1">${start} <c:set var="start" value="${start +1 }"/></td>
+                                        <td class="col-1">${dto.name }</td>
+                                        <td class="col-1">${dto.capacity }</td>
+                                        <td class="col-1">${dto.currentCapacity }</td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -85,24 +85,29 @@
 
                                     <c:if test="${begin > pageNum }">
                                         <li class="page-item">
-                                            <a href="javascript:void(0);" class="page-link" onclick="pageingFunction(this.id)" id="${begin - 1 }">&lt;</a>
+                                            <a href="javascript:void(0);" class="page-link"
+                                               onclick="pageingFunction(this.id)" id="${begin - 1 }">&lt;</a>
                                         </li>
                                     </c:if>
                                     <c:forEach begin="${begin }" end="${end }" var="i">
                                         <li class="page-item <c:if test="${p == i}"> active </c:if>">
-                                            <a href="javascript:void(0);" class="page-link " onclick="pageingFunction(this.id); return false;" id="${i }">${i }</a>
+                                            <a href="javascript:void(0);" class="page-link "
+                                               onclick="pageingFunction(this.id); return false;" id="${i }">${i }</a>
                                         </li>
                                     </c:forEach>
                                     <c:if test="${end < totalPages }">
                                         <li class="page-item">
-                                            <a href="javascript:void(0);" class="page-link" onclick="pageingFunction(this.id)" id="${end + 1 }">&gt;</a>
+                                            <a href="javascript:void(0);" class="page-link"
+                                               onclick="pageingFunction(this.id)" id="${end + 1 }">&gt;</a>
                                         </li>
                                     </c:if>
                                 </ul>
                             </nav>
                         </div>
                         <div class="col-3 text-end">
-                            <button type="button" class="btn btn-primary" onclick="window.location.href='/warehouse/create'">생성</button>
+                            <button type="button" class="btn btn-primary"
+                                    onclick="window.location.href='/warehouse/create'">생성
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -135,7 +140,7 @@
         });
 
         //검색기능
-        $("#searchBtn").on("click",function(){
+        $("#searchBtn").on("click", function () {
 
             var searchn = $("#searchn").val();
             var search = $("#search").val();
@@ -169,7 +174,7 @@
 
     });//ready
 
-    function pageingFunction(clickedId){
+    function pageingFunction(clickedId) {
         var searchn1 = $("#searchn1").val();
         var search1 = $("#search1").val();
 
