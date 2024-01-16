@@ -59,7 +59,7 @@ public class AuthAspect {
 
 
         AuthData authData = auth.get(packageName);
-        if(packageName.equals("base")){
+        if(packageName.equals("base") || packageName.equals("mypage")){
             return joinPoint.proceed();
         }else if( authData != null ){
             String methodName = joinPoint.getSignature().getName().toLowerCase();
