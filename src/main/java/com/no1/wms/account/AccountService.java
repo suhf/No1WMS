@@ -29,11 +29,12 @@ public class AccountService {
         return mapper.selectById(dto);
     }
 
-    public List<AccountDto> selectAll(String search, int start, int perPage){
+    public List<AccountDto> selectAll(int searchn, String search, int start, int perPage){
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("search", search);
         map.put("start", start);
         map.put("perPage", perPage);
+        map.put("searchn", searchn);
 
 
 
@@ -49,7 +50,7 @@ public class AccountService {
         return mapper.selectDeptAll(map);
     }
 
-    List<PositionDto> selectPosAll(String search, int start, int perPage){
+    List<PositionDto> selectPosAll(int perPage, String search, int start){
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("search", search);
         map.put("start", start);
@@ -67,6 +68,15 @@ public class AccountService {
 
     public AccountDto selectByLogin(AccountDto dto){
            return mapper.selectByLogin(dto);
+    }
+
+    int count(int searchn, String search, int start, int perPage){
+        HashMap<String, Object> m = new HashMap<>();
+        m.put("searchn", searchn);
+        m.put("search", search);
+        m.put("start", start);
+        m.put("perPage", perPage);
+        return mapper.count(m);
     }
 
 }
