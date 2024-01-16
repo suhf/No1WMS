@@ -42,15 +42,15 @@
   							
 						</div>
 						
-                        <div class="input-group mb-3 w-40 col-centered">
-                            <span class="input-group-text" id="basic-addon4">거래처</span>
-                            <input type="text" class="form-control" name="newVendor" placeholder="거래처를 입력해도 바뀌는 건 없습니다." 
-                            aria-label="거래처" id="vendor"  value="${dto.vendorDto.name }">
-                            
-                            <button class="btn btn-outline-secondary rounded-end" id="searchVendor" 
-  							style="background-color:#FF5E5E;" type="button" >검색</button>
-  							<input type='hidden' id='searchVendorChack' value='0'>
-                        </div>
+						<div class="input-group mb-3 w-40 col-centered">
+	                		<span class="input-group-text" id="basic-addon4">거래처</span>
+  							<input type="text" name="vendor" id="vendor" class="form-control" 
+  							placeholder="거래처를 입력하세요" aria-label="거래처"
+  							aria-describedby="button-addon2" value="${dto.vendorDto.name }" readonly>
+  							<button class="btn btn-outline-secondary rounded-end" id="searchVendor" 
+  							style="background-color:#FF5E5E;" type="button" onclick="showSearchModal2('거래처 검색','vendor')">검색</button>
+  							<input type='hidden' id="vendor_id" value="${dto.vendor_id }">
+						</div>
 
                         <div class="input-group mb-3 w-40 col-centered">
                             <span class="input-group-text" id="basic-addon5">등록날짜</span>
@@ -61,9 +61,7 @@
 						<input type='hidden' id="id" value="${dto.id }">
                         <!-- 추후 수정 -->
 	                	<input type='hidden' id="manager_id" value="83bdda69-ae95-11ee-935d-0242ac110006">
-	                	<input type='hidden' id="vendor_id" value="${dto.vendor_id }">
-	                	
-	                	
+	               
 	                	<!-- 추후 수정 -->
                         
                     </div>
@@ -188,7 +186,24 @@
 	                alert(error)
 	            }
 	        });
-	    }
+	    }//showSearchModal
+		function showSearchModal2(title, val){
+	        $("#searchModalLabel").text(title);
+	        const data = { name : val};
+	        $.ajax({
+	            type : 'post',           // 타입 (get, post, put 등등)
+	            url : '/product/show_modal2',           // 요청할 서버url
+	            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+	            data : data,
+	            success : function(result) { // 결과 성공 콜백함수
+	                $("#search_modal_body").html(result);
+	                searchModalBootStrap.show();
+	            },
+	            error : function(request, status, error) {
+	                alert(error)
+	            }
+	        });
+	    }//showSearchModal2
 	
 	
 	</script>

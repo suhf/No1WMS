@@ -202,6 +202,8 @@ public class CategoryController {
 		return "modal/categorysearch";
 	};
 	
+	
+	//서식 다운로드
 	@GetMapping("/category/downlodeCategoryForm")
 	public void downlodeCategoryForm (HttpServletResponse response) throws IOException{
 		String categoryFormName = "카테고리 데이터 입력 서식.xlsx";
