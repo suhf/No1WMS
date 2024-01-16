@@ -30,6 +30,7 @@ public class AccountController {
         int count = accountService.count(searchn, search, startRow, perPage);
 
 
+
         int pageNum = 4;//보여질 페이지 번호 수
         int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
 
@@ -37,7 +38,7 @@ public class AccountController {
 
 
         //스톡서비스로 재고 리스트 출력 메서트 작성
-        List<AccountDto> list = accountService.selectAll(searchn, search, searchn, perPage);
+        List<AccountDto> list = accountService.selectAll(searchn, search, startRow, perPage);
 
         int begin = (page - 1) / pageNum * pageNum + 1;
         int end = begin + pageNum - 1;
@@ -48,8 +49,9 @@ public class AccountController {
         mav.addObject("end", end);
         mav.addObject("searchn", searchn);
         mav.addObject("search", search);
-        mav.addObject("page", startRow);
+        mav.addObject("pageNum", pageNum);
         mav.addObject("begin", begin);
+        mav.addObject("page", page);
         mav.setViewName("account/list");
         return mav;
     }

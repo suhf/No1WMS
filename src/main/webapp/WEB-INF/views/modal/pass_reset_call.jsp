@@ -33,16 +33,16 @@
 </head>
 <body class="text-center">
 <script>
-    function onLogin(){
+    function onPassReset(){
         const data={};
         data.employeeNumber=$("#employ_number").val();
-        data.password=$("#password").val();
         $.ajax({
             type: 'post',           // 타입 (get, post, put 등등)
-            url: '/login/check_password',           // 요청할 서버url
+            url: '/login/pass_reset_call',           // 요청할 서버url
             dataType: 'json',       // 데이터 타입 (html, xml, json, text 등등)
             data: data,
             success: function (result) { // 결과 성공 콜백함수
+                alert("패스워드 초기화 요청이 완료되었습니다");
                 window.location.href = "/";
             },
             error: function (request, status, error) {
@@ -52,25 +52,15 @@
     }
 </script>
 <main class="form-signin">
-        <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">비밀번호 초기화 요청</h1>
 
-        <div class="form-floating">
-            <input type="text" class="form-control" id="employ_number" name="employeeNumber" placeholder="사번">
-            <label for="employ_number">사번</label>
-        </div>
-        <div class="form-floating">
-            <input type="password" name="password" class="form-control" id="password" placeholder="비밀번호">
-            <label for="password">비밀번호</label>
-        </div>
-
-        <div class="checkbox mb-3">
-            <label>
-                <a href="/passreset">비밀번호를 잊으셨나요?</a>
-            </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="button" onclick="onLogin()">로그인</button>
-        <p class="mt-5 mb-3 text-muted">© 2023–2024</p>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="employ_number" name="employeeNumber" placeholder="사번">
+        <label for="employ_number">사번</label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="button" onclick="onPassReset()">초기화 요청</button>
+    <p class="mt-5 mb-3 text-muted">© 2023–2024</p>
 </main>
 
 </body>

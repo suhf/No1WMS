@@ -65,8 +65,8 @@
         from account acc join authority auth join authority auth2 on acc.personal_authority_id = auth.id and acc.group_authority_id = auth2.id
         <where>
             <choose>
-                <when test="searchn == 0"> acc.activation = 1 and acc.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> acc.activation = 1 and acc.employee_number like concat('%',#{search},'%') </when>
+                <when test="searchn == 1"> acc.activation = 1 and acc.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> acc.activation = 1 and acc.employee_number like concat('%',#{search},'%') </when>
             </choose>
         </where>
         order by acc.id desc limit #{start}, #{perPage}
@@ -140,6 +140,9 @@
     <update id="delete" parameterType="accountDto">
         update account SET activation = false WHERE id = #{id}
     </update>
+    <update id="passReset" parameterType="accountDto">
+        update account SET password = #{password} WHERE employee_number = #{employeeNumber}
+    </update>
 
     <select id="count" parameterType="map" resultType="java.lang.Integer">
         select count(*) from ( SELECT 1 from account
@@ -149,6 +152,6 @@
                 <when test="searchn == 0"> activation = 1 and employee_number like concat('%',#{search},'%') </when>
             </choose>
         </where>
-        order by id desc limit #{start}, #{perPage} ) t
+         ) t
     </select>
 </mapper>

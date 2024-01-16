@@ -34,6 +34,21 @@ public class LoginController {
     }
 
 
+    @PostMapping("/pass_reset_call")
+    @ResponseBody
+    public String passResetCall(AccountDto dto, Gson gson)
+    {
+        return gson.toJson("s");
+
+    }
+
+    @GetMapping("/passreset")
+    public String passReset()
+    {
+        return "pass_reset_call";
+
+    }
+
 
 
     @PostMapping("/login/check_password")
