@@ -55,6 +55,7 @@ public class LoginController {
             auth.put("vendor",getAuthArrayFromInt(authDto.getVendor()));
             auth.put("warehouse",getAuthArrayFromInt(authDto.getWarehouse()));
             auth.put("stock",getAuthArrayFromInt(authDto.getStock()));
+            auth.put("planin",getAuthArrayFromInt(authDto.getPlanIn()));
             auth.put("in",getAuthArrayFromInt(authDto.getProductIn())); //prodcut_in
             auth.put("out",getAuthArrayFromInt(authDto.getProductOut())); //product_out
             auth.put("board",getAuthArrayFromInt(authDto.getBoard()));
