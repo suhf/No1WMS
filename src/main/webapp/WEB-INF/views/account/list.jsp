@@ -49,6 +49,14 @@
 
     }
 
+    function onPaging(target){
+        const p = $(target).data("p");
+        $("#pPage").val(p);
+        const $form = $("#search_form");
+        $form.attr("action", "/account/list");
+        $form.trigger("submit");
+    }
+
 
 
 </script>
@@ -66,6 +74,21 @@
     <div class="row">
         <div class="col-12">
             <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="search" align="center">
+                            <form id="search_form">
+                                <select name="searchn">
+                                    <option <c:if test="${searchn == 0}">selected="selected"</c:if> value="0">사번</option>
+                                    <option <c:if test="${searchn == 1}">selected="selected"</c:if> value="1">사원명</option>
+                                </select>
+                                <input type="text" name="search" maxlength="50" value="${search}"/>
+                                <button type="submit" class="btn btn-primary" >검색</button>
+                                <input id="pPage" hidden type="text" name="page">
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12">
                         <table class="table" >
@@ -87,6 +110,21 @@
                             </c:forEach>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div id="page" align="center">
+                            <c:if test="${begin > pageNum }">
+                                <a data-p='${begin-1 }' href="#" onclick="onPaging(this)">[<]</a>
+                            </c:if>
+                            <c:forEach begin="${begin }" end="${end}" var="i">
+                                <a data-p='${i}' href="#" onclick="onPaging(this)" >${i}</a>
+                            </c:forEach>
+                            <c:if test="${end < totalPages }">
+                                <a data-p='${end+1}' href="#" onclick="onPaging(this)">[>]</a>
+                            </c:if>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@
 		<div class="row">
 		<h1>제품 상세페이지</h1>
 			<div class="col-10" style="text-align: right;">
-				<button type="button" class="btn btn-danger" id="yes_no_modal_show_button">삭제</button>
+				<button type="button" class="btn btn-danger" onclick="goDelete()">삭제</button>
 			</div>
 		</div>
 	</div>
@@ -117,6 +117,16 @@
 			//		
         });
 	}//deletePriceFunction
+	
+	function goDelete(){
+        yesNoModalTextDefine("제품가격 삭제", "해당 제품가격을 삭제하시겠습니까?");
+        $("#yesNoModalLabel").text(yesNoModal.title);
+        $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
+        yesNoModal.yesFunction = deletePriceFunction;
+        yesNoModalBootStrap.show();
+
+
+    }
 	
 	</script>
 </body>

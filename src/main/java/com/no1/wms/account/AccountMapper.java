@@ -31,4 +31,6 @@ public interface AccountMapper {
     int delete(AccountDto dto);
 
     AccountDto selectByLogin(AccountDto dto);
+
+    int count(Map<String, Object> m);
 }

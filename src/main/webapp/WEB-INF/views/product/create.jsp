@@ -57,17 +57,15 @@
 	                		<span class="input-group-text" id="basic-addon4">거래처</span>
   							<input type="text" name="vendor" id="vendor" class="form-control" 
   							placeholder="거래처를 입력하세요" aria-label="거래처"
-  							aria-describedby="button-addon2">
+  							aria-describedby="button-addon2" readonly>
   							<button class="btn btn-outline-secondary rounded-end" id="searchVendor" 
   							style="background-color:#FF5E5E;" type="button" onclick="showSearchModal2('거래처 검색','vendor')">검색</button>
-  							<input type='hidden' id='searchVendorChack' value='0'>
+  							<input type='hidden' id="vendor_id" value="">
 						</div>
 						
 	                	<!-- 추후 수정 -->
 	                	<input type='hidden' id="manager_id" value="83bdda69-ae95-11ee-935d-0242ac110006">
-	                	<input type='hidden' id="vendor_id" value="52f16bb8-aeb9-11ee-935d-0242ac110006">
-	                	
-	                	
+	           	
 	                	<!-- 추후 수정 -->
 	                	
                 	</div>
@@ -190,7 +188,7 @@
 		        const data = { name : val};
 		        $.ajax({
 		            type : 'post',           // 타입 (get, post, put 등등)
-		            url : '/category/show_modal',           // 요청할 서버url
+		            url : '/product/show_modal2',           // 요청할 서버url
 		            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
 		            data : data,
 		            success : function(result) { // 결과 성공 콜백함수
