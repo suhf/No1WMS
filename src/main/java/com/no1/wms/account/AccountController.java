@@ -77,7 +77,6 @@ public class AccountController {
         dto.setPersonalAuthorityId(uuid);
         accountService.insert(dto);
 
-        System.out.println("");
         return gson.toJson("s");
     }
 
