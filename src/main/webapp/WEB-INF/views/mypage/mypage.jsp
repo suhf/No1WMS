@@ -16,8 +16,9 @@
 		<div class="container-fluid">
 			<div class="row">
 	            <div class="col-md-4" style="text-align: center;">
-	                <img alt="Default Image" src="/main/webapp/img/mypage/profile/defaultimg.png" width="200" />
-	                <!-- <img alt="Default Image" src="/resources/static/img/mypage/defaultimg.png" width="200" /> -->
+	            	<img alt="Default Image" src="${imgSrc}" width="200" />
+	            	<!-- <img alt="Default Image" src="/resources/static/img/mypage/profile/${list.id}.png" width="200" /> -->
+	                <!--  -->
 	                <hr>
 	                <p><b>
 	                	<span style="color: #6E6ED7; font-size: 20px;">${list.positionDto.name }&nbsp;&nbsp; </span>

@@ -1,9 +1,13 @@
 package com.no1.wms.mypage;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -34,7 +38,40 @@ public class MypageController {
 
 		AccountDto list = accountService.selectById(dto);
 		m.addAttribute("list", list);
-
+		
+		String id = list.getId();
+		
+		ClassPathResource resource = new ClassPathResource("/static/img/mypage/profile");
+		String storePathString;
+		try {
+			storePathString = resource.getFile().getAbsolutePath();
+			String jpg = storePathString + File.separator + id + "." + "jpg";
+			String png = storePathString + File.separator + id + "." + "png";
+			String jpeg = storePathString + File.separator + id + "." + "jpeg";
+			File existingJpgFile = new File(jpg);
+			File existingPngFile = new File(png);
+			File existingJpegFile = new File(jpeg);
+			
+			String imgSrc = "";
+			if(existingJpgFile.exists()) {
+				imgSrc = "/resources/static/img/mypage/profile/"+ id +".jpg";
+				//System.out.println("jpg");
+			}else if(existingPngFile.exists()) {
+				imgSrc = "/resources/static/img/mypage/profile/"+ id +".png";
+				//System.out.println("png");
+			}else if(existingJpegFile.exists()) {
+				imgSrc = "/resources/static/img/mypage/profile/"+ id +".jpeg";
+				//System.out.println("jpeg");
+			}else {
+				imgSrc = "/resources/static/img/mypage/profile/defaultimg.png";
+				//System.out.println("default");
+			}
+			m.addAttribute("imgSrc", imgSrc);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return "mypage/mypage";
 	}
 
@@ -52,11 +89,11 @@ public class MypageController {
 	
 	@PostMapping("/mypage/uplodeImg")
 	public String imgFileUplode(HttpServletRequest request, MultipartFile file) {
-		System.out.println(file);
+		//System.out.println(file);
 		HttpSession session = request.getSession();
 		AccountDto dto = (AccountDto) session.getAttribute("userData");
 		String fileName = dto.getId();
-		System.out.println(fileName);
+		//System.out.println(fileName);
 		imgService.imgFileUplode(request, file, fileName);
 		
 		return "redirect:/mypage";
