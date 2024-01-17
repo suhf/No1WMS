@@ -96,6 +96,7 @@
                             product_id = #{productId}
         WHERE group_number = #{groupNumber} and product_id = #{oldProductId}
     </update>
+
     <update id="delete" parameterType="planInDto">
         update plan_In SET activation = false WHERE group_number = #{groupNumber}
     </update>
