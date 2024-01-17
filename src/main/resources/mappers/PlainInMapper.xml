@@ -54,11 +54,11 @@
         and plan.warehouse_id = warehouse.id
         <where>
             <choose>
-                <when test="searchn == 1"> acc.activation = 1 and acc.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 0"> acc.activation = 1 and acc.employee_number like concat('%',#{search},'%') </when>
+                <when test="searchn == 1"> plan.activation = 1 and product.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> plan.activation = 1 and plan.group_number like concat('%',#{search},'%') </when>
             </choose>
         </where>
-        order by acc.id desc limit #{start}, #{perPage}
+        order by plan.group_number desc limit #{start}, #{perPage}
 
     </select>
     <insert id="insert" parameterType="planInDto">
@@ -104,11 +104,11 @@
         update plan_In SET activation = false WHERE group_number = #{groupNumber} and product_id = #{productId}
     </update>
     <select id="count" parameterType="map" resultType="java.lang.Integer">
-        select count(*) from ( SELECT 1 from plan_In
+        select count(*) from ( SELECT 1 from plan_In i join product p
         <where>
             <choose>
-                <when test="searchn == 1"> activation = 1 and name like concat('%',#{search},'%')</when>
-                <when test="searchn == 0"> activation = 1 and employee_number like concat('%',#{search},'%') </when>
+                <when test="searchn == 1"> i.product_id = p.id and i.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> i.product_id = p.id and i.activation = 1 and i.group_number like concat('%',#{search},'%') </when>
             </choose>
         </where>
         ) t

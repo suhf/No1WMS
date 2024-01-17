@@ -6,14 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.no1.wms.account.AccountDto;
-
 @Service
 public class PlanInService {
 	@Autowired
 	PlanInMapper mapper;
 	
-    public List<AccountDto> selectAll(int searchn, String search, int start, int perPage){
+    public List<PlanInDto> selectAll(int searchn, String search, int start, int perPage){
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("search", search);
         map.put("start", start);

@@ -1,8 +1,5 @@
 package com.no1.wms.planin;
 
-import com.no1.wms.account.AccountDto;
-import com.no1.wms.planin.PlanInService;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-@RequestMapping("planin")
+@RequestMapping("plan_in")
 public class PlanInController {
     @Autowired
     PlanInService planinservice;
@@ -35,7 +32,7 @@ public class PlanInController {
 
 
         //스톡서비스로 재고 리스트 출력 메서트 작성
-        List<AccountDto> list = planinservice.selectAll(searchn, search, startRow, perPage);
+        List<PlanInDto> list = planinservice.selectAll(searchn, search, startRow, perPage);
 
         int begin = (page - 1) / pageNum * pageNum + 1;
         int end = begin + pageNum - 1;
@@ -49,7 +46,7 @@ public class PlanInController {
         mav.addObject("pageNum", pageNum);
         mav.addObject("begin", begin);
         mav.addObject("page", page);
-        mav.setViewName("account/list");
+        mav.setViewName("planin/list");
         return mav;
     }
 	
