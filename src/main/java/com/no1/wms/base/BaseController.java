@@ -21,9 +21,14 @@ public class BaseController {
 
         mav.addObject("userData", request.getSession().getAttribute("userData"));
 
-        mav.setViewName("base/hello");
+        mav.setViewName("base/main");
 
         return mav;
+    }
+    
+    @GetMapping("/main")
+    public String mainPage() {
+    	return "base/main";
     }
 
 
