@@ -36,14 +36,19 @@
     function onPassReset(){
         const data={};
         data.employeeNumber=$("#employ_number").val();
+        data.note=$("#note").val();
         $.ajax({
             type: 'post',           // 타입 (get, post, put 등등)
-            url: '/login/pass_reset_call',           // 요청할 서버url
+            url: '/resetpassword/insert',           // 요청할 서버url
             dataType: 'json',       // 데이터 타입 (html, xml, json, text 등등)
             data: data,
             success: function (result) { // 결과 성공 콜백함수
-                alert("패스워드 초기화 요청이 완료되었습니다");
-                window.location.href = "/";
+                if (result === 's') {
+                    alert("패스워드 초기화 요청이 완료되었습니다");
+                    window.location.href = "/login";
+                }else if(result === 'f'){
+                    alert("요청에 실패하였습니다")
+                }
             },
             error: function (request, status, error) {
                 alert(error);
@@ -56,8 +61,15 @@
     <h1 class="h3 mb-3 fw-normal">비밀번호 초기화 요청</h1>
 
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="employ_number" name="employeeNumber" placeholder="사번">
+        <input type="text" required class="form-control" id="employ_number" name="employeeNumber" placeholder="사번">
         <label for="employ_number">사번</label>
+
+    </div>
+    <div class="form-floating  mb-3">
+
+
+        <textarea class="form-control w-100" name="note" id="note" placeholder="사유를 적으세요" required></textarea>
+        <label for="note" class="form-label">사유</label>
     </div>
     <button class="w-100 btn btn-lg btn-primary" type="button" onclick="onPassReset()">초기화 요청</button>
     <p class="mt-5 mb-3 text-muted">© 2023–2024</p>
