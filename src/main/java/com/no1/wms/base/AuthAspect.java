@@ -45,7 +45,7 @@ public class AuthAspect {
         String[] list = targetController.split("\\.");
 
         String packageName = list[3];
-        if(packageName.equals("login")) {
+        if(packageName.equals("login") || packageName.equals("resetpassword")) {
             return joinPoint.proceed();
         }
 

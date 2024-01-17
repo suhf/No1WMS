@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- 이 안에 내용 복사해서 jsp에 붙여넣기 -->
-<link rel="stylesheet" href="authority.css">
+<link rel="stylesheet" href="/resources/static/css/account.css">
 <script>
     /*
     yes no 모달의 확인 버튼을 누를때 재정의할 function
@@ -57,14 +57,20 @@
         $form.trigger("submit");
     }
 
+    function goCreate(){
+        const $form = $("<form method='post' action='/account/create'></form> ");
+        $(".att").after($form);
+        $form.trigger("submit");
+
+    }
 
 
 </script>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-12">
             <div class="mt-5 mb-5 text-center">
-                <h1>계정 관리</h1><form method="post" action="/account/create"><button class="btn btn-primary" type="submit" id="btn_create">생성</button></form>
+                <h1>계정 관리</h1>
             </div>
             <div>
                 <hr>
@@ -72,60 +78,56 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div id="search" align="center">
-                            <form id="search_form">
-                                <select name="searchn">
-                                    <option <c:if test="${searchn == 0}">selected="selected"</c:if> value="0">사번</option>
-                                    <option <c:if test="${searchn == 1}">selected="selected"</c:if> value="1">사원명</option>
-                                </select>
-                                <input type="text" name="search" maxlength="50" value="${search}"/>
-                                <button type="submit" class="btn btn-primary" >검색</button>
-                                <input id="pPage" hidden type="text" name="page">
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <table class="table" >
-                            <thead class="table-dark">
-                            <tr><th>사번</th><th>사용자 명</th><th>활성 여부</th></tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${list }" var="dto" varStatus="status">
-                                <tr class="group_tr" data-mingu = "111" data-tid="${dto.id}">
-                                    <td>${dto.employeeNumber}</td>
-                                    <td>${dto.name}</td>
-                                    <td>
-                                    <c:choose>
-                                        <c:when test="${dto.activation}">O</c:when>
-                                        <c:otherwise>X</c:otherwise>
-                                    </c:choose>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div id="page" align="center">
-                            <c:if test="${begin > pageNum }">
-                                <a data-p='${begin-1 }' href="#" onclick="onPaging(this)">[<]</a>
-                            </c:if>
-                            <c:forEach begin="${begin }" end="${end}" var="i">
-                                <a data-p='${i}' href="#" onclick="onPaging(this)" >${i}</a>
-                            </c:forEach>
-                            <c:if test="${end < totalPages }">
-                                <a data-p='${end+1}' href="#" onclick="onPaging(this)">[>]</a>
-                            </c:if>
-                        </div>
-                    </div>
+        <div class="col-12 att">
+            <form class="d-inline" id="search_form">
+            <select name="searchn">
+                <option <c:if test="${searchn == 0}">selected="selected"</c:if> value="0">사번</option>
+                <option <c:if test="${searchn == 1}">selected="selected"</c:if> value="1">사원명</option>
+            </select>
+            <input type="text" name="search" maxlength="50" value="${search}"/>
+            <button type="submit" class="btn btn-primary" >검색</button>
+            <input id="pPage" hidden type="text" name="page">
+            </form>
+            <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create" onclick="goCreate() ">생성</button>
+
+        </div>
+        <div class="row p-0 m-0">
+            <div class="col-12 m-0">
+                <table class="table" >
+                    <thead class="table-dark">
+                    <tr><th>사번</th><th>사용자 명</th><th>활성 여부</th></tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${list }" var="dto" varStatus="status">
+                        <tr class="group_tr" data-mingu = "111" data-tid="${dto.id}">
+                            <td>${dto.employeeNumber}</td>
+                            <td>${dto.name}</td>
+                            <td>
+                            <c:choose>
+                                <c:when test="${dto.activation}">O</c:when>
+                                <c:otherwise>X</c:otherwise>
+                            </c:choose>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="page">
+                    <ul class="pagination justify-content-center">
+                    <c:if test="${begin > pageNum }">
+                        <li class="page-item"><a class="page-link" data-p='${begin-1 }' href="#" onclick="onPaging(this)">[<]</a></li>
+                    </c:if>
+                    <c:forEach begin="${begin }" end="${end}" var="i" varStatus="status">
+                        <li class="page-item <c:if test="${page eq status.count}">active</c:if> "><a class="page-link"  data-p='${i}' href="#" onclick="onPaging(this)" >${i}</a></li>
+                    </c:forEach>
+                    <c:if test="${end < totalPages }">
+                        <li class="page-item"><a class="page-link" data-p='${end+1}' href="#" onclick="onPaging(this)">[>]</a></li>
+                    </c:if>
+                    </ul>
                 </div>
             </div>
         </div>

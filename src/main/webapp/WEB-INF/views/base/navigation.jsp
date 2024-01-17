@@ -6,7 +6,7 @@
 
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                <a class="nav-link d-flex align-items-center gap-2" href="/mypage">
                     <div class="text-center">
                         <img  class="img-user" src="https://academy.ilwoo.org/data/file/reference/3531300541_J1gHPmC6_479f762b4825515abc781b3a616929d8949ea2c5.jpg" alt="유저 이미지">
                         <br>

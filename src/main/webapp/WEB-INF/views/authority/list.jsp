@@ -70,7 +70,7 @@
         <div class="col-12">
             <div class="container">
                 <div class="row">
-                    <div class="col-4">
+                    <div class="col-12">
                         <!-- 탭 부분 -->
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -80,21 +80,6 @@
                                 <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#group_authority_tab" type="button" role="tab" aria-controls="home" aria-selected="true">그룹 권한</button>
                             </li>
                         </ul>
-                    </div>
-                    <div class="col-8">
-                        <div id="div_group_search" class="text-end">
-                            <input id="search_group_input" type="text" class="w-60 d-inline form-control" placeholder="검색">
-                            <button id="search_group_btn" type="button" class="btn btn-primary" onclick="onSearch(false)">검색</button>
-                        </div>
-                        <div id="div_personal_search" class="text-end">
-                            <select name="search_select" class="form-select d-inline">
-                                <option selected value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                            </select>
-                            <input id="search_personal_input" type="text" class="w-60 d-inline form-control" placeholder="검색">
-                            <button id="search_personal_btn" type="button" class="btn btn-primary" onclick="onSearch(true)">검색</button>
-                        </div>
                     </div>
                 </div>
                 <div class="row">

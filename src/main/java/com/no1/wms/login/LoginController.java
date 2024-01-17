@@ -34,6 +34,21 @@ public class LoginController {
     }
 
 
+    @PostMapping("/pass_reset_call")
+    @ResponseBody
+    public String passResetCall(AccountDto dto, Gson gson)
+    {
+        return gson.toJson("s");
+
+    }
+
+    @GetMapping("/passreset")
+    public String passReset()
+    {
+        return "pass_reset_call";
+
+    }
+
 
 
     @PostMapping("/login/check_password")
@@ -55,6 +70,7 @@ public class LoginController {
             auth.put("vendor",getAuthArrayFromInt(authDto.getVendor()));
             auth.put("warehouse",getAuthArrayFromInt(authDto.getWarehouse()));
             auth.put("stock",getAuthArrayFromInt(authDto.getStock()));
+            auth.put("planin",getAuthArrayFromInt(authDto.getPlanIn()));
             auth.put("in",getAuthArrayFromInt(authDto.getProductIn())); //prodcut_in
             auth.put("out",getAuthArrayFromInt(authDto.getProductOut())); //product_out
             auth.put("board",getAuthArrayFromInt(authDto.getBoard()));
