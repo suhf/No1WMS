@@ -16,16 +16,35 @@
 		<div class="container-fluid">
 			<div class="row">
 	            <div class="col-md-4" style="text-align: center;">
-	                <img alt="Default Image" src="/resources/static/img/mypage/defaultimg.png" width="200" />
+	                <img alt="Default Image" src="/main/webapp/img/mypage/profile/defaultimg.png" width="200" />
+	                <!-- <img alt="Default Image" src="/resources/static/img/mypage/defaultimg.png" width="200" /> -->
 	                <hr>
 	                <p><b>
 	                	<span style="color: #6E6ED7; font-size: 20px;">${list.positionDto.name }&nbsp;&nbsp; </span>
 	                	<span style="font-size: 20px;">${list.name}</span>
 	                </b></p>
 	                <br>
-	                <div class="col-centered">
-	                	<button type="button" class="btn btn-danger" onclick="">프로필 사진 수정</button>
-	                </div>
+	                <!--  -->
+	                <form method="post" action="/mypage/uplodeImg"   enctype="multipart/form-data" class="form-horizontal">
+						<div class="col-centered">
+							<table id="datatable-scroller" class="table table-bordered tbl_Form">
+								<tbody>
+									<tr>
+										<th class="active" style="text-align:right"><label class="control-label" for="">프로필사진 업로드</label></th>
+										<td>
+											<input type="file" name="file" id="file" accept=".jpg, .jpeg, .png" />
+										</td>
+									</tr>
+								</tbody>
+								
+							</table>
+						</div>
+						<div class="col-centered">
+							
+				        	<button type="submit" class="btn btn-danger" id="uploadImg">프로필 사진 수정</button>
+				            
+						</div>
+					</form><!-- uplodeImgForm -->
 	            </div>
 	            
 	            
@@ -172,6 +191,14 @@
 			//
 			});//submitBtn
 		});//ready
+	function _onSubmit(){
+	        if($("#file").val() == ""){
+	            alert("이미지 파일을 업로드해주세요.");
+	            $("#file").focus();
+	            return false;
+	        }   
+	        return true;
+	    }
 	</script>
 	
 	
