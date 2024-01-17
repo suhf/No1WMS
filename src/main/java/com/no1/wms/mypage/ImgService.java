@@ -1,13 +1,11 @@
 package com.no1.wms.mypage;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,20 +14,24 @@ import com.no1.wms.excel.EgovWebUtil;
 @Service
 public class ImgService {
 	
-
-	@Autowired
-	private ServletContext servletContext;
 	
 	public void imgFileUplode(HttpServletRequest request, MultipartFile imageFile, String fileName) {
 			
 			String storePathString = "";
 			try {
+				//장원형님 아이디어
+				ClassPathResource resource = new ClassPathResource("/static/img/mypage/profile");
+				storePathString = resource.getFile().getAbsolutePath();
+				//System.out.println("storePathString : " + storePathString);
 				
-		        storePathString = servletContext.getRealPath("/img/mypage/profile/");
-		        System.out.println("storePathString : " + storePathString);
-		        
+				
+				//되는거
+				//storePathString = System.getProperty("user.dir") + "/src/main/resources/static/img/mypage/profile";
+				//System.out.println("storePathString : " + storePathString);
+				
+				//강사님 버전
 				//String path = ResourceUtils.getFile("classpath:static/img/mypage/profile/").toPath().toString();
-				//String storePathString = path;
+				//storePathString = path;
 				//System.out.println("storePathString : " + storePathString);
 		        
 			} catch (Exception e) {
@@ -48,18 +50,29 @@ public class ImgService {
 		    
 		    String newFileName = fileName;
 		    // 저장될 파일 경로 설정
-		    //String filePath = storePathString + File.separator + newFileName + "." + fileExt;
-		    String filePath = storePathString + newFileName + "." + fileExt;
+		    String filePath = storePathString + File.separator + newFileName + "." + fileExt;
+		    
 		    try {
 		        // 동일한 파일명이 존재하는지 확인하고 있다면 기존 파일 삭제
-		        File existingFile = new File(filePath);
-		        if (existingFile.exists()) {
-		            existingFile.delete();
-		        }
-	
+				String jpg = storePathString + File.separator + newFileName + "." + "jpg";
+				String png = storePathString + File.separator + newFileName + "." + "png";
+				String jpeg = storePathString + File.separator + newFileName + "." + "jpeg";
+				File existingJpgFile = new File(jpg);
+				File existingPngFile = new File(png);
+				File existingJpegFile = new File(jpeg);
+				
+		        String imgSrc = "";
+				if(existingJpgFile.exists()) {
+					existingJpgFile.delete();
+				}else if(existingPngFile.exists()) {
+					existingPngFile.delete();
+				}else if(existingJpegFile.exists()) {
+					existingJpegFile.delete();
+				}
+ 
 		        // 이미지를 지정된 경로에 저장
 		        imageFile.transferTo(new File(EgovWebUtil.filePathBlackList(filePath)));
-		        System.out.println("Image file saved at: " + filePath);
+		        //System.out.println("Image file saved at: " + filePath);
 		        
 		    } catch (IOException e) {
 		        e.printStackTrace();
