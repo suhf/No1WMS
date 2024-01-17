@@ -19,19 +19,14 @@ public class ImgService {
 			
 			String storePathString = "";
 			try {
-				//장원형님 아이디어
+				
 				ClassPathResource resource = new ClassPathResource("/static/img/mypage/profile");
 				storePathString = resource.getFile().getAbsolutePath();
-				//System.out.println("storePathString : " + storePathString);
-				
-				
-				//되는거
 				//storePathString = System.getProperty("user.dir") + "/src/main/resources/static/img/mypage/profile";
 				//System.out.println("storePathString : " + storePathString);
-				
-				//강사님 버전
 				//String path = ResourceUtils.getFile("classpath:static/img/mypage/profile/").toPath().toString();
 				//storePathString = path;
+				
 				//System.out.println("storePathString : " + storePathString);
 		        
 			} catch (Exception e) {
