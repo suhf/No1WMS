@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.no1.wms.planin.PlanInMapper">
+    <resultMap id="planInResultMap" type="planInDto">
+        <id column="group_number"           property="groupNumber"/>
+        <id column="product_id"             property="productId" />
+        <result column="quantity"    property="quantity"/>
+        <result column="date"           property="date"/>
+        <result column="vendor_id"              property="vendorId"/>
+        <result column="manager_id"             property="managerId"/>
+        <result column="warehouse_id"              property="warehouseId"/>
+        <result column="qr_hash"          property="qrHash"/>
+        <result column="url"            property="url"/>
+        <result column="clear"         property="clear"/>
+        <result column="vendor_date" property="vendorDate" />
+        <result column="other" property="other" />
+        <result column="activation" property="activation" />
+        <result column="view_group_number" property="viewGroupNumber" />
+        <association property="productDto"  javaType="productDto">
+            <id column="product.id" property="id" />
+            <result column="product.name" property="name" />
+        </association>
+        <association property="accountDto"  javaType="accountDto">
+            <id column="acc.id" property="id" />
+            <result column="acc.name" property="name" />
+        </association>
+        <association property="vendorDto"  javaType="vendorDto">
+            <id column="vendor.id" property="id" />
+            <result column="vendor.name" property="name" />
+        </association>
+        <association property="warehouseDto"  javaType="warehouseDto">
+            <id column="warehouse.id" property="id" />
+            <result column="warehouse.name" property="name" />
+        </association>
+    </resultMap>
+    <select id="selectById" resultMap="planInResultMap" parameterType="planInDto">
+        SELECT
+            plan.group_number, plan.product_id, plan.quantity, plan.date, plan.vendor_id, plan.manager_id,
+            plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
+            product.id, product.name, acc.id, acc.name, vendor.id, vendor.name, warehouse.id, warehouse.name
+        from plan_In plan join account acc join vendor join warehouse join product
+                    on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
+                        and plan.warehouse_id = warehouse.id
+        where plan.group_number = #{groupNumber} and plan.product_id = #{productId}
+    </select>
+    <select id="selectAll" resultMap="planInResultMap" parameterType="map">
+        SELECT
+        plan.group_number, plan.product_id, plan.quantity, plan.date, plan.vendor_id, plan.manager_id,
+        plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
+        product.id, product.name, acc.id, acc.name, vendor.id, vendor.name, warehouse.id, warehouse.name
+        from plan_In plan join account acc join vendor join warehouse join product
+        on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
+        and plan.warehouse_id = warehouse.id
+        <where>
+            <choose>
+                <when test="searchn == 1"> acc.activation = 1 and acc.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> acc.activation = 1 and acc.employee_number like concat('%',#{search},'%') </when>
+            </choose>
+        </where>
+        order by acc.id desc limit #{start}, #{perPage}
+
+    </select>
+    <insert id="insert" parameterType="planInDto">
+        insert into plan_In
+        (
+            group_number, product_id, quantity, date,
+            vendor_id, manager_id, warehouse_id, qr_hash,
+            url, clear, vendor_date, other, activation, view_group_number
+        )
+        VALUES
+            (
+                UUID(), #{productId}, #{quantity},
+                #{date}, #{vendorId},
+                #{managerId},#{warehouseId},#{qrHash},
+                #{url},#{clear}, #{vendor_date},
+                #{other},#{activation}, (select MAX(c.group_number)+1 as cnt
+                                         from ( select group_number,MAX(group_number) from plan_In group by group_number ) as c)
+            )
+    </insert>
+
+
+    <update id="update" parameterType="planInDto">
+        update plan_In SET
+                            quantity = #{quantity},
+                            date = #{date},
+                            vendor_id = #{vendorId},
+                            manager_id = #{managerId},
+                            warehouse_id = #{warehouseId},
+                            qr_hash = #{qrHash},
+                            url = #{url},
+                            clear = #{clear},
+                            vendor_date = #{vendorDate},
+                            other = #{other},
+                            activation = #{activation},
+                            product_id = #{productId}
+        WHERE group_number = #{groupNumber} and product_id = #{oldProductId}
+    </update>
+    <update id="delete" parameterType="planInDto">
+        update plan_In SET activation = false WHERE group_number = #{groupNumber}
+    </update>
+    <update id="deleteProduct" parameterType="planInDto">
+        update plan_In SET activation = false WHERE group_number = #{groupNumber} and product_id = #{productId}
+    </update>
+    <select id="count" parameterType="map" resultType="java.lang.Integer">
+        select count(*) from ( SELECT 1 from plan_In
+        <where>
+            <choose>
+                <when test="searchn == 1"> activation = 1 and name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> activation = 1 and employee_number like concat('%',#{search},'%') </when>
+            </choose>
+        </where>
+        ) t
+    </select>
+</mapper>
