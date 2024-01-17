@@ -18,27 +18,27 @@
         <result column="activation" property="activation" />
         <result column="view_group_number" property="viewGroupNumber" />
         <association property="productDto"  javaType="productDto">
-            <id column="product.id" property="id" />
-            <result column="product.name" property="name" />
+            <id column="p_id" property="id" />
+            <result column="p_name" property="name" />
         </association>
         <association property="accountDto"  javaType="accountDto">
-            <id column="acc.id" property="id" />
-            <result column="acc.name" property="name" />
+            <id column="acc_id" property="id" />
+            <result column="acc_name" property="name" />
         </association>
         <association property="vendorDto"  javaType="vendorDto">
-            <id column="vendor.id" property="id" />
-            <result column="vendor.name" property="name" />
+            <id column="v_id" property="id" />
+            <result column="v_name" property="name" />
         </association>
         <association property="warehouseDto"  javaType="warehouseDto">
-            <id column="warehouse.id" property="id" />
-            <result column="warehouse.name" property="name" />
+            <id column="w_id" property="id" />
+            <result column="w_name" property="name" />
         </association>
     </resultMap>
     <select id="selectById" resultMap="planInResultMap" parameterType="planInDto">
         SELECT
             plan.group_number, plan.product_id, plan.quantity, plan.date, plan.vendor_id, plan.manager_id,
             plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
-            product.id, product.name, acc.id, acc.name, vendor.id, vendor.name, warehouse.id, warehouse.name
+            product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name, warehouse.id w_id, warehouse.name w_name
         from plan_In plan join account acc join vendor join warehouse join product
                     on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
                         and plan.warehouse_id = warehouse.id
@@ -48,13 +48,13 @@
         SELECT
         plan.group_number, plan.product_id, plan.quantity, plan.date, plan.vendor_id, plan.manager_id,
         plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
-        product.id, product.name, acc.id, acc.name, vendor.id, vendor.name, warehouse.id, warehouse.name
+        product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name, warehouse.id w_id, warehouse.name w_name
         from plan_In plan join account acc join vendor join warehouse join product
         on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
         and plan.warehouse_id = warehouse.id
         <where>
             <choose>
-                <when test="searchn == 1"> plan.activation = 1 and product.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> plan.activation = 1 and pn like concat('%',#{search},'%')</when>
                 <when test="searchn == 0"> plan.activation = 1 and plan.group_number like concat('%',#{search},'%') </when>
             </choose>
         </where>
