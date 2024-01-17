@@ -53,7 +53,7 @@
             <div class="col-12 m-0">
                 <table class="table" >
                     <thead class="table-dark">
-                    <tr><th>그룹번호</th><th>제품명</th><th>수량</th><th>입고 예정 날짜</th><<th>비고</th></tr>
+                    <tr><th>그룹번호</th><th>제품명</th><th>수량</th><th>입고 예정 날짜</th><th>비고</th></tr>
                     </thead>
                     <tbody>
                         <c:forEach items="${list }" var="dto" varStatus="status">
