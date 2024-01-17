@@ -13,4 +13,6 @@ public interface PlanInMapper {
     List<PlanInDto> selectAll(Map<String, Object> m);
 	
     int count(Map<String, Object> m);
+
+    List<PlanInDto> selectById(PlanInDto dto);
 }

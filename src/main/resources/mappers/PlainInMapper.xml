@@ -42,7 +42,7 @@
         from plan_In plan join account acc join vendor join warehouse join product
                     on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
                         and plan.warehouse_id = warehouse.id
-        where plan.group_number = #{groupNumber} and plan.product_id = #{productId}
+        where plan.group_number = #{groupNumber}
     </select>
     <select id="selectAll" resultMap="planInResultMap" parameterType="map">
         SELECT

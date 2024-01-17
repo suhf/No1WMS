@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -47,6 +48,19 @@ public class PlanInController {
         mav.addObject("begin", begin);
         mav.addObject("page", page);
         mav.setViewName("planin/list");
+        return mav;
+    }
+
+    @PostMapping("/read")
+    public ModelAndView read(ModelAndView mav, PlanInDto dto){
+
+        System.out.println(dto);
+        List<PlanInDto> list = planinservice.selectById(dto);
+        System.out.println(list.get(0).toString());
+        mav.addObject("list", list);
+
+        mav.setViewName("planin/read");
+
         return mav;
     }
 	

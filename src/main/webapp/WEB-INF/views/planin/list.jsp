@@ -3,7 +3,27 @@
 <!-- 이 안에 내용 복사해서 jsp에 붙여넣기 -->
 <link rel="stylesheet" href="/resources/static/css/account.css">
 <script>
-   
+   $(function(){
+      const $trs = $(".group_tr");
+
+      $trs.on("click", function(event){
+          const $tr = $(event.currentTarget);
+          const groupNumber = $tr.data("groupn");
+          const productId = $tr.data('productid');
+
+          goRead(groupNumber, productId);
+      });
+   });
+
+   function goRead(groupNumber, productId){
+        const $form = $("#form");
+
+        $("#productId").val(productId);
+        $("#groupId").val(groupNumber);
+
+        $form.trigger("submit");
+   }
+
 </script>
 <div class="container">
     <div class="row">
@@ -28,7 +48,6 @@
             <input id="pPage" hidden type="text" name="page">
             </form>
             <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create" onclick="goCreate() ">생성</button>
-
         </div>
         <div class="row p-0 m-0">
             <div class="col-12 m-0">
@@ -38,7 +57,7 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${list }" var="dto" varStatus="status">
-                        <tr class="group_tr" data-mingu = "111" data-tid="${dto.groupNumber}">
+                        <tr class="group_tr"  data-groupn="${dto.groupNumber}" data-productid="${dto.productId}">
                             <td>${dto.viewGroupNumber}</td>
                             <td>${dto.productDto.name}</td>
                             <td>${dto.quantity}</td>
@@ -69,6 +88,7 @@
         </div>
     </div>
 </div>
-<form id="form" method="post">
-    <input name="id" id="formInput" hidden>
+<form id="form" action='/plan_in/read' method="post">
+    <input name="groupNumber" id="groupId" hidden>
+    <input name="productId" id="productId" hidden>
 </form>

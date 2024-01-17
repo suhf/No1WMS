@@ -32,4 +32,8 @@ public class PlanInService {
         m.put("perPage", perPage);
         return mapper.count(m);
     }
+
+    List<PlanInDto> selectById(PlanInDto dto){
+        return mapper.selectById(dto);
+    }
 }
