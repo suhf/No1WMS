@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.no1.wms.out.ProductOutMapper">
+
+    <!-- select -->
+    <select id="count" parameterType="Map" resultType="java.lang.Integer">
+        select count(o.id)
+        from product_out o
+        left join warehouse w on o.warehouse_id = w.id
+        left join product p on o.product_id = p.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0">o.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1">o.activation = 1 and w.name like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+
+    <select id="list" parameterType="Map" resultType="Map">
+        select o.id, o.product_id, o.quantity, o.expected_delivery_date, o.delivery_date, o.warehouse_id, o.manager_id, o.note, o.activation, p.name as productName, w.name as warehouseName
+        from product_out o
+        left join warehouse w on o.warehouse_id = w.id
+        left join product p on o.product_id = p.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0">o.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1">o.activation = 1 and w.name like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by o.expected_delivery_date desc limit #{start}, #{perPage}
+    </select>
+
+
+
+    <select id="outOne" parameterType="Map" resultType="Map">
+        select o.id as id, p.name as product_name, p.kan_code, o.quantity, w.name as warehouse_name, w.id as warehouse_id, p.id as product_id, o.expected_delivery_date, o.delivery_date, o.note
+        from product_out o
+        left join warehouse w on o.warehouse_id = w.id
+        left join product p on o.product_id = p.id
+
+        where o.id = #{id}
+    </select>
+
+    <select id="stockSelect" parameterType="Map" resultType="Map">
+        select p.name as product_name, p.kan_code, s.quantity, w.name as warehouse_name, s.warehouse_id, s.product_id
+        from stock s
+        left join product p on s.product_id = p.id
+        left join warehouse w on s.warehouse_id = w.id
+        left join product_out o on s.product_id = o.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> o.id IS NULL and p.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> o.id IS NULL and p.activation = 1 and w.name like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+        order by p.name desc limit #{start}, #{perPage}
+    </select>
+
+    <select id="stockCount" parameterType="Map" resultType="java.lang.Integer">
+        SELECT count(s.id)
+        from stock s
+        left join product p on s.product_id = p.id
+        left join warehouse w on s.warehouse_id = w.id
+        left join product_out o on s.product_id = o.id
+
+        <where>
+            <choose>
+                <when test="searchn == 0"> o.id IS NULL and p.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> o.id IS NULL and p.activation = 1 and w.name like concat('%',#{search},'%')</when>
+            </choose>
+        </where>
+    </select>
+
+
+    <!-- select -->
+
+
+    <!-- update -->
+    <update id="outUpdate" parameterType="com.no1.wms.out.ProductOutDto">
+        update product_out
+        set quantity = #{quantity}, expected_delivery_date = #{expected_delivery_date}, product_id = #{product_id}, warehouse_id = #{warehouse_id}, note = #{note}
+        where id = #{id};
+    </update>
+
+    <update id="updateWarehousePlus" parameterType="com.no1.wms.out.ProductOutDto">
+        update warehouse w
+            left join stock s on w.id = s.warehouse_id
+            set w.current_capacity = w.current_capacity + #{quantity}
+        where w.id = #{warehouseId};
+    </update>
+
+    <update id="updateWarehouse" parameterType="com.no1.wms.out.ProductOutDto">
+        update warehouse w
+            left join stock s on w.id = s.warehouse_id
+            set w.current_capacity = w.current_capacity + (#{quantityAdjustment} - #{quantity})
+        where w.id = #{warehouseId};
+    </update>
+
+    <update id="updateWarehouseDeleteStock" parameterType="com.no1.wms.out.ProductOutDto">
+        update warehouse
+        set current_capacity = current_capacity - #{quantity}
+        where id = #{warehouse_id};
+    </update>
+
+    <update id="outNowWarehouseUpdate" parameterType="com.no1.wms.out.ProductOutDto">
+        update stock s
+            left join warehouse w on s.warehouse_id = w.id
+            set s.quantity = s.quantity - #{quantity}
+        where s.warehouse_id = #{warehouse_id};
+    </update>
+
+    <update id="outNowUpdate" parameterType="com.no1.wms.out.ProductOutDto">
+        update product_out
+        set quantity = #{quantity}, expected_delivery_date = #{expected_delivery_date}, delivery_date = #{delivery_date}
+        where id = #{id};
+    </update>
+    <!-- update -->
+
+
+    <!-- insert -->
+    <insert id="createOut" parameterType="com.no1.wms.out.ProductOutDto">
+        insert into product_out (id, product_id, quantity, expected_delivery_date, delivery_date, warehouse_id, manager_id, note, activation)
+        values (UUID(), #{product_id}, #{quantity}, #{expected_delivery_date}, null, #{warehouse_id}, #{manager_id}, #{note}, #{activation});
+    </insert>
+    <!-- insert -->
+
+    <!-- delete -->
+    <delete id="outNow" parameterType="com.no1.wms.out.ProductOutDto">
+        delete
+        from product_out
+        where id = #{id}
+    </delete>
+    <!-- delete -->
+</mapper>

@@ -87,7 +87,7 @@
     </select>
 
     <select id="productSelect" parameterType="Map" resultType="Map">
-        SELECT p.id as productId, name, company_name, cls_Nm_4
+        SELECT p.id as productId, name, company_name, cls_Nm_4, p.kan_code
         FROM product p
         LEFT JOIN stock s ON s.product_id = p.id
         left join product_category c on p.kan_code = c.kan_code
@@ -123,7 +123,8 @@
         <where>
             <choose>
                 <when test="searchn == 0"> s.id IS NULL and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and address like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
         order by w.name desc limit #{start}, #{perPage}
@@ -137,7 +138,8 @@
         <where>
             <choose>
                 <when test="searchn == 0"> s.id IS NULL and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and address like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
     </select>

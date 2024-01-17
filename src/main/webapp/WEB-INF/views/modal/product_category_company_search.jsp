@@ -9,11 +9,13 @@
         const tid = $tag.data('tid');
         const tcategory = $tag.data('tcategory');
         const tcompany_name = $tag.data('tcompany_name');
+        const tkan_code = $tag.data('kan_code');
 
         $("#stock_pro_name").val(tname);
         $("#product_id").val(tid);
         $("#stock_category_name").val(tcategory);
         $("#stock_company_name_name").val(tcompany_name);
+        $("#kan_code").val(tkan_code);
 
         hideSearchModal();
     }
@@ -46,8 +48,8 @@
 
 
     function pageingFunction(clickedId) {
-        var searchn = $("#searchn").val();
-        var search = $("#search").val();
+        var searchn = $("#searchn1").val();
+        var search = $("#search1").val();
 
         $.ajax({
             type: "POST",
@@ -115,6 +117,7 @@
                                     data-tname="${dto.name}"
                                     data-tcategory="${dto.cls_Nm_4}"
                                     data-tcompany_name="${dto.company_name}"
+                                    data-kan_code="${dto.kan_code}"
                                     class="btn btn-primary" onclick="onSelect(this)">선택
                             </button>
                         </td>

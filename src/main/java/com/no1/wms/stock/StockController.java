@@ -22,78 +22,77 @@ public class StockController {
 	
 	// 탭 1 재고 리스트 출력
 	@GetMapping("/list")
-	public String list(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
-					   @RequestParam(name = "search", defaultValue = "") String search,
-					   @RequestParam(name = "p", defaultValue = "1") int page, Model m) {
-		int count = service.count(searchn, search);
+	public String list(@RequestParam(name = "searchn1", defaultValue = "0") int searchn1,
+					   @RequestParam(name = "search1", defaultValue = "") String search1,
+					   @RequestParam(name = "p1", defaultValue = "1") int p1,
+					   @RequestParam(name = "searchn2", defaultValue = "0") int searchn2,
+					   @RequestParam(name = "search2", defaultValue = "") String search2,
+					   @RequestParam(name = "p2", defaultValue = "1") int p2,
+					   Model m) {
+		int count = service.count(searchn1, search1);
 
-		int perPage = 10; // 한 페이지에 보일 글의 갯수
-		int startRow = (page - 1) * perPage;
+		int perPage1 = 10; // 한 페이지에 보일 글의 갯수
+		int startRow1 = (p1 - 1) * perPage1;
 
 		//스톡서비스로 재고 리스트 출력 메서트 작성
-		List<Map<String, Object>> dto = service.list(searchn, search, startRow ,perPage);
-		m.addAttribute("slist", dto);
+		List<Map<String, Object>> dto1 = service.list(searchn1, search1, startRow1 ,perPage1);
+		m.addAttribute("slist1", dto1);
 
-		m.addAttribute("start", startRow + 1);
+		m.addAttribute("start1", startRow1 + 1);
 
-		int pageNum = 5;//보여질 페이지 번호 수
-		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
+		int pageNum1 = 5;//보여질 페이지 번호 수
+		int totalPages1 = count / perPage1 + (count % perPage1 > 0 ? 1 : 0); // 전체 페이지 수
 
-		int begin = (page - 1) / pageNum * pageNum + 1;
-		int end = begin + pageNum - 1;
-		if (end > totalPages) {
-			end = totalPages;
+		int begin1 = (p1 - 1) / pageNum1 * pageNum1 + 1;
+		int end1 = begin1 + pageNum1 - 1;
+		if (end1 > totalPages1) {
+			end1 = totalPages1;
 		}
-		m.addAttribute("searchn", searchn);
-		m.addAttribute("search", search);
-		m.addAttribute("begin", begin);
-		m.addAttribute("end", end);
-		m.addAttribute("pageNum", pageNum);
-		m.addAttribute("totalPages", totalPages);
-		m.addAttribute("p" , page);
+		m.addAttribute("searchn1", searchn1);
+		m.addAttribute("search1", search1);
+		m.addAttribute("begin1", begin1);
+		m.addAttribute("end1", end1);
+		m.addAttribute("pageNum1", pageNum1);
+		m.addAttribute("totalPages1", totalPages1);
+		m.addAttribute("p1" , p1);
 
+
+		//탭 2
+		int count2 = service.count2(searchn2, search2);
+		System.out.println("count2 ::" + count2);
+
+		int perPage2 = 10; // 한 페이지에 보일 글의 갯수
+		int startRow2 = (p2 - 1) * perPage2;
+
+		//스톡서비스로 재고 리스트 출력 메서트 작성
+		List<Map<String, Object>> dto2 = service.list2(searchn2, search2, startRow2 ,perPage2);
+		System.out.println("dto ::" + dto2);
+
+		m.addAttribute("slist2", dto2);
+
+		m.addAttribute("start2", startRow2 + 1);
+
+		int pageNum2 = 5;//보여질 페이지 번호 수
+		int totalPages2 = count2 / perPage2 + (count2 % perPage2 > 0 ? 1 : 0); // 전체 페이지 수
+
+		int begin2 = (p2 - 1) / pageNum2 * pageNum2 + 1;
+		int end2 = begin2 + pageNum2 - 1;
+		if (end2 > totalPages2) {
+			end2 = totalPages2;
+		}
+		m.addAttribute("searchn2", searchn2);
+		m.addAttribute("search2", search2);
+		m.addAttribute("begin2", begin2);
+		m.addAttribute("end2", end2);
+		m.addAttribute("pageNum2", pageNum2);
+		m.addAttribute("totalPages2", totalPages2);
+		m.addAttribute("p2" , p2);
 
 		
 		return "stock/list";
 	}
 
 
-	// 탭 2 재고 리스트 출력
-	@GetMapping("/list2")
-	public String list2(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
-					   @RequestParam(name = "search", defaultValue = "") String search,
-					   @RequestParam(name = "p2", defaultValue = "1") int page, Model m) {
-		int count = service.count(searchn, search);
-
-		int perPage = 10; // 한 페이지에 보일 글의 갯수
-		int startRow = (page - 1) * perPage;
-
-		//스톡서비스로 재고 리스트 출력 메서트 작성
-		List<Map<String, Object>> dto = service.list(searchn, search, startRow ,perPage);
-		m.addAttribute("slist2", dto);
-
-		m.addAttribute("start2", startRow + 1);
-
-		int pageNum = 5;//보여질 페이지 번호 수
-		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
-
-		int begin = (page - 1) / pageNum * pageNum + 1;
-		int end = begin + pageNum - 1;
-		if (end > totalPages) {
-			end = totalPages;
-		}
-		m.addAttribute("searchn2", searchn);
-		m.addAttribute("search2", search);
-		m.addAttribute("begin2", begin);
-		m.addAttribute("end2", end);
-		m.addAttribute("pageNum2", pageNum);
-		m.addAttribute("totalPages2", totalPages);
-		m.addAttribute("p2" , page);
-
-
-
-		return "stock/list";
-	}
 				
 	
 	// 재고 상세페이지
@@ -204,6 +203,8 @@ public class StockController {
 		if (end > totalPages) {
 			end = totalPages;
 		}
+		mav.addObject("searchn", searchn);
+		mav.addObject("search", search);
 		mav.addObject("begin", begin);
 		mav.addObject("end", end);
 		mav.addObject("pageNum", pageNum);
