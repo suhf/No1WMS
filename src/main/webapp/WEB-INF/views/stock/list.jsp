@@ -81,7 +81,7 @@
                             <tbody>
                             <c:forEach items="${slist1 }" var="dto">
                                 <tr class="detailTr col-5" data-id="${dto.id}">
-                                    <td class="col-1">${start} <c:set var="start" value="${start +1 }"/></td>
+                                    <td class="col-1">${start1} <c:set var="start1" value="${start1 +1 }"/></td>
                                     <td class="col-1">${dto.productName }</td>
                                     <td class="col-1">${dto.cls_nm_4 }</td>
                                     <td class="col-1">${dto.quantity}</td>
@@ -174,7 +174,7 @@
                             <tbody>
                             <c:forEach items="${slist2 }" var="dto">
                                 <tr class="detailTr col-5" data-id="${dto.id}">
-                                    <td class="col-1">${start} <c:set var="start" value="${start +1 }"/></td>
+                                    <td class="col-1">${start2} <c:set var="start2" value="${start2 +1 }"/></td>
                                     <td class="col-1">${dto.productName }</td>
                                     <td class="col-1">${dto.cls_nm_4 }</td>
                                     <td class="col-1">${dto.quantity }</td>
