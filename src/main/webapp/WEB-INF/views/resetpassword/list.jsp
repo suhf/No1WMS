@@ -19,7 +19,7 @@
 						<div class="w-25">
 						<select class="form-select" name="searchn" id="searchn">
 							<option value="0">사원명</option>
-							<option value="1">아이디</option>
+							<option value="1">사번</option>
 						</select>
 						</div>
 						<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
@@ -42,7 +42,7 @@
 							<tr>
 								<th>번호</th>
 								<th>사원명</th>
-								<th>아이디</th>
+								<th>email</th>
 								<th>요청사유</th>
 								<th></th>
 
@@ -53,9 +53,12 @@
 									<tr class="detailTr col-5" data-id="${dto.id}" >
 										<td class="col-1">${start} <c:set var="start" value="${start +1 }"/></td>
 										<td class="col-1">${dto.name }</td>
-										<td class="col-1">${dto.president_telephone }</td>
-										<td class="col-1">${dto.vendor_manager }</td>
-										<td class="col-1">${dto.vendor_manager_telephone }</td>
+										<td class="col-1">${dto.email }</td>
+										<td class="col-1">${dto.note }</td>
+										<td class="col-1">
+											<button type="button" class="btn btn-primary" value="${dto.id}" id="resetpassword">확인</button>
+											<button type="button" class="btn btn-warning" value="${dto.id}" id="cancelrequest">취소</button>
+										</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -65,36 +68,32 @@
 		</div>
 		<div class="container-fluid">
 			<div class="row row-buttons">
-				<div class="col-3 text-start">
-					<img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-					<button type="button" class="btn btn-success" id="uploadExcel">업로드</button>
-					<button type="button" class="btn btn-success" id="download">다운로드</button>
-				</div>
+
 				<div class="col-6 d-flex justify-content-center">
 					<nav>
 						<ul class="pagination">
-							
-	                        <c:if test="${begin > pageNum }">
-	                            <li class="page-item">
-	                                <a href="javascript:void(0);" class="page-link" onclick="pageingFunction(this.id)" id="${begin - 1 }">&lt;</a>
-	                            </li>
-	                        </c:if>
-	                        <c:forEach begin="${begin }" end="${end }" var="i">
-	                            <li class="page-item <c:if test="${p == i}"> active </c:if>">
-	                                <a href="javascript:void(0);" class="page-link " onclick="pageingFunction(this.id); return false;" id="${i }">${i }</a>
-	                            </li>
-	                        </c:forEach>
-	                        <c:if test="${end < totalPages }">
-	                            <li class="page-item">
-	                                <a href="javascript:void(0);" class="page-link" onclick="pageingFunction(this.id)" id="${end + 1 }">&gt;</a>
-	                            </li>
-	                        </c:if>
+
+							<c:if test="${begin > pageNum }">
+								<li class="page-item">
+									<a href="javascript:void(0);" class="page-link" id="before"
+									   value="${begin - 1 }">&lt;</a>
+								</li>
+							</c:if>
+							<c:forEach begin="${begin }" end="${end }" var="i">
+								<li class="page-item <c:if test="${p == i}"> active </c:if>">
+									<a href="javascript:void(0);" class="page-link " id="pageNow"
+									   value="${i }">${i }</a>
+								</li>
+							</c:forEach>
+							<c:if test="${end < totalPages }">
+								<li class="page-item">
+									<a href="javascript:void(0);" class="page-link" id="after" value="${end + 1 }">&gt;</a>
+								</li>
+							</c:if>
                     	</ul>
 					</nav>
 				</div>
-				<div class="col-3 text-end">
-					<button type="button" class="btn btn-primary" id="createButton">생성</button>
-				</div>	
+
 			</div><!-- row row-buttons -->
 		</div>
 	</div>
@@ -104,31 +103,74 @@
 	
 	
 	$(document).ready(function(){
-		//POST방식으로 create폼화면 출력
-		$("#createButton").on("click",function(){
+		$("#resetpassword").on("click",function(){
+			var resetpassword = $("#resetpassword").val();
+
 			var form = document.createElement("form");
-			form.action = "/vendor/create";
-			form.method = "POST";
+			form.action = "/resetpassword/list";
+			form.method = "get";
+
+			var input1 = document.createElement("input");
+			input1.type = "hidden";
+			input1.name = "searchn";
+			input1.value = searchn;
+			form.appendChild(input1);
+
+			var input2 = document.createElement("input");
+			input2.type = "hidden";
+			input2.name = "search";
+			input2.value = search;
+			form.appendChild(input2);
+
+			var input3 = document.createElement("input");
+			input3.type = "hidden";
+			input3.name = "p";
+			input3.value = pageNow;
+			form.appendChild(input3);
+
+			var input4 = document.createElement("input");
+			input4.type = "hidden";
+			input4.name = "resetpassword";
+			input4.value = resetpassword;
+			form.appendChild(input4);
+
 			document.body.appendChild(form);
 			form.submit();
 		});
-	
-		 $("body").on("click", ".detailTr", function(){
-		    var id = $(this).data("id");
-			
-			var form = document.createElement("form");
-			form.action = "/vendor/read";
-			form.method = "POST";
-			document.body.appendChild(form);
-			
-			var input = document.createElement("input");
-			input.type = "hidden";
-			input.name = "id";
-			input.value = id;
-			form.appendChild(input);
-			
-			form.submit();
 
+		$("#cancelrequest").on("click",function(){
+			var cancelrequest = $("#cancelrequest").val();
+
+			var form = document.createElement("form");
+			form.action = "/resetpassword/list";
+			form.method = "get";
+
+			var input1 = document.createElement("input");
+			input1.type = "hidden";
+			input1.name = "searchn";
+			input1.value = searchn;
+			form.appendChild(input1);
+
+			var input2 = document.createElement("input");
+			input2.type = "hidden";
+			input2.name = "search";
+			input2.value = search;
+			form.appendChild(input2);
+
+			var input3 = document.createElement("input");
+			input3.type = "hidden";
+			input3.name = "p";
+			input3.value = 1;
+			form.appendChild(input3);
+
+			var input4 = document.createElement("input");
+			input4.type = "hidden";
+			input4.name = "cancelrequest";
+			input4.value = cancelrequest;
+			form.appendChild(input4);
+
+			document.body.appendChild(form);
+			form.submit();
 		});
 		 
 		//검색기능
@@ -138,7 +180,7 @@
 			var search = $("#search").val();
 			
 			var form = document.createElement("form");
-			form.action = "/vendor/list";
+			form.action = "/resetpassword/list";
 			form.method = "get";
 			
 			var input1 = document.createElement("input");
@@ -167,35 +209,36 @@
 		
 		 
 	});//ready
-	function pageingFunction(clickedId){
-		var searchn1 = $("#searchn1").val();
-		var search1 = $("#search1").val();
-		
+	$("#before, #pageNow, #after").on("click", function () {
+		var searchn = $("#searchn1").val();
+		var search = $("#search1").val();
+
 		var form = document.createElement("form");
-		form.action = "/vendor/list";
+		form.action = "/resetpassword/list";
 		form.method = "get";
-		
+
 		var input1 = document.createElement("input");
 		input1.type = "hidden";
 		input1.name = "searchn";
-		input1.value = searchn1;
+		input1.value = searchn;
 		form.appendChild(input1);
-		
+
 		var input2 = document.createElement("input");
 		input2.type = "hidden";
 		input2.name = "search";
-		input2.value = search1;
+		input2.value = search;
 		form.appendChild(input2);
-		
+
 		var input3 = document.createElement("input");
 		input3.type = "hidden";
-		input3.name = "p";
+		input3.name = "p1";
 		input3.value = clickedId;
 		form.appendChild(input3);
-		
+
+
 		document.body.appendChild(form);
 		form.submit();
-	}
+	});
 	</script>
 </body>
 </html>

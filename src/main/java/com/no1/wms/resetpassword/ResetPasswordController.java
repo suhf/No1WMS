@@ -17,14 +17,21 @@ public class ResetPasswordController {
     @Autowired
     ResetPasswordService resetPasswordService;
 
-   /*GetMapping("/list")
+    @GetMapping("/list")
     public String list(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
                        @RequestParam(name = "search", defaultValue = "") String search,
-                       @RequestParam(name = "p", defaultValue = "1") int page, Model m) {
+                       @RequestParam(name = "p", defaultValue = "1") int page, String resetpassword, String cancelrequest, Model m) {
         int count = resetPasswordService.count(searchn, search);
 
         int perPage = 10; // 한 페이지에 보일 글의 갯수
         int startRow = (page - 1) * perPage;
+
+        if(resetpassword != null){
+
+        }
+        if(cancelrequest != null){
+
+        }
 
         //스톡서비스로 재고 리스트 출력 메서트 작성
         List<Map<String, Object>> dto = resetPasswordService.list(searchn, search, startRow ,perPage);
@@ -51,8 +58,8 @@ public class ResetPasswordController {
         System.out.println("테스트 : : " + m);
 
 
-        return "out/list";
-    }*/
+        return "resetpassword/list";
+    }
 
     @PostMapping("/insert")
     @ResponseBody
