@@ -102,6 +102,7 @@ public class AuthAspect {
             auth.put("category",getAuthArrayFromInt(authDto.getProductCategory()));
             auth.put("product",getAuthArrayFromInt(authDto.getProduct()));
             auth.put("price",getAuthArrayFromInt(authDto.getPrices())); //prices
+            auth.put("planin",getAuthArrayFromInt(authDto.getPrices())); //prices
             auth.put("vendor",getAuthArrayFromInt(authDto.getVendor()));
             auth.put("warehouse",getAuthArrayFromInt(authDto.getWarehouse()));
             auth.put("stock",getAuthArrayFromInt(authDto.getStock()));
