@@ -91,6 +91,7 @@ public class AuthAspect {
         data.setEmployeeNumber("11232");
         HttpSession session = request.getSession();
 
+
         AccountDto dto = accountService.selectByLogin(data);
         if(dto.getPassword().equals(data.getPassword())){
             authDto.setId(dto.getPersonalAuthorityId());
