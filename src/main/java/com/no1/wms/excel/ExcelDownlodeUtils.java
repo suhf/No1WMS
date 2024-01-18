@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.no1.wms.vendor.VendorDto;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -115,8 +116,76 @@ public class ExcelDownlodeUtils {
 		
 		
 	}
-	
-	
+
+
+
+
+	public void downloadVendorExcelFile(String excelFileName, HttpServletResponse response,
+										  String sheetName, String[] columnName, List<VendorDto> dto) {
+		String fileName = "";
+		try {
+			fileName = new String((excelFileName + ".xlsx").getBytes("utf-8"), "iso-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		response.setContentType("ms-vnd/excel");
+		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+
+		Workbook workbook = new XSSFWorkbook();
+		Sheet sheet = workbook.createSheet(sheetName);
+
+		Row row = null;
+		Cell cell = null;
+		int rowNum = 0;
+
+		row = sheet.createRow(rowNum);
+		for( int i = 0; i <= columnName.length -1; i++ ) {
+			cell = row.createCell(i);
+			cell.setCellValue(columnName[i]);
+		}
+		rowNum += 1;
+
+		//수정부분
+		makeVendorBody(dto,row,sheet,cell,rowNum);
+
+		try {
+			workbook.write(response.getOutputStream());
+			workbook.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+	}
+
+	public void makeVendorBody(List<VendorDto> listdto, Row row, Sheet sheet,
+								 Cell cell, int rowNum) {
+		//
+		for (int i = 0; i < listdto.size(); i++) {
+			row = sheet.createRow(rowNum++);
+			VendorDto dto = listdto.get(i);
+			cell = row.createCell(0);
+			cell.setCellValue(dto.getName());
+			cell = row.createCell(1);
+			cell.setCellValue(dto.getPresident_name());
+			cell = row.createCell(2);
+			cell.setCellValue(dto.getAddress());
+			cell = row.createCell(3);
+			cell.setCellValue(dto.getRegistration_number());
+			cell = row.createCell(4);
+			cell.setCellValue(dto.getEmail());
+			cell = row.createCell(5);
+			cell.setCellValue(dto.getPresident_telephone());
+			cell = row.createCell(6);
+			cell.setCellValue(dto.getVendor_manager());
+			cell = row.createCell(7);
+			cell.setCellValue(dto.getVendor_manager_telephone());
+			cell = row.createCell(8);
+			cell.setCellValue(dto.getMain_product());
+		}
+	}
+
+
 	
 	
 	

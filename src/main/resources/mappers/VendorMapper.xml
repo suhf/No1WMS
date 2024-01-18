@@ -4,6 +4,20 @@
 
 <mapper namespace="com.no1.wms.vendor.VendorMapper">
 
+    <select id="selectAll" resultType="VendorDto">
+        select
+               name,
+               president_name,
+               address,
+               registration_number,
+               email,
+               president_telephone,
+               vendor_manager,
+               vendor_manager_telephone,
+               main_product,
+
+        from  vendor;
+    </select>
 
     <select id="count" parameterType="map" resultType="java.lang.Integer">
         select count(name)

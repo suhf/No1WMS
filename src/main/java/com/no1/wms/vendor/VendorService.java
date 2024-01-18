@@ -54,4 +54,8 @@ public class VendorService {
     public int deleteVendor(String id) {
         return mapper.deleteVendor(id);
     }
+
+    public List<VendorDto> selectAll() {
+        return mapper.selectAll();
+    }
 }

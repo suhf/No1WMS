@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -45,11 +46,8 @@
 		                	aria-describedby="basic-addon1">
 	                	</div>
 	                	
-	                	<!-- 추후 수정 -->
-	                	<input type='hidden' id="manager_id" value="83bdda69-ae95-11ee-935d-0242ac110006">
-	                	
-	                	
-	                	<!-- 추후 수정 -->
+	                	<c:set var="userData" value="${sessionScope.userData}" />
+	                	<input type='hidden' id="manager_id" value="${userData.id }">
                 	</div>
             	</div>
 			</div>
@@ -93,8 +91,8 @@ $(document).ready(function() {
            	type: "post",
            	data: {
            		   "price": price,
-           		   "manager_id": manager_id, // 추후 수정해야함.
-           		   "product_id": product_id, // 추후 수정해야함. 
+           		   "manager_id": manager_id,
+           		   "product_id": product_id,
            		   "activation": true
            		},
            		datatype:"json"
@@ -102,24 +100,6 @@ $(document).ready(function() {
                if (data == true) {
                	alert("제품 가격을 추가했습니다.");
                	$(location).attr("href", "/price/list");
-               	
-               	
-               	//생각해서 바꿔야함. 
-               	// 조건 : DB에서 생성되는 uuid를 어떻게 자바스크립트에서 가져올것인지 궁리.
-				/*
-   				var form = document.createElement("form");
-   				form.action = "/product/read";
-   				form.method = "POST";
-   				document.body.appendChild(form);
-   				
-   				var input = document.createElement("input");
-   				input.type = "hidden";
-   				input.name = "id";
-   				input.value = data.id;
-   				form.appendChild(input);
-   				
-   				form.submit();
-   				*/
                } else {
                	alert("제품 가격 추가에 실패하였습니다.");
                }
@@ -153,8 +133,5 @@ function showSearchModal(title, val){
 
 
 </script>
-
-
-
 </body>
 </html>

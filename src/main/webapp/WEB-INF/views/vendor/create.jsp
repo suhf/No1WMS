@@ -37,7 +37,8 @@
 
                     <%--                     세션 만들어지고 value 수정--%>
 
-                        <input type='hidden' id="manager_id" value="15b68e54-b0f0-11ee-935d-0242ac110006"/>
+                        <c:set var="userData" value="${sessionScope.userData}" />
+                        <input type='hidden' id="manager_id" value="${userData.id }">
                         <input type='hidden' id="activation" value="1">
 
 

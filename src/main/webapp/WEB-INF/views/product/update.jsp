@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,10 +60,8 @@
                         </div>
 
 						<input type='hidden' id="id" value="${dto.id }">
-                        <!-- 추후 수정 -->
-	                	<input type='hidden' id="manager_id" value="83bdda69-ae95-11ee-935d-0242ac110006">
-	               
-	                	<!-- 추후 수정 -->
+                        <c:set var="userData" value="${sessionScope.userData}" />
+	                	<input type='hidden' id="manager_id" value="${userData.id }">
                         
                     </div>
                 </div>
