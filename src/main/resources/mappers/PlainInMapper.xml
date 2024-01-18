@@ -17,6 +17,7 @@
         <result column="other" property="other" />
         <result column="activation" property="activation" />
         <result column="view_group_number" property="viewGroupNumber" />
+        <result column="c_name" property="cName" />
         <association property="productDto"  javaType="productDto">
             <id column="p_id" property="id" />
             <result column="p_name" property="name" />
@@ -38,20 +39,22 @@
         SELECT
             plan.group_number, plan.product_id, plan.quantity, plan.date, plan.vendor_id, plan.manager_id,
             plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
-            product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name, warehouse.id w_id, warehouse.name w_name
-        from plan_In plan join account acc join vendor join warehouse join product
+            product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name, 
+            warehouse.id w_id, warehouse.name w_name, product_category.kan_code p_kan, product_category.cls_Nm_4 c_name
+        from plan_In plan join account acc join vendor join warehouse join product join product_category
                     on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
-                        and plan.warehouse_id = warehouse.id
+                        and plan.warehouse_id = warehouse.id and product.kan_code = product_category.kan_code 
         where plan.group_number = #{groupNumber}
     </select>
     <select id="selectAll" resultMap="planInResultMap" parameterType="map">
         SELECT
-        plan.group_number, plan.product_id, plan.quantity, plan.date, plan.vendor_id, plan.manager_id,
-        plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
-        product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name, warehouse.id w_id, warehouse.name w_name
-        from plan_In plan join account acc join vendor join warehouse join product
-        on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
-        and plan.warehouse_id = warehouse.id
+            plan.group_number, plan.product_id, plan.quantity, plan.date, plan.vendor_id, plan.manager_id,
+            plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
+            product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name, 
+            warehouse.id w_id, warehouse.name w_name, product_category.kan_code p_kan, product_category.cls_Nm_4 c_name
+            from plan_In plan join account acc join vendor join warehouse join product join product_category
+                on plan.product_id = product.id and plan.vendor_id = vendor.id and plan.manager_id = acc.id
+                and plan.warehouse_id = warehouse.id and product.kan_code = product_category.kan_code
         <where>
             <choose>
                 <when test="searchn == 1"> plan.activation = 1 and pn like concat('%',#{search},'%')</when>

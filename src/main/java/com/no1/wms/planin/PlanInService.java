@@ -17,9 +17,6 @@ public class PlanInService {
         map.put("start", start);
         map.put("perPage", perPage);
         map.put("searchn", searchn);
-
-
-
         return mapper.selectAll(map);
     }
 	
