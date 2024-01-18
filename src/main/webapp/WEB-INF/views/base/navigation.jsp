@@ -59,7 +59,7 @@
             </c:if>
             <c:if test="${authSession.vendor.read}">
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/vender/list">
+                <a class="nav-link d-flex align-items-center gap-2" href="/vendor/list">
                     <i data-feather="compass"></i>거래처
                 </a>
             </li>
