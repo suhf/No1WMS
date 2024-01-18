@@ -27,7 +27,6 @@ public class PlanInDto {
 	private Integer quantity;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date date;
-	private String vendorId;
 	private String managerId;
 	private String warehouseId;
 	private String qrHash;

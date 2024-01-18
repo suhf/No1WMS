@@ -33,4 +33,11 @@ public class PlanInService {
     List<PlanInDto> selectById(PlanInDto dto){
         return mapper.selectById(dto);
     }
+
+    int deleteById(PlanInDto dto){
+        return mapper.deleteById(dto);
+    }
+    void insert(PlanInDto dto){
+        mapper.insert(dto);
+    }
 }

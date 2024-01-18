@@ -3,20 +3,36 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
-	function goDown(target){
-		const $target = $(target);
-		const name= $target.data("name");
-		const catname = $target.data("catname");
-		const vendor = $target.data("vendor");
-		const id = $target.data("id");
-
-		$("#input_category").val(catname);
-		$("#input_vendor").val(vendor);
-		$("#input_id").val(id);
-		$("#input_name").val(name);
 
 
-	}
+function goDown(target){
+	const $target = $(target);
+	const name= $target.data("name");
+	const catname = $target.data("catname");
+	const vendor = $target.data("vendor");
+	const id = $target.data("id");
+	const vendorId = $target.data("vendorid");
+
+	$("#input_category").val(catname);
+	$("#input_vendor").val(vendor);
+	$("#input_id").val(id);
+	$("#input_name").val(name);
+	$("#id_vendor_id").val(vendorId);
+
+
+}
+
+function editData(){
+
+	$("#input_name").val(modalData.name);
+	$("#input_category").val(modalData.category);
+	$("#input_id").val(modalData.id);
+	$("#input_vendor").val(modalData.vendor);
+	$("#input_date").val(modalData.date);
+	$("#input_num").val(modalData.num);
+
+
+}
 
 function goTable(){
 	const data= {};
@@ -28,14 +44,11 @@ function goTable(){
 	data.date = $("#input_date").val();
 	data.num = $("#input_num").val();
 
-
-
-	addToTable(data);
+	editToTable(data);
 
 
 
 	hideSearchModal();
-
 }
 
 </script>
@@ -115,7 +128,7 @@ function goTable(){
 										id='input_date' type="date" class="form-control" placeholder="날짜"
 										aria-label="날짜" value="">
 								</div>
-								<input hidden id="input_id">
+								<input hidden id="input_id" type="text" value="">
 								
 							</div>
 						</div>
