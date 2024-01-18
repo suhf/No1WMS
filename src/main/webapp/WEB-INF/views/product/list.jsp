@@ -58,8 +58,7 @@
 										<td>${dto.company_name }</td>
 										<td>${dto.categoryDto.cls_nm_4 }</td>
 										<td>${dto.vendorDto.name }</td>
-										<td><fmt:formatDate value="${dto.registration_date }"
-												dateStyle="short" /></td>
+										<td><fmt:formatDate value="${dto.registration_date}" pattern="yyyy-MM-dd" type="date"/></td>
 										<td>${dto.accountDto.name }</td>
 									</tr>
 								</c:forEach>

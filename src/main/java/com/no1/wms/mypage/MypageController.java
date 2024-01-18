@@ -12,10 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.no1.wms.account.AccountDto;
@@ -29,13 +31,16 @@ public class MypageController {
 
 	@Autowired
 	ImgService imgService;
-
+	
+	
 	@GetMapping("/mypage")
-	public String mypage(Model m, HttpServletRequest request) {
+	public String mypage(Model m, HttpSession session) {
 
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 		AccountDto dto = (AccountDto) session.getAttribute("userData");
-
+		
+		//System.out.println(dto.getId());
+		
 		AccountDto list = accountService.selectById(dto);
 		m.addAttribute("list", list);
 		
@@ -88,9 +93,9 @@ public class MypageController {
 	}
 	
 	@PostMapping("/mypage/uplodeImg")
-	public String imgFileUplode(HttpServletRequest request, MultipartFile file) {
+	public String imgFileUplode(HttpServletRequest request,HttpSession session , MultipartFile file) {
 		//System.out.println(file);
-		HttpSession session = request.getSession();
+		//HttpSession session = request.getSession();
 		AccountDto dto = (AccountDto) session.getAttribute("userData");
 		String fileName = dto.getId();
 		//System.out.println(fileName);

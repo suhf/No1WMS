@@ -146,7 +146,7 @@
 	            
 	        </choose>
 	    </where>
-	    ORDER BY p.registration_date LIMIT #{start} , #{perPage}
+	    ORDER BY p.registration_date desc LIMIT #{start} , #{perPage}
 	</select>
 	
 
