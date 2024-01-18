@@ -69,7 +69,7 @@
 			<div class="row row-buttons">
 				<div class="col-3 text-start">
 					<img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-					<button type="button" class="btn btn-success" id="uploadExcel">업로드</button>
+					<button type="button" class="btn btn-success" id="downlodeExcelForm">업로드</button>
 					<button type="button" class="btn btn-success" id="download">다운로드</button>
 				</div>
 				<div class="col-6 d-flex justify-content-center">
@@ -106,6 +106,14 @@
 	
 	
 	$(document).ready(function(){
+		$("#downlodeExcelForm").on("click",function(){
+			var form = document.createElement("form");
+			form.action = "/vendor/downloadTest";
+			form.method = "GET";
+			document.body.appendChild(form);
+			form.submit();
+		});
+
 		//POST방식으로 create폼화면 출력
 		$("#createButton").on("click",function(){
 			var form = document.createElement("form");

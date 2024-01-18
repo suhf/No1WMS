@@ -16,7 +16,9 @@ public interface ResetPasswordMapper {
 
     void insert(ResetPasswordDto dto);
 
-    void delete(ResetPasswordDto dto);
+    int delete(ResetPasswordDto dto);
+
+    int passwordUpdate(ResetPasswordDto dto);
 
 
 

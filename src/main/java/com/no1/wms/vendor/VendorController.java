@@ -1,5 +1,7 @@
 package com.no1.wms.vendor;
 
+import com.no1.wms.category.CategoryDto;
+import com.no1.wms.excel.ExcelDownlodeUtils;
 import com.no1.wms.warehouse.WarehouseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +20,9 @@ public class VendorController {
 
 	@Autowired
 	VendorService service;
+
+	@Autowired
+	ExcelDownlodeUtils excelDownlodeUtils;
 	
 	// 재고 리스트 출력
 	@GetMapping("vendor/list")
@@ -121,4 +128,22 @@ public class VendorController {
 		int i = service.deleteVendor(id);
 		return i;
 	}
+
+	// 엑셀다운로드테스트
+	@GetMapping("/vendor/downloadTest")
+	public void downloadExcelTest(HttpServletResponse response) {
+		List<VendorDto> dto = service.selectAll();
+		String excelFileName = "거래처 파일";
+		String sheetName = "거래처";
+		String[] columnName = {"업체명","대표자명","주소","사엄자등록번호","이메일","대표번호","거래처 담당자 이름","거래처 담당자 연락 번호","주요품목"};
+		excelDownlodeUtils.downloadVendorExcelFile(excelFileName, response, sheetName, columnName, dto);
+
+	};
+
+	//서식 다운로드
+	@GetMapping("/vendor/downlodeVendorForm")
+	public void downlodeVendorForm (HttpServletResponse response) throws IOException {
+		String vendorFormName = "거래처 데이터 입력 서식.xlsx";
+		excelDownlodeUtils.downlodeExcelForm(response, vendorFormName);
+	};
 }

@@ -40,7 +40,10 @@ public class ResetPasswordService {
         mapper.insert(dto);
     }
 
-    void delete(ResetPasswordDto dto){
-        mapper.delete(dto);
+    int delete(ResetPasswordDto dto){
+       return mapper.delete(dto);
     }
+
+    int passwordUpdate(ResetPasswordDto dto){
+        return mapper.passwordUpdate(dto);}
 }

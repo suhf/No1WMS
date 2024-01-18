@@ -12,7 +12,9 @@
         <div class="row">
             <div class="col-12">
 
-                <input type='hidden' id="manager_id" value="83f11782-ae95-11ee-935d-0242ac110006">
+
+                <c:set var="userData" value="${sessionScope.userData}" />
+                <input type='hidden' id="manager_id" value="${userData.id }">
                 <input type='hidden' id="activation" value="1">
 
 

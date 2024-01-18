@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Mapper
 public interface VendorMapper {
-
+	List<VendorDto> selectAll();
 	List<VendorDto> list(Map<String, Object> m);
 
 	int count(Map<String, Object> m);//검색 글 갯수
