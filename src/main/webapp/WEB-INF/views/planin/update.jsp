@@ -3,16 +3,13 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
-	<c:forEach items="${list }" var="dto" varStatus="status">
-	    ${dto.productDto.name}<br>
-	</c:forEach>
 	
-    function showSearchModal(title, val){
+    function showSearchModal(title){
         $("#searchModalLabel").text(title);
-        const data = { name : val};
+        const data = { };
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
-            url : '/plan_in/show_modal',           // 요청할 서버url
+            url : '/plan_in/planin_add',           // 요청할 서버url
             dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
             data : data,
             success : function(result) { // 결과 성공 콜백함수
@@ -30,7 +27,7 @@
     <div class="row">
         <div class="col-12">
             <div class="mt-5 mb-5 text-center">
-                <h1>입고 예정 상세페이지</h1>
+                <h1>입고 예정 관리 생성</h1>
             </div>
             <div>
                 <hr>
@@ -39,7 +36,6 @@
     </div>
     <div class="row">
         <div class="col-12 att">
-        	qr : <a href = "/plan_in/qr/${groupNum}"> link </a>
             <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create" onclick="goCreate() ">삭제 </button>
         </div>
         <div class="col-12 m-0">
@@ -55,20 +51,20 @@
                         <td>${dto.quantity}</td>
                         <td>${dto.vendorDto.name}</td>
                         <td><fmt:formatDate value="${dto.date}" pattern="yyyy-MM-dd" type="date"/></td>
-                    </tr>
+                        <td><button type="submit" class="btn btn-warning" >수정</button><button type="submit" class="btn btn-danger" >삭제</button><td>
+                     </tr>
                 </c:forEach>
+                   <tr>
+                    	<td></td>
+                    	<td></td>
+                    	<td></td>
+                    	<td></td>
+                    	<td></td>
+                   		<td><button type="button" class="btn btn-warning" onclick="showSearchModal('입고 예정 추가')">추가</button></td>
+                   </tr>
                 </tbody>
-            </table>                   
+            </table>
         </div>
-            <div class="col-12 text-end">
-            	<form class="d-inline" method="get" action="/plan_in/list">
-   	            	<button type="submit" class="btn btn-primary" >확인</button>
-   	            </form>
-   	            <form class="d-inline" method="post" action="/plan_in/update">
-            		<button type="submit" class="btn btn-warning" >수정</button>
-            		<input name="groupNumber" value="${groupNum}" hidden>
-            	</form>
-            </div>
     </div>
 </div>
 <form id="form" action='/plan_in/read' method="post">

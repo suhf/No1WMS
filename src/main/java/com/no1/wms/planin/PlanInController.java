@@ -5,10 +5,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.no1.wms.product.ProductDto;
+import com.no1.wms.product.ProductService;
 
 
 
@@ -17,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class PlanInController {
     @Autowired
     PlanInService planinservice;
+    @Autowired
+    ProductService productservice;
     
     @GetMapping("/list")
     public ModelAndView list(ModelAndView mav,@RequestParam(defaultValue = "0") int searchn, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "1") int page){
@@ -58,9 +64,45 @@ public class PlanInController {
         List<PlanInDto> list = planinservice.selectById(dto);
         System.out.println(list.get(0).toString());
         mav.addObject("list", list);
+        mav.addObject("groupNum", dto.getGroupNumber());
 
         mav.setViewName("planin/read");
+        
         return mav;
+    }
+    
+    @PostMapping("/update")
+    public ModelAndView update(PlanInDto dto, ModelAndView mav){
+        List<PlanInDto> list = planinservice.selectById(dto);
+        mav.addObject("list", list);
+        
+        mav.setViewName("/planin/update");
+        
+        return mav;
+    }
+    
+    // 엑셀 다운로드 
+    @GetMapping("/qr/{id}")
+    public String qr(@PathVariable("id")String id)
+    {
+    	
+    	
+    	return "";
+    }
+    
+    // 입고예정추가 
+    @PostMapping("/planin_add")
+    public ModelAndView insert(ModelAndView mav, ProductDto dto)
+    {
+    	List<ProductDto> list = productservice.productList(0,  "", 0, 10000);
+    	//list
+    	//ProductDto (0) 
+    	//ProductDto (1)
+    	//ProductDto (2)
+    	mav.addObject("list", list);
+    	
+    	mav.setViewName("planin_add");
+    	return mav;
     }
 	
 }

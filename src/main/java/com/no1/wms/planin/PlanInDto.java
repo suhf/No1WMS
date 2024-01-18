@@ -39,7 +39,7 @@ public class PlanInDto {
 	private Boolean activation;
 	private Integer viewGroupNumber;
 	private String oldProductId;
-	private String cName;
+	private String caName;
 	
 	private ProductDto productDto;
 	private VendorDto vendorDto;
