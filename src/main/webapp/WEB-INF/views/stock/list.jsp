@@ -103,28 +103,31 @@
                             <ul class="pagination">
 
 
-                                    <c:if test="${begin1 > pageNum1 }">
-                                        <li class="page-item">
-                                            <a href="javascript:void(0);" class="page-link" id="before1"
-                                               value="${begin1 - 1 }">&lt;</a>
-                                        </li>
-                                    </c:if>
-                                    <c:forEach begin="${begin1 }" end="${end1 }" var="i">
-                                        <li class="page-item <c:if test="${p1 == i}"> active </c:if>">
-                                            <a href="javascript:void(0);" class="page-link " id="pageNow1"
-                                               value="${i }">${i }</a>
-                                        </li>
-                                    </c:forEach>
-                                    <c:if test="${end1 < totalPages1 }">
-                                        <li class="page-item">
-                                            <a href="javascript:void(0);" class="page-link" id="after1" value="${end1 + 1 }">&gt;</a>
-                                        </li>
-                                    </c:if>
-
+                                <c:if test="${begin1 > pageNum1 }">
+                                    <li class="page-item">
+                                        <a href="javascript:void(0);" class="page-link"
+                                           onclick="pageingFunction1(this.id)" id="${begin1 - 1 }">&lt;</a>
+                                    </li>
+                                </c:if>
+                                <c:forEach begin="${begin1 }" end="${end1 }" var="i">
+                                    <li class="page-item <c:if test="${p1 == i}"> active </c:if>">
+                                        <a href="javascript:void(0);" class="page-link "
+                                           onclick="pageingFunction1(this.id); return false;" id="${i }">${i }</a>
+                                    </li>
+                                </c:forEach>
+                                <c:if test="${end1 < totalPages1 }">
+                                    <li class="page-item">
+                                        <a href="javascript:void(0);" class="page-link"
+                                           onclick="pageingFunction1(this.id)" id="${end1 + 1 }">&gt;</a>
+                                    </li>
+                                </c:if>
 
                             </ul>
                         </nav>
                     </div>
+
+                    <input type="hidden" id="p1" value="${p1}"/>
+
                     <div class="col-3 text-end">
                         <button type="button" class="btn btn-primary" id="createButton">생성</button>
                     </div>
@@ -199,19 +202,20 @@
 
                                 <c:if test="${begin2 > pageNum2 }">
                                     <li class="page-item">
-                                        <a href="javascript:void(0);" class="page-link" id="before2"
-                                           value="${begin2 - 1 }">&lt;</a>
+                                        <a href="javascript:void(0);" class="page-link"
+                                           onclick="pageingFunction2(this.id)" id="${begin2 - 1 }">&lt;</a>
                                     </li>
                                 </c:if>
                                 <c:forEach begin="${begin2 }" end="${end2 }" var="i">
                                     <li class="page-item <c:if test="${p2 == i}"> active </c:if>">
-                                        <a href="javascript:void(0);" class="page-link " id="pageNow2"
-                                           value="${i }">${i }</a>
+                                        <a href="javascript:void(0);" class="page-link "
+                                           onclick="pageingFunction2(this.id); return false;" id="${i }">${i }</a>
                                     </li>
                                 </c:forEach>
                                 <c:if test="${end2 < totalPages2 }">
                                     <li class="page-item">
-                                        <a href="javascript:void(0);" class="page-link" id="after2" value="${end2 + 1 }">&gt;</a>
+                                        <a href="javascript:void(0);" class="page-link"
+                                           onclick="pageingFunction2(this.id)" id="${end2 + 1 }">&gt;</a>
                                     </li>
                                 </c:if>
 
@@ -219,6 +223,9 @@
                             </ul>
                         </nav>
                     </div>
+
+                    <input type="hidden" id="p2" value="${p2}"/>
+
                     <div class="col-3 text-end">
                         <button type="button" class="btn btn-primary" id="createButton2">생성</button>
                     </div>
@@ -328,61 +335,119 @@
 
         });
 
-
-        $("#before1, #pageNow1, #after1, #before2, #pageNow2, #after2").on("click", function () {
-            var searchn1 = $("#searchn11").val();
-            var search1 = $("#search11").val();
-
-            var searchn2 = $("#searchn22").val();
-            var search2 = $("#search22").val();
-
-            var form = document.createElement("form");
-            form.action = "/stock/list";
-            form.method = "get";
-
-            var input1 = document.createElement("input");
-            input1.type = "hidden";
-            input1.name = "searchn1";
-            input1.value = searchn1;
-            form.appendChild(input1);
-
-            var input2 = document.createElement("input");
-            input2.type = "hidden";
-            input2.name = "search1";
-            input2.value = search1;
-            form.appendChild(input2);
-
-            var input3 = document.createElement("input");
-            input3.type = "hidden";
-            input3.name = "p1";
-            input3.value = clickedId;
-            form.appendChild(input3);
-
-
-
-
-            var input4 = document.createElement("input");
-            input4.type = "hidden";
-            input4.name = "searchn2";
-            input4.value = searchn2;
-            form.appendChild(input4);
-
-            var input5 = document.createElement("input");
-            input5.type = "hidden";
-            input5.name = "search2";
-            input5.value = search2;
-            form.appendChild(input5);
-
-            var input6 = document.createElement("input");
-            input6.type = "hidden";
-            input6.name = "p2";
-            input6.value = clickedId;
-            form.appendChild(input6);
-
-            document.body.appendChild(form);
-            form.submit();
-        });
     });
+
+    function pageingFunction1(clickedId) {
+        var searchn1 = $("#searchn11").val();
+        var search1 = $("#search11").val();
+
+        var searchn2 = $("#searchn22").val();
+        var search2 = $("#search22").val();
+
+        var p2 = $("#p2").val();
+
+        var form = document.createElement("form");
+        form.action = "/stock/list";
+        form.method = "get";
+
+        var input1 = document.createElement("input");
+        input1.type = "hidden";
+        input1.name = "searchn1";
+        input1.value = searchn1;
+        form.appendChild(input1);
+
+        var input2 = document.createElement("input");
+        input2.type = "hidden";
+        input2.name = "search1";
+        input2.value = search1;
+        form.appendChild(input2);
+
+        var input3 = document.createElement("input");
+        input3.type = "hidden";
+        input3.name = "p1";
+        input3.value = clickedId;
+        form.appendChild(input3);
+
+
+
+
+        var input4 = document.createElement("input");
+        input4.type = "hidden";
+        input4.name = "searchn2";
+        input4.value = searchn2;
+        form.appendChild(input4);
+
+        var input5 = document.createElement("input");
+        input5.type = "hidden";
+        input5.name = "search2";
+        input5.value = search2;
+        form.appendChild(input5);
+
+        var input6 = document.createElement("input");
+        input6.type = "hidden";
+        input6.name = "p2";
+        input6.value = p2;
+        form.appendChild(input6);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    function pageingFunction2(clickedId) {
+        var searchn1 = $("#searchn11").val();
+        var search1 = $("#search11").val();
+
+        var searchn2 = $("#searchn22").val();
+        var search2 = $("#search22").val();
+
+        var p1 = $("#p1").val();
+
+        var form = document.createElement("form");
+        form.action = "/stock/list";
+        form.method = "get";
+
+        var input1 = document.createElement("input");
+        input1.type = "hidden";
+        input1.name = "searchn1";
+        input1.value = searchn1;
+        form.appendChild(input1);
+
+        var input2 = document.createElement("input");
+        input2.type = "hidden";
+        input2.name = "search1";
+        input2.value = search1;
+        form.appendChild(input2);
+
+        var input3 = document.createElement("input");
+        input3.type = "hidden";
+        input3.name = "p1";
+        input3.value = p1;
+        form.appendChild(input3);
+
+
+
+
+        var input4 = document.createElement("input");
+        input4.type = "hidden";
+        input4.name = "searchn2";
+        input4.value = searchn2;
+        form.appendChild(input4);
+
+        var input5 = document.createElement("input");
+        input5.type = "hidden";
+        input5.name = "search2";
+        input5.value = search2;
+        form.appendChild(input5);
+
+        var input6 = document.createElement("input");
+        input6.type = "hidden";
+        input6.name = "p2";
+        input6.value = clickedId;
+        form.appendChild(input6);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
 </script>
 </body>
 </html>
