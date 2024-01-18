@@ -69,8 +69,9 @@
 			<div class="row row-buttons">
 				<div class="col-3 text-start">
 					<img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-					<button type="button" class="btn btn-success" id="downlodeExcelForm">업로드</button>
-					<button type="button" class="btn btn-success" id="download">다운로드</button>
+					<button type="button" class="btn btn-success" id="upload">업로드</button>
+					<button type="button" class="btn btn-success" id="downlodeExcelForm">서식 다운로드</button>
+					<button type="button" class="btn btn-success" id="downlodeExcelList">리스트 다운로드</button>
 				</div>
 				<div class="col-6 d-flex justify-content-center">
 					<nav>
@@ -108,7 +109,7 @@
 	$(document).ready(function(){
 		$("#downlodeExcelForm").on("click",function(){
 			var form = document.createElement("form");
-			form.action = "/vendor/downloadTest";
+			form.action = "/vendor/downlodeVendorForm";
 			form.method = "GET";
 			document.body.appendChild(form);
 			form.submit();
