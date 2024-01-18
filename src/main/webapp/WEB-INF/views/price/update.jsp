@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,14 +35,15 @@
                             <input type="text" class="form-control" placeholder="등록날짜"
                                 aria-label="등록날짜" value="${dto.registration_date }" readonly>
                         </div>
-
+						<c:set var="userData" value="${sessionScope.userData}" />
                         <div class="input-group mb-3 w-40 col-centered">
                             <span class="input-group-text" id="basic-addon4">담당자</span>
                             <input type="text" class="form-control" placeholder="담당자"
-                                aria-label="담당자" value="${dto.accountDto.name }" readonly>
+                                aria-label="담당자" value="${userData.name }" readonly>
                         </div>
 
                         <input type='hidden' id="id" value="${dto.id }">
+	                	<input type='hidden' id="manager_id" value="${userData.id }">
                     </div>
                 </div>
             </div>
@@ -62,6 +64,7 @@
             $("#submitBtn").on("click", function() {
                 var id = $("#id").val();
                 var price = $("#price").val();
+                var manager_id = $("#manager_id").val();
 				
                 if (!price || isNaN(price)) {
                     alert("올바른 가격을 입력하세요.");
@@ -74,7 +77,8 @@
                     type: "put",
                     data: {
                         "id": id,
-                        "price": price
+                        "price": price,
+                        "manager_id": manager_id
                     },
                     datatype: "json"
                 }).done(function(data) {

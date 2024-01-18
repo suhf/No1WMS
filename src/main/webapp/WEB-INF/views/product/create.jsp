@@ -63,11 +63,9 @@
   							<input type='hidden' id="vendor_id" value="">
 						</div>
 						
-	                	<!-- 추후 수정 -->
-	                	<input type='hidden' id="manager_id" value="83bdda69-ae95-11ee-935d-0242ac110006">
+	                	<c:set var="userData" value="${sessionScope.userData}" />
+	                	<input type='hidden' id="manager_id" value="${userData.id }">
 	           	
-	                	<!-- 추후 수정 -->
-	                	
                 	</div>
             	</div>
 			</div>
@@ -81,7 +79,7 @@
 				</div>
 			</div>
 		</form>
-
+	</div>
 
 <!-- 스크립트 -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
