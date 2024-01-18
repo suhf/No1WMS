@@ -60,7 +60,6 @@ public class PlanInController {
         mav.addObject("list", list);
 
         mav.setViewName("planin/read");
-
         return mav;
     }
 	
