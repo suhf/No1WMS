@@ -9,4 +9,9 @@ import org.apache.ibatis.annotations.Mapper;
 public interface InMapper {
 	List<InDto> inList(Map<String, Object> m);
 	int count(Map<String, Object> m);
+	int createProcess(InDto dto);
+	int createProcess2(InDto dto);
+	InDto selectById (String id);
+	int updateById(InDto dto);
+	
 }

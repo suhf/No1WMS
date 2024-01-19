@@ -37,8 +37,25 @@
 	
 	
 	<!-- insert -->
-	
+		<insert id="createProcess" parameterType="InDto">
+		INSERT INTO product_in (id, product_id, in_date, quantity, warehouse_id, manager_id, note, activation) 
+		VALUES (UUID(), #{product_id}, #{in_date}, #{quantity}, #{warehouse_id}, #{manager_id}, #{note}, 1)
+		</insert>
+		
+		
+		
+		
 	<!-- update -->
+		<update id="updateById" parameterType="InDto">
+			UPDATE product_in 
+			SET product_id = #{product_id}, in_date = #{in_date},quantity = #{quantity}, 
+			warehouse_id = #{warehouse_id}, manager_id = #{manager_id}, note = #{note}
+			WHERE id = #{id}
+		</update>
+	
+		
+	
+	
 	
 	<!-- delete -->
 	
@@ -71,37 +88,76 @@
 	</select>
 
 	<select id="inList" parameterType="map" resultMap="inResultMap">
-    SELECT 
-        proin.id, proin.group_number, proin.product_id, proin.in_date, proin.quantity, proin.warehouse_id, proin.manager_id, proin.note, proin.activation,
-        planin.view_group_number,
-        pro.name as product_name, 
-        w.name as warehouse_name,
-        a.name as account_name,
-        (SELECT price FROM prices WHERE product_id = proin.product_id ORDER BY registration_date DESC LIMIT 1) as latest_price
-    FROM 
-        product_in as proin 
-        LEFT JOIN plan_In as planin on proin.group_number = planin.group_number and proin.product_id = planin.product_id
-        LEFT JOIN product as pro on proin.product_id = pro.id
-        LEFT JOIN warehouse as w on proin.warehouse_id = w.id
-        LEFT JOIN account as a on proin.manager_id = a.id
-    <where>
-        <choose>
-            <when test="searchn == 0">
-                proin.activation = 1 and proin.product_id IN (SELECT id FROM product WHERE name LIKE CONCAT('%',#{search},'%'))
-            </when>
-            <when test="searchn == 1">
-                proin.activation = 1 AND proin.in_date LIKE CONCAT('%',#{search},'%')
-            </when>
-            <when test="searchn == 2">
-                proin.activation = 1 AND proin.manager_id IN (SELECT id FROM account WHERE name LIKE CONCAT('%',#{search},'%'))
-            </when>
-            <when test="searchn == 3">
-                proin.activation = 1 AND proin.group_number LIKE CONCAT('%',#{search},'%')
-            </when>
-        </choose>
-    </where>
-    ORDER BY proin.in_date desc LIMIT #{start} , #{perPage}
-</select>
+	    SELECT 
+	        proin.id, proin.group_number, proin.product_id, proin.in_date, proin.quantity, proin.warehouse_id, proin.manager_id, proin.note, proin.activation,
+	        planin.view_group_number,
+	        pro.name as product_name, 
+	        w.name as warehouse_name,
+	        a.name as account_name,
+	        (SELECT price FROM prices WHERE product_id = proin.product_id ORDER BY registration_date DESC LIMIT 1) as latest_price
+	    FROM 
+	        product_in as proin 
+	        LEFT JOIN plan_In as planin on proin.group_number = planin.group_number and proin.product_id = planin.product_id
+	        LEFT JOIN product as pro on proin.product_id = pro.id
+	        LEFT JOIN warehouse as w on proin.warehouse_id = w.id
+	        LEFT JOIN account as a on proin.manager_id = a.id
+	    <where>
+	        <choose>
+	            <when test="searchn == 0">
+	                proin.activation = 1 and proin.product_id IN (SELECT id FROM product WHERE name LIKE CONCAT('%',#{search},'%'))
+	            </when>
+	            <when test="searchn == 1">
+	                proin.activation = 1 AND proin.in_date LIKE CONCAT('%',#{search},'%')
+	            </when>
+	            <when test="searchn == 2">
+	                proin.activation = 1 AND proin.manager_id IN (SELECT id FROM account WHERE name LIKE CONCAT('%',#{search},'%'))
+	            </when>
+	            <when test="searchn == 3">
+	                proin.activation = 1 AND proin.group_number LIKE CONCAT('%',#{search},'%')
+	            </when>
+	        </choose>
+	    </where>
+	    	ORDER BY proin.in_date desc LIMIT #{start} , #{perPage}
+	</select>
+	<select id="selectById" parameterType="String" resultMap="inResultMap">
+		SELECT 
+	        proin.id, proin.group_number, proin.product_id, proin.in_date, proin.quantity, proin.warehouse_id, proin.manager_id, proin.note, proin.activation,
+	        planin.view_group_number,
+	        pro.name as product_name, 
+	        w.name as warehouse_name,
+	        a.name as account_name,
+	        (SELECT price FROM prices WHERE product_id = proin.product_id ORDER BY registration_date DESC LIMIT 1) as latest_price
+	    FROM 
+	        product_in as proin 
+	        LEFT JOIN plan_In as planin on proin.group_number = planin.group_number and proin.product_id = planin.product_id
+	        LEFT JOIN product as pro on proin.product_id = pro.id
+	        LEFT JOIN warehouse as w on proin.warehouse_id = w.id
+	        LEFT JOIN account as a on proin.manager_id = a.id
+		WHERE proin.id = #{id}
+	
+	</select>
+	
+	
+	
+	<select id="checkIfExistsStock" resultType="int" parameterType="InDto">
+        SELECT COUNT(*) FROM stock
+        WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id}
+    </select>
+	
+	<update id="updateStockProcess" parameterType="InDto">
+        UPDATE stock
+        SET quantity = quantity + #{quantity}
+        WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id}
+    </update>
+	
+	<insert id="createStockProcess" parameterType="InDto">
+        INSERT INTO stock (id, warehouse_id, product_id, quantity, activation)
+        VALUES (UUID(), #{warehouse_id}, #{product_id}, #{quantity}, 1)
+    </insert>
+	
+	
+	
+	
 	
 	
 </mapper>

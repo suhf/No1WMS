@@ -100,6 +100,13 @@
 		                	aria-describedby="basic-addon1">
 	                	</div>
 	                	
+	                	<div class="input-group mb-3 w-40 col-centered">
+		                	<span class="input-group-text" id="basic-addon4">메모</span>
+		                	<input type="text" name="note" id="note" class="form-control" 
+		                	placeholder="메모를 입력하세요" aria-label="메모" value="${dto.note }" 
+		                	aria-describedby="basic-addon1">
+	                	</div>
+	                	
 	
 	                	<c:set var="userData" value="${sessionScope.userData}" />
 	                	<input type='hidden' id="manager_id" value="${userData.id }">
@@ -130,7 +137,7 @@
 			var warehouse_id = $("#warehouse_id").val();
 			var in_date = $("#in_date").val();
 			var manager_id = $("#manager_id").val();
-			
+			var note = $("#note").val();
 			
 			if(!product_id){
 	   			alert("제품을 선택해야합니다.");
@@ -148,14 +155,20 @@
 	   		}
 			if(!in_date){
 				in_date = new Date();
+				in_date = in_date.toISOString();
 			}
+			if(!note){
+				note = "";
+			}
+			
 			
 			const data = {
 					product_id : product_id,
 					quantity : quantity,
 					in_date : in_date,
 					manager_id : manager_id,
-					warehouse_id : warehouse_id
+					warehouse_id : warehouse_id,
+					note : note
 			}
 			
 			
@@ -167,7 +180,7 @@
 	           }).done(function(data) {
 	               if (data == true) {
 	               	alert("입고을 추가했습니다.");
-	               	$(location).attr("href", "/price/list");
+	               	$(location).attr("href", "/in/list");
 	               } else {
 	               	alert("입고 추가에 실패하였습니다.");
 	               }
@@ -176,7 +189,7 @@
 	           }).always(function() {
 				//		
 	           });
-		
+			
 			});//submitBtn
 	});//ready
 

@@ -122,7 +122,23 @@
 		});//createButton
 		
 		
-		
+		$("body").on("click", ".detailTr", function(){
+		    var id = $(this).data("id");
+			
+		   	var form = document.createElement("form");
+			form.action = "/in/read";
+			form.method = "POST";
+			document.body.appendChild(form);
+			
+			var input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "id";
+			input.value = id;
+			form.appendChild(input);
+			
+			form.submit();
+	
+		});//body detailTr
 		
 		
 		

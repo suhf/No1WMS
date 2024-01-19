@@ -30,7 +30,21 @@ public class InService {
 		return mapper.count(m);
 	};//카운터
 	
+	public int createProcess(InDto dto) {
+		return mapper.createProcess(dto);
+	}
 	
+	public int createProcess2(InDto dto) {
+		return mapper.createProcess2(dto);
+	}
+	
+	public InDto selectById (String id) {
+		return mapper.selectById(id);
+	}
+	
+	public int updateById(InDto dto) {
+		return mapper.updateById(dto);
+	}
 	
 	
 	

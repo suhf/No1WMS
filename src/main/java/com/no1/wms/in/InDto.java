@@ -25,7 +25,8 @@ import lombok.NoArgsConstructor;
 public class InDto {
 	
 	private String id;
-	private String group_number;
+	@Builder.Default
+	private String group_number = null;
 	private String product_id;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date in_date;
