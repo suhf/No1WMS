@@ -142,9 +142,9 @@
                 return false;
             }
 
-            if (quantity > remainingcapacity) {
+            if (quantityAdjustment > remainingcapacity) {
                 alert("적재 할 재고량이 재고량 한도를 넘을 수 없습니다.");
-                $("#quantity").focus();
+                $("#quantityAdjustment").focus();
                 return false;
             }
 

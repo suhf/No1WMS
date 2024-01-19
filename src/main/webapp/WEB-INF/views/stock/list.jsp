@@ -76,6 +76,7 @@
                                 <th>제품명</th>
                                 <th>카테고리</th>
                                 <th>재고수</th>
+                                <th>창고</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -85,6 +86,7 @@
                                     <td class="col-1">${dto.productName }</td>
                                     <td class="col-1">${dto.cls_nm_4 }</td>
                                     <td class="col-1">${dto.quantity}</td>
+                                    <td class="col-1">${dto.warehouseName}</td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -96,6 +98,7 @@
                 <div class="row row-buttons">
                     <div class="col-3 text-start">
                         <img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
+                        <button type="button" class="btn btn-success" id="downlodeStockForm">서식 다운로드</button>
                         <button type="button" class="btn btn-success" id="downlodeExcelList">리스트 다운로드</button>
                     </div>
                     <div class="col-6 d-flex justify-content-center">
@@ -192,6 +195,7 @@
                 <div class="row row-buttons">
                     <div class="col-3 text-start">
                         <img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
+                        <button type="button" class="btn btn-success" id="downlodeStockForm2">서식 다운로드</button>
                         <button type="button" class="btn btn-success" id="downlodeExcelList2">리스트 다운로드</button>
                     </div>
                     <div class="col-6 d-flex justify-content-center">
@@ -241,16 +245,23 @@
 
 
     $(document).ready(function () {
-
-        $("#downlodeExcelList,downlodeExcelList2").on("click",function(){
+        $("#downlodeStockForm,downlodeStockForm2").on("click",function(){
             var form = document.createElement("form");
-            form.action = "/vendor/downlodeExcelList";
+            form.action = "/stock/downloadStockForm";
             form.method = "GET";
             document.body.appendChild(form);
             form.submit();
         });
-        //POST방식으로 create폼화면 출력
 
+        $("#downlodeExcelList,downlodeExcelList2").on("click",function(){
+            var form = document.createElement("form");
+            form.action = "/stock/downloadExcelList";
+            form.method = "GET";
+            document.body.appendChild(form);
+            form.submit();
+        });
+
+        //POST방식으로 create폼화면 출력
         //탭 1 생성 버튼
         $("#createButton").on("click", function () {
             var form = document.createElement("form");
