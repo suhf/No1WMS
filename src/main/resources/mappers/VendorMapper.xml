@@ -14,7 +14,7 @@
                president_telephone,
                vendor_manager,
                vendor_manager_telephone,
-               main_product,
+               main_products
 
         from  vendor;
     </select>

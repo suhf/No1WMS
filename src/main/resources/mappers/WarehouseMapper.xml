@@ -92,7 +92,7 @@
     <!-- insert -->
     <insert id="createWarehouse" parameterType="com.no1.wms.warehouse.WarehouseDto">
         insert into warehouse (id, name, capacity, current_capacity, manager_id, address, activation)
-        values (UUID(), #{name}, #{capacity}, #{currentCapacity}, #{managerId}, #{address}, #{activation})
+        values (UUID(), #{name}, #{capacity}, 0, #{managerId}, #{address}, #{activation})
     </insert>
     <!-- insert -->
 

@@ -231,9 +231,10 @@ public class ExcelDownlodeUtils {
 		//
 		for (int i = 0; i < listdto.size(); i++) {
 			row = sheet.createRow(rowNum++);
-			Map<String, Object> dto = listdto.get(i);
+			Map<String, Object> dto = listdto.get(i);  // 이 부분을 수정함
+
 			cell = row.createCell(0);
-			cell.setCellValue((String) dto.get("productName"));
+			cell.setCellValue((String) dto.get("productName"));  // 키 값을 사용하여 값을 가져옴
 			cell = row.createCell(1);
 			cell.setCellValue((String) dto.get("cls_nm_4"));
 			cell = row.createCell(2);

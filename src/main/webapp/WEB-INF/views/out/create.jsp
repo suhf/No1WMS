@@ -135,9 +135,9 @@
                 return false;
             }
 
-            if (quantity < shipment_quantity) {
+            if (shipment_quantity > quantity) {
                 alert("출고수가 재고량보다 많을 수 없습니다.");
-                $("#quantity").focus();
+                $("#shipment_quantity").focus();
                 return false;
             }
 

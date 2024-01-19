@@ -82,7 +82,7 @@
 
 
             $("#submitBtn").on("click", function () {
-                var managerId = $("#managerId").val();
+                var managerId = $("#manager_id").val();
                 var name = $("#name").val();
                 var capacity = $("#capacity").val();
                 var address = $("#address").val();

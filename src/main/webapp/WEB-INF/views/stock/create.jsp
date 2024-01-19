@@ -111,7 +111,7 @@
             type : 'post',           // 타입 (get, post, put 등등)
             url : '/stock/show_modal',           // 요청할 서버url
             dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
-            data : product_id,data,
+            data : {"product_id" : product_id},data,
             success : function(result) { // 결과 성공 콜백함수
                 $("#search_modal_body").html(result);
                 searchModalBootStrap.show();
