@@ -5,6 +5,15 @@
 <mapper namespace="com.no1.wms.stock.StockMapper">
 
     <!-- select -->
+    <select id="selectAll" parameterType="Map" resultType="Map">
+        select s.id as id, s.warehouse_id as warehouseId, s.product_id as productId, s.quantity, p.name as productName, p.kan_code, c.cls_nm_4, w.name as warehouseName
+
+        from stock s
+                 left join warehouse w on s.warehouse_id = w.id
+                 left join product p on s.product_id = p.id
+                 left join product_category c on p.kan_code = c.kan_code;
+    </select>
+
     <select id="count" parameterType="Map" resultType="java.lang.Integer">
         select count(s.id)
 

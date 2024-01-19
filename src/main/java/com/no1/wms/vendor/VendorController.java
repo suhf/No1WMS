@@ -130,8 +130,8 @@ public class VendorController {
 	}
 
 	// 엑셀다운로드테스트
-	@GetMapping("/vendor/downloadTest")
-	public void downloadExcelTest(HttpServletResponse response) {
+	@GetMapping("/vendor/downlodeExcelList")
+	public void downlodeExcelList(HttpServletResponse response) {
 		List<VendorDto> dto = service.selectAll();
 		String excelFileName = "거래처 파일";
 		String sheetName = "거래처";

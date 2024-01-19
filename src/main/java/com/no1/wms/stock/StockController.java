@@ -1,6 +1,7 @@
 package com.no1.wms.stock;
 
 
+import com.no1.wms.excel.ExcelDownlodeUtils;
 import com.no1.wms.vendor.VendorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +22,9 @@ public class StockController {
 
 	@Autowired
 	StockService service;
+
+	@Autowired
+	ExcelDownlodeUtils excelDownlodeUtils;
 	
 	// 탭 1 재고 리스트 출력
 	@GetMapping("/list")
@@ -221,4 +227,24 @@ public class StockController {
 		//테스트
 		return mav;
 	}
+	// 엑셀다운로드테스트
+	@GetMapping("/stock/downlodeExcelList")
+	public void downlodeExcelList(HttpServletResponse response) {
+		List<Map<String, Object>> dto = service.selectAll();
+		String excelFileName = "재고 파일";
+		String sheetName = "재고";
+		String[] columnName = {"제품명","카테고리","창고","재고수"};
+		excelDownlodeUtils.downloadStockExcelFile(excelFileName, response, sheetName, columnName, dto);
+
+	};
+
+	//서식 다운로드
+	@GetMapping("/vendor/downlodeVendorForm")
+	public void downlodeVendorForm (HttpServletResponse response) throws IOException {
+		String vendorFormName = "재고 데이터 입력 서식.xlsx";
+		excelDownlodeUtils.downlodeExcelForm(response, vendorFormName);
+	};
 }
+
+
+

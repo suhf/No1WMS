@@ -96,7 +96,7 @@
                 <div class="row row-buttons">
                     <div class="col-3 text-start">
                         <img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-                        <button type="button" class="btn btn-success" id="download">다운로드</button>
+                        <button type="button" class="btn btn-success" id="downlodeExcelList">리스트 다운로드</button>
                     </div>
                     <div class="col-6 d-flex justify-content-center">
                         <nav>
@@ -192,7 +192,7 @@
                 <div class="row row-buttons">
                     <div class="col-3 text-start">
                         <img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-                        <button type="button" class="btn btn-success" id="download2">다운로드</button>
+                        <button type="button" class="btn btn-success" id="downlodeExcelList2">리스트 다운로드</button>
                     </div>
                     <div class="col-6 d-flex justify-content-center">
                         <nav>
@@ -241,6 +241,14 @@
 
 
     $(document).ready(function () {
+
+        $("#downlodeExcelList,downlodeExcelList2").on("click",function(){
+            var form = document.createElement("form");
+            form.action = "/vendor/downlodeExcelList";
+            form.method = "GET";
+            document.body.appendChild(form);
+            form.submit();
+        });
         //POST방식으로 create폼화면 출력
 
         //탭 1 생성 버튼

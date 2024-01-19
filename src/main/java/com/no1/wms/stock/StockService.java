@@ -142,6 +142,10 @@ public class StockService {
 		return mapper.warehouseCount(m);
 	}
 
+	public List<Map<String, Object>> selectAll() {
+		return mapper.selectAll();
+	}
+
 
 }
 
