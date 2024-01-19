@@ -40,4 +40,16 @@ public class PlanInService {
     void insert(PlanInDto dto){
         mapper.insert(dto);
     }
+
+    int delete(PlanInDto dto){
+        return mapper.delete(dto);
+    }
+
+    List<PlanInDto> selectByUrl(String id) {
+
+        return mapper.selectByUrl(id);
+    }
+
+
+
 }

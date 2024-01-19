@@ -3,9 +3,6 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <script>
-	<c:forEach items="${list }" var="dto" varStatus="status">
-	    ${dto.productDto.name}<br>
-	</c:forEach>
 	
     function showSearchModal(title, val){
         $("#searchModalLabel").text(title);
@@ -24,6 +21,30 @@
             }
         });
     }
+    $(function(){
+        $("#link_id").on("click", function(){
+           copy();
+        });
+
+    })
+    async function copy(){
+
+        try{
+            let protocol = window.location.protocol+"//";
+            let host = window.location.host;
+            let text = $("#link_id").attr("href");
+            let url = protocol+host+text;
+            await navigator.clipboard.writeText(url);
+            alert("클립보드에 엑셀 다운로드 주소 : \n"+url+"\n복사완료");
+            // 클립보드에 write이 성공했을 때
+
+        }catch{
+
+            // 클립보드에 write이 실패했을 때
+
+        }
+
+    }
 </script>
 
 <div class="container">
@@ -39,13 +60,17 @@
     </div>
     <div class="row">
         <div class="col-12 att">
-        	qr : <a href = "/plan_in/qr/${groupNum}"> link </a>
-            <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create" onclick="goCreate() ">삭제 </button>
+        	다운 : <a class = "me-3" id="link_id" href = "/plan_in/qr/${groupNum}">엑셀 다운로드 </a>
+            <button id="link_button" class="btn-primary btn" onClick="copy()" >다운로드 주소 복사</button>
+            <form class="d-inline" method="post" action="/plan_in/delete">
+                <input hidden name="groupNumber" value="${groupNum}">
+                <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create">삭제 </button>
+            </form>
         </div>
         <div class="col-12 m-0">
             <table class="table" >
                 <thead class="table-dark">
-                <tr><th>제품 카테고리</th><th>제품명</th><th>수량</th><th>공급업체</th><th>날짜</th><th>수정/삭제</th></tr>
+                <tr><th>제품 카테고리</th><th>제품명</th><th>수량</th><th>공급업체</th><th>날짜</th></tr>
                 </thead>
                 <tbody>
                     <c:forEach items="${list }" var="dto" varStatus="status">

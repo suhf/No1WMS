@@ -25,6 +25,13 @@
         $form.trigger("submit");
    }
 
+   function goCreate(){
+       const $form = $("<form method='post' action='/plan_in/create'></form> ");
+       $(".att").after($form);
+       $form.trigger("submit");
+
+   }
+
 </script>
 <div class="container">
     <div class="row">
