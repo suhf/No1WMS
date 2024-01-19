@@ -172,7 +172,7 @@ public class StockController {
 	@PostMapping("/show_modal")
 	public ModelAndView showModal(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
 								  @RequestParam(name = "search", defaultValue = "") String search,
-								  @RequestParam(name = "p",  defaultValue = "1") int page,
+								  @RequestParam(name = "p",  defaultValue = "1") int page, String product_id,
 								  @RequestParam String name, ModelAndView mav){
 
 		int perPage = 5; // 한 페이지에 보일 글의 갯수
@@ -193,8 +193,8 @@ public class StockController {
 			list = service.productSelect(searchn, search, startRow, perPage);
 			count = service.productCount(searchn, search);
 		}else if(name.equals("warehouse_capacity_currentCapacity")) {
-			list = service.warehousesSelect(searchn, search, startRow, perPage);
-			count = service.warehouseCount(searchn, search);
+			list = service.warehousesSelect(searchn, search, startRow, perPage ,product_id);
+			count = service.warehouseCount(searchn, search ,product_id);
 		}
 
 		mav.addObject("list", list);
@@ -227,8 +227,10 @@ public class StockController {
 		//테스트
 		return mav;
 	}
-	// 엑셀다운로드테스트
-	@GetMapping("/stock/downlodeExcelList")
+
+
+	// 리스트 다운로드
+	@GetMapping("/stock/downloadExcelList")
 	public void downlodeExcelList(HttpServletResponse response) {
 		List<Map<String, Object>> dto = service.selectAll();
 		String excelFileName = "재고 파일";
@@ -239,10 +241,10 @@ public class StockController {
 	};
 
 	//서식 다운로드
-	@GetMapping("/vendor/downlodeVendorForm")
-	public void downlodeVendorForm (HttpServletResponse response) throws IOException {
-		String vendorFormName = "재고 데이터 입력 서식.xlsx";
-		excelDownlodeUtils.downlodeExcelForm(response, vendorFormName);
+	@GetMapping("/stock/downloadStockForm")
+	public void downlodeStockForm (HttpServletResponse response) throws IOException {
+		String stockFormName = "재고 데이터 입력 서식.xlsx";
+		excelDownlodeUtils.downlodeExcelForm(response, stockFormName);
 	};
 }
 
