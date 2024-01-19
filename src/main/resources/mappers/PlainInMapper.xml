@@ -12,7 +12,6 @@
         <result column="qr_hash"          property="qrHash"/>
         <result column="url"            property="url"/>
         <result column="clear"         property="clear"/>
-        <result column="vendor_date" property="vendorDate" />
         <result column="other" property="other" />
         <result column="activation" property="activation" />
         <result column="view_group_number" property="viewGroupNumber" />
@@ -37,7 +36,7 @@
     <select id="selectById" resultMap="planInResultMap" parameterType="planInDto">
         SELECT
             plan.group_number, plan.product_id, plan.quantity, plan.date, plan.manager_id,
-            plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
+            plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.other, plan.activation, plan.view_group_number,
             product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name, 
             warehouse.id w_id, warehouse.name w_name, product_category.kan_code p_kan, product_category.cls_Nm_4 ca_name
         from plan_In plan join account acc join vendor join warehouse join product join product_category
@@ -45,10 +44,21 @@
                         and plan.warehouse_id = warehouse.id and product.kan_code = product_category.kan_code 
         where plan.group_number = #{groupNumber}
     </select>
+    <select id="selectByUrl" resultMap="planInResultMap">
+        SELECT
+            plan.group_number, plan.product_id, plan.quantity, plan.date, plan.manager_id,
+            plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.other, plan.activation, plan.view_group_number,
+            product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name,
+            warehouse.id w_id, warehouse.name w_name, product_category.kan_code p_kan, product_category.cls_Nm_4 ca_name
+            from plan_In plan join account acc join vendor join warehouse join product join product_category
+            on plan.product_id = product.id and product.vendor_id = vendor.id and plan.manager_id = acc.id
+            and plan.warehouse_id = warehouse.id and product.kan_code = product_category.kan_code
+        WHERE plan.url = #{id}
+    </select>
     <select id="selectAll" resultMap="planInResultMap" parameterType="map">
         SELECT
         plan.group_number, plan.product_id, plan.quantity, plan.date, plan.manager_id,
-        plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.vendor_date, plan.other, plan.activation, plan.view_group_number,
+        plan.warehouse_id, plan.qr_hash, plan.url, plan.clear, plan.other, plan.activation, plan.view_group_number,
         product.id p_id, product.name p_name, acc.id acc_id, acc.name acc_name, vendor.id v_id, vendor.name v_name,
         warehouse.id w_id, warehouse.name w_name, product_category.kan_code p_kan, product_category.cls_Nm_4 ca_name
         from plan_In plan join account acc join vendor join warehouse join product join product_category
@@ -60,25 +70,38 @@
                 <when test="searchn == 0"> plan.activation = 1 and plan.group_number like concat('%',#{search},'%') </when>
             </choose>
         </where>
-        order by plan.group_number desc limit #{start}, #{perPage}
+        order by plan.view_group_number desc limit #{start}, #{perPage}
 
     </select>
     <insert id="insert" parameterType="planInDto">
         insert into plan_In
         (
-            group_number, product_id, quantity, date,
-            manager_id, warehouse_id, qr_hash,
-            url, clear, vendor_date, other, activation, view_group_number
+         group_number, product_id, quantity, date,
+         manager_id, warehouse_id, qr_hash,
+         url, clear, other, activation, view_group_number
         )
-        VALUES
-            (
-                UUID(), #{productId}, #{quantity},
+        VALUES (#{groupNumber}, #{productId}, #{quantity},
                 #{date},
-                #{managerId},#{warehouseId},#{qrHash},
-                #{url},#{clear}, #{vendor_date},
-                #{other},#{activation}, (select MAX(c.group_number)+1 as cnt
-                                         from ( select group_number,MAX(group_number) from plan_In group by group_number ) as c)
-            )
+                #{managerId}, #{warehouseId}, #{qrHash},
+                #{groupNumber}, #{clear},
+                #{other}, true,
+                CASE
+                    WHEN #{viewGroupNumber} IS NOT NULL
+                    THEN #{viewGroupNumber}
+                    WHEN (SELECT count(p1.group_number)
+                          from plan_In p1
+                          WHERE p1.group_number = #{groupNumber} > 0)
+                    THEN (SELECT p2.view_group_number
+                          FROM plan_In p2
+                          WHERE p2.group_number = #{groupNumber} LIMIT 1)
+                    ELSE
+                        (select count(c.group_number) + 1 as cnt
+                         from (select p3.group_number, MAX(p3.group_number)
+                               from plan_In p3
+                               group by p3.group_number) as c)
+                    END
+               )
+
     </insert>
 
 
@@ -91,7 +114,6 @@
                             qr_hash = #{qrHash},
                             url = #{url},
                             clear = #{clear},
-                            vendor_date = #{vendorDate},
                             other = #{other},
                             activation = #{activation},
                             product_id = #{productId}
@@ -100,9 +122,6 @@
 
     <update id="delete" parameterType="planInDto">
         update plan_In SET activation = false WHERE group_number = #{groupNumber}
-    </update>
-    <update id="deleteProduct" parameterType="planInDto">
-        update plan_In SET activation = false WHERE group_number = #{groupNumber} and product_id = #{productId}
     </update>
     <select id="count" parameterType="map" resultType="java.lang.Integer">
         select count(*) from ( SELECT 1 from plan_In i join product p
@@ -115,6 +134,9 @@
         ) t
     </select>
     <delete id="deleteById" parameterType="planInDto">
-        delete from plan_In WHERE group_number = #{groupNumber}
+        SET foreign_key_checks = 0;
+        delete from plan_In WHERE group_number = #{groupNumber};
+        SET foreign_key_checks = 1;
     </delete>
+
 </mapper>

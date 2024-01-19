@@ -31,9 +31,8 @@ public class PlanInDto {
 	private String warehouseId;
 	private String qrHash;
 	private String url;
-	private Boolean clear;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date vendorDate;
+	@Builder.Default
+	private Boolean clear = false;
 	private String other;
 	private Boolean activation;
 	private Integer viewGroupNumber;

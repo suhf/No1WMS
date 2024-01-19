@@ -16,7 +16,11 @@ public interface PlanInMapper {
 
     List<PlanInDto> selectById(PlanInDto dto);
 
+    List<PlanInDto> selectByUrl(String id);
+
     int deleteById(PlanInDto dto);
 
     void insert(PlanInDto dto);
+
+    int delete(PlanInDto dto);
 }
