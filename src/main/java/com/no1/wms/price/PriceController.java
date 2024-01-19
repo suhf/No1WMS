@@ -28,7 +28,7 @@ public class PriceController {
 	PriceService priceService;
 	@Autowired
 	ProductService productService;
-		
+	
 	@GetMapping("/list")
 	public String list(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
 			   			@RequestParam(name = "search", defaultValue = "") String search,
