@@ -32,7 +32,7 @@
 	<!-- update -->
 	<update id="updateById" parameterType="PriceDto">
 		UPDATE prices
-		SET price = #{price}, registration_date = CURDATE()
+		SET price = #{price}, manager_id = #{manager_id}, registration_date = CURDATE()
 		WHERE id = #{id}
 	</update>
 		
@@ -125,7 +125,7 @@
 	            </when>
 	        </choose>
 	    </where>
-	    ORDER BY p.registration_date LIMIT #{start} , #{perPage}
+	    ORDER BY p.registration_date desc LIMIT #{start} , #{perPage}
 	</select>
 	
 	<select id="count2" parameterType="map" resultType="int">

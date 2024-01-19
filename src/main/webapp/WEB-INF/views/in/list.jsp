@@ -5,11 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>제품 가격</title>
+<title>Insert title here</title>
 </head>
 <body>
 	<div class="mt-5 mb-5 text-center">
-		<h1>제품 가격 관리</h1>
+		<h1>입고 관리</h1>
 	</div>
 	<hr>
 	<div class="body">
@@ -20,8 +20,9 @@
 						<div class="w-25">
 						<select class="form-select" name="searchn" id="searchn">
 							<option selected="selected" value="0">제품명</option>
-							<option value="1">가격</option>
-							<option value="2">등록날짜</option>
+							<option value="1">입고날짜</option>
+							<option value="2">담당자</option>
+							<option value="3">입고예정그룹번호</option>
 						</select>
 						</div>
 						<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
@@ -45,7 +46,9 @@
 								<th>번호</th>
 								<th>제품명</th>
 								<th>가격</th>
-								<th>등록날짜</th>
+								<th>수량</th>
+								<th>입고예정그룹번호</th>
+								<th>입고날짜</th>
 								<th>담당자</th>
 							</tr>
 						</thead>
@@ -54,8 +57,10 @@
 									<tr class="detailTr" data-id="${dto.id }" >
 										<td>${status.count }</td>
 										<td>${dto.productDto.name }</td>
-										<td>${dto.price }</td>
-										<td><fmt:formatDate value="${dto.registration_date}" pattern="yyyy-MM-dd" type="date"/></td>
+										<td>${dto.latest_price }</td>
+										<td>${dto.quantity }</td>
+										<td>${dto.planInDto.viewGroupNumber }</td>
+										<td><fmt:formatDate value="${dto.in_date}" pattern="yyyy-MM-dd" type="date"/></td>
 										<td>${dto.accountDto.name }</td>
 									</tr>
 								</c:forEach>
@@ -91,7 +96,7 @@
 					</nav>
 				</div>
 				<div class="col-3 text-end">
-					<button type="button" class="btn btn-primary" id="createButton">생성</button>
+					<button type="button" class="btn btn-primary" id="createButton">추가</button>
 				</div>	
 			</div><!-- row row-buttons -->
 		</div>
@@ -103,62 +108,22 @@
 		//POST방식으로 create폼화면 출력
 		$("#createButton").on("click",function(){
 			var form = document.createElement("form");
-			form.action = "/price/create";
+			form.action = "/in/create";
 			form.method = "POST";
 			document.body.appendChild(form);
 			form.submit();
 		});//createButton
 		
-		//상세페이지
-		$("body").on("click", ".detailTr", function(){
-		    var id = $(this).data("id");
-			
-			var form = document.createElement("form");
-			form.action = "/price/read";
-			form.method = "POST";
-			document.body.appendChild(form);
-			
-			var input = document.createElement("input");
-			input.type = "hidden";
-			input.name = "id";
-			input.value = id;
-			form.appendChild(input);
-			
-			form.submit();
-
-		});
 		
-		$("#searchBtn").on("click",function(){
-			
-			var searchn = $("#searchn").val();
-			var search = $("#search").val();
-			
-			var form = document.createElement("form");
-			form.action = "/price/list";
-			form.method = "get";
-			
-			var input1 = document.createElement("input");
-			input1.type = "hidden";
-			input1.name = "searchn";
-			input1.value = searchn;
-			form.appendChild(input1);
-			
-			var input2 = document.createElement("input");
-			input2.type = "hidden";
-			input2.name = "search";
-			input2.value = search;
-			form.appendChild(input2);
-			
-			var input3 = document.createElement("input");
-			input3.type = "hidden";
-			input3.name = "p";
-			input3.value = 1;
-			form.appendChild(input3);
-			
-			document.body.appendChild(form);
-			form.submit();
-
-		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		
 		
 		
@@ -166,37 +131,6 @@
 		
 	});//ready
 	
-	function pagingFunction(clickedId){
-		var searchn1 = $("#searchn1").val();
-		var search1 = $("#search1").val();
-		
-		var form = document.createElement("form");
-		form.action = "/price/list";
-		form.method = "get";
-		
-		var input1 = document.createElement("input");
-		input1.type = "hidden";
-		input1.name = "searchn";
-		input1.value = searchn1;
-		form.appendChild(input1);
-		
-		var input2 = document.createElement("input");
-		input2.type = "hidden";
-		input2.name = "search";
-		input2.value = search1;
-		form.appendChild(input2);
-		
-		var input3 = document.createElement("input");
-		input3.type = "hidden";
-		input3.name = "p";
-		input3.value = clickedId;
-		form.appendChild(input3);
-		
-		document.body.appendChild(form);
-		form.submit();
-	}
-	
 	</script>
-
 </body>
 </html>

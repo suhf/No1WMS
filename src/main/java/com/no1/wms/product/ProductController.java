@@ -2,6 +2,9 @@ package com.no1.wms.product;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.no1.wms.account.AccountDto;
+import com.no1.wms.account.AccountService;
 import com.no1.wms.category.CategoryDto;
 import com.no1.wms.category.CategoryService;
 import com.no1.wms.price.PriceDto;
@@ -30,6 +35,9 @@ public class ProductController {
 	CategoryService categoryService;
 	@Autowired
 	VendorService service;
+	@Autowired
+	AccountService accountService;
+	
 	
 	/*
 	@GetMapping("list")
@@ -81,7 +89,7 @@ public class ProductController {
 	
 	// 생성 - 폼
 	@PostMapping("/create")
-	public String create() {
+	public String create() {	
 		return "/product/create";
 	}
 	

@@ -15,4 +15,8 @@ public interface PlanInMapper {
     int count(Map<String, Object> m);
 
     List<PlanInDto> selectById(PlanInDto dto);
+
+    int deleteById(PlanInDto dto);
+
+    void insert(PlanInDto dto);
 }

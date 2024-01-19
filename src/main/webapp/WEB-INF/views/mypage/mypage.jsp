@@ -120,6 +120,7 @@
 				                <input type="text" class="form-control" id="position" name="position" value="${list.positionDto.name }" readonly>
 				            </div>
 				        </div>
+				        
 				        <hr style="width: 700px;">
 				        <div class="form-group row">
 				            <div class="col-md-2"></div>

@@ -1,14 +1,16 @@
 package com.no1.wms.planin;
 
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.no1.wms.product.ProductDto;
@@ -92,7 +94,7 @@ public class PlanInController {
     
     // 입고예정추가 
     @PostMapping("/planin_add")
-    public ModelAndView insert(ModelAndView mav, ProductDto dto)
+    public ModelAndView add(ModelAndView mav, ProductDto dto)
     {
     	List<ProductDto> list = productservice.productList(0,  "", 0, 10000);
     	//list
@@ -104,5 +106,47 @@ public class PlanInController {
     	mav.setViewName("planin_add");
     	return mav;
     }
-	
+
+
+    @PostMapping("/planin_edit")
+    public ModelAndView edit(ModelAndView mav, ProductDto dto)
+    {
+        List<ProductDto> list = productservice.productList(0,  "", 0, 10000);
+        //list
+        //ProductDto (0)
+        //ProductDto (1)
+        //ProductDto (2)
+        mav.addObject("list", list);
+
+        mav.setViewName("planin_edit");
+        return mav;
+    }
+
+    @PostMapping("/planin_update_process")
+    @ResponseBody
+    public String updateProcess(@RequestBody List<Map<String, Object>> list, Gson gson,  PlanInDto dto) throws JsonProcessingException, ParseException {
+
+        dto.setGroupNumber((String) list.get(0).get("groupNumber"));
+
+        planinservice.deleteById(dto);
+
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+
+        for(int i = 0; i < list.size(); ++i){
+            Map<String, Object> data = list.get(i);
+            PlanInDto newDto = new PlanInDto();
+            newDto.setGroupNumber((String) data.get("groupNumber"));
+            newDto.setDate( format.parse((String) data.get("date")));
+            newDto.setQuantity((Integer) data.get("quantity"));
+            newDto.setProductId((String)data.get("productId"));
+
+
+        }
+
+        return gson.toJson("s");
+
+    }
+
 }

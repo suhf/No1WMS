@@ -4,22 +4,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>제품 가격 생성</title>
-
+<title>새로운 입고 추가</title>
 <style>
 .col-centered{
       margin: 0 auto;
       float: none;
     }
-.col-margin-left-32{
-	margin-left: 32%;
-}
 </style>
-
 </head>
 <body>
 	<div class="mt-5 mb-5 text-center">
-		<h1>제품 가격 생성</h1>
+		<h1>입고 추가</h1>
 	</div>
 	<hr>
 	<div style="text-align: center">
@@ -43,7 +38,7 @@
 		                	<span class="input-group-text" id="basic-addon2">가격</span>
 		                	<input type="number" name="price" id="price" class="form-control" 
 		                	placeholder="가격을 입력하세요" aria-label="가격" value="${dto.price }" 
-		                	aria-describedby="basic-addon1">
+		                	aria-describedby="basic-addon1" disable><!-- 여기서부터 작업 -->
 	                	</div>
 	                	
 	                	<c:set var="userData" value="${sessionScope.userData}" />
@@ -63,75 +58,16 @@
 	</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-$(document).ready(function() {
-	$("#cancelBtn").on("click", function(){
-       	$(location).attr("href", "/product/list");
-       	
-       })
-       
-       $("#submitBtn").on("click", function(){
-       	
-       	var price = $("#price").val();
-       	var manager_id = $("#manager_id").val();// 수정해야함.
-       	var product_id = $("#product_id").val();// 수정해야함.
-       	
-   		if(!price){
-   			alert("가격을 입력해야 합니다.");
-   			$("#price").focus();
-   			return false;
-   		}
-   		if(!product_id){
-   			alert("제품을 선택해야합니다.");
-   			return false;
-   		}
-   		
-   		
-   		$.ajax({
-           	url: "/price/create_process",
-           	type: "post",
-           	data: {
-           		   "price": price,
-           		   "manager_id": manager_id,
-           		   "product_id": product_id,
-           		   "activation": true
-           		},
-           		datatype:"json"
-           }).done(function(data) {
-               if (data == true) {
-               	alert("제품 가격을 추가했습니다.");
-               	$(location).attr("href", "/price/list");
-               } else {
-               	alert("제품 가격 추가에 실패하였습니다.");
-               }
-           }).fail(function() {
-               alert("오류가 발생했습니다.");
-           }).always(function() {
-			//		
-           });
-         });
-       
-       
-});//ready
-
-function showSearchModal(title, val){
-       $("#searchModalLabel").text(title);
-       const data = { name : val};
-       $.ajax({
-           type : 'post',           // 타입 (get, post, put 등등)
-           url : '/price/show_modal',           // 요청할 서버url
-           dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
-           data : data,
-           success : function(result) { // 결과 성공 콜백함수
-               $("#search_modal_body").html(result);
-               searchModalBootStrap.show();
-           },
-           error : function(request, status, error) {
-               alert(error)
-           }
-       });
-   }
 
 
 </script>
+
+
+
+
+
+
+
+
 </body>
 </html>
