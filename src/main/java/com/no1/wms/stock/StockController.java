@@ -1,6 +1,7 @@
 package com.no1.wms.stock;
 
 
+import com.no1.wms.excel.ExcelDownlodeUtils;
 import com.no1.wms.vendor.VendorDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +22,9 @@ public class StockController {
 
 	@Autowired
 	StockService service;
+
+	@Autowired
+	ExcelDownlodeUtils excelDownlodeUtils;
 	
 	// 탭 1 재고 리스트 출력
 	@GetMapping("/list")
@@ -166,7 +172,7 @@ public class StockController {
 	@PostMapping("/show_modal")
 	public ModelAndView showModal(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
 								  @RequestParam(name = "search", defaultValue = "") String search,
-								  @RequestParam(name = "p",  defaultValue = "1") int page,
+								  @RequestParam(name = "p",  defaultValue = "1") int page, String product_id,
 								  @RequestParam String name, ModelAndView mav){
 
 		int perPage = 5; // 한 페이지에 보일 글의 갯수
@@ -187,8 +193,8 @@ public class StockController {
 			list = service.productSelect(searchn, search, startRow, perPage);
 			count = service.productCount(searchn, search);
 		}else if(name.equals("warehouse_capacity_currentCapacity")) {
-			list = service.warehousesSelect(searchn, search, startRow, perPage);
-			count = service.warehouseCount(searchn, search);
+			list = service.warehousesSelect(searchn, search, startRow, perPage ,product_id);
+			count = service.warehouseCount(searchn, search ,product_id);
 		}
 
 		mav.addObject("list", list);
@@ -221,4 +227,26 @@ public class StockController {
 		//테스트
 		return mav;
 	}
+
+
+	// 리스트 다운로드
+	@GetMapping("/stock/downloadExcelList")
+	public void downlodeExcelList(HttpServletResponse response) {
+		List<Map<String, Object>> dto = service.selectAll();
+		String excelFileName = "재고 파일";
+		String sheetName = "재고";
+		String[] columnName = {"제품명","카테고리","창고","재고수"};
+		excelDownlodeUtils.downloadStockExcelFile(excelFileName, response, sheetName, columnName, dto);
+
+	};
+
+	//서식 다운로드
+	@GetMapping("/stock/downloadStockForm")
+	public void downlodeStockForm (HttpServletResponse response) throws IOException {
+		String stockFormName = "재고 데이터 입력 서식.xlsx";
+		excelDownlodeUtils.downlodeExcelForm(response, stockFormName);
+	};
 }
+
+
+

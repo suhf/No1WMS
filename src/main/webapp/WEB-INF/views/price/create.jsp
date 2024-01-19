@@ -38,7 +38,23 @@
   							<input type='hidden' id="product_id" value="">
 		                	
 	                	</div>
-	                	<!-- 설명만 있는 입력 -->
+	                	
+	                	<div class="input-group mb-3 w-40 col-centered">
+	                        <span id='company_name_span' class="input-group-text">회사명</span>
+	                        <input readonly id="company_name" type="text" class="form-control" placeholder="">
+	                    </div>
+	
+	                    <div class="input-group mb-3 w-40 col-centered">
+	                        <span id='cls_Nm_4_span' class="input-group-text">분류</span>
+	                        <input readonly id="cls_Nm_4" type="text" class="form-control" placeholder="">
+	                    </div>
+	
+	                    <div class="input-group mb-3 w-40 col-centered">
+	                        <span id='vendor_name_span' class="input-group-text">거래처</span>
+	                        <input readonly id="vendor_name" type="text" placeholder="" value="" class="form-control">
+	                    </div>
+	                    
+	                	
 	                	<div class="input-group mb-3 w-40 col-centered">
 		                	<span class="input-group-text" id="basic-addon2">가격</span>
 		                	<input type="number" name="price" id="price" class="form-control" 
@@ -72,8 +88,8 @@ $(document).ready(function() {
        $("#submitBtn").on("click", function(){
        	
        	var price = $("#price").val();
-       	var manager_id = $("#manager_id").val();// 수정해야함.
-       	var product_id = $("#product_id").val();// 수정해야함.
+       	var manager_id = $("#manager_id").val();
+       	var product_id = $("#product_id").val();
        	
    		if(!price){
    			alert("가격을 입력해야 합니다.");

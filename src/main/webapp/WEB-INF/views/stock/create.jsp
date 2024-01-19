@@ -39,7 +39,7 @@
                         <span id='Warehouse_label' class="input-group-text">창고</span>
                         <input readonly id="warehouse_name" type="text" class="form-control" placeholder="창고 검색">
                         <input hidden name="product_id" id="warehouse_id" value="${dto.warehouse_id}">
-                        <button id="Warehouse_search_button" class="btn-primary btn" onclick="showSearchModals('창고 검색','warehouse_capacity_currentCapacity')">검색</button>
+                        <button id="Warehouse_search_button" class="btn-primary btn" onclick="showSearchModals2('창고 검색','warehouse_capacity_currentCapacity')">검색</button>
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
@@ -92,6 +92,26 @@
             url : '/stock/show_modal',           // 요청할 서버url
             dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
             data : data,
+            success : function(result) { // 결과 성공 콜백함수
+                $("#search_modal_body").html(result);
+                searchModalBootStrap.show();
+            },
+            error : function(request, status, error) {
+                alert(error)
+            }
+        });
+    }
+
+    function showSearchModals2(title, val){
+        $("#searchModalLabel").text(title);
+        const data = { name : val};
+        var product_id = $("#product_id").val();
+
+        $.ajax({
+            type : 'post',           // 타입 (get, post, put 등등)
+            url : '/stock/show_modal',           // 요청할 서버url
+            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+            data : product_id,data,
             success : function(result) { // 결과 성공 콜백함수
                 $("#search_modal_body").html(result);
                 searchModalBootStrap.show();

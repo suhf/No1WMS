@@ -48,6 +48,7 @@
 								<th>가격</th>
 								<th>수량</th>
 								<th>입고예정그룹번호</th>
+								<th>창고이름</th>
 								<th>입고날짜</th>
 								<th>담당자</th>
 							</tr>
@@ -59,7 +60,13 @@
 										<td>${dto.productDto.name }</td>
 										<td>${dto.latest_price }</td>
 										<td>${dto.quantity }</td>
-										<td>${dto.planInDto.viewGroupNumber }</td>
+										<c:if test="${not empty dto.planInDto.viewGroupNumber}">
+										    <td>${dto.planInDto.viewGroupNumber}</td>
+										</c:if>
+										<c:if test="${empty dto.planInDto.viewGroupNumber}">
+										    <td></td>
+										</c:if>
+										<td>${dto.warehouseDto.name }</td>
 										<td><fmt:formatDate value="${dto.in_date}" pattern="yyyy-MM-dd" type="date"/></td>
 										<td>${dto.accountDto.name }</td>
 									</tr>

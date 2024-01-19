@@ -5,6 +5,15 @@
 <mapper namespace="com.no1.wms.stock.StockMapper">
 
     <!-- select -->
+    <select id="selectAll" parameterType="Map" resultType="Map">
+        select s.quantity as quantity, p.name as productName, c.cls_nm_4 as cls_nm_4, w.name as warehouseName
+
+        from stock s
+                 left join warehouse w on s.warehouse_id = w.id
+                 left join product p on s.product_id = p.id
+                 left join product_category c on p.kan_code = c.kan_code;
+    </select>
+
     <select id="count" parameterType="Map" resultType="java.lang.Integer">
         select count(s.id)
 
@@ -93,9 +102,9 @@
         left join product_category c on p.kan_code = c.kan_code
         <where>
             <choose>
-                <when test="searchn == 0"> s.id IS NULL and p.activation = 1 and name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> s.id IS NULL and p.activation = 1 and cls_Nm_4 like concat('%',#{search},'%')</when>
-                <when test="searchn == 2"> s.id IS NULL and p.activation = 1 and company_name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> p.activation = 1 and name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> p.activation = 1 and cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> p.activation = 1 and company_name like concat('%',#{search},'%')</when>
             </choose>
         </where>
         order by name desc limit #{start}, #{perPage}
@@ -108,9 +117,9 @@
         left join product_category c on p.kan_code = c.kan_code
         <where>
             <choose>
-                <when test="searchn == 0"> s.id IS NULL and p.activation = 1 and name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> s.id IS NULL and p.activation = 1 and cls_Nm_4 like concat('%',#{search},'%')</when>
-                <when test="searchn == 2"> s.id IS NULL and p.activation = 1 and company_name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> p.activation = 1 and name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> p.activation = 1 and cls_Nm_4 like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> p.activation = 1 and company_name like concat('%',#{search},'%')</when>
             </choose>
         </where>
     </select>
@@ -122,9 +131,9 @@
 
         <where>
             <choose>
-                <when test="searchn == 0"> s.id IS NULL and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and address like concat('%',#{search},'%')</when>
-                <when test="searchn == 2"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> (s.product_id is null or s.product_id &lt;&gt; #{product_id}) and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> (s.product_id is null or s.product_id &lt;&gt; #{product_id}) and w.activation = 1 and address like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> (s.product_id is null or s.product_id &lt;&gt; #{product_id}) and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
         order by w.name desc limit #{start}, #{perPage}
@@ -137,9 +146,9 @@
 
         <where>
             <choose>
-                <when test="searchn == 0"> s.id IS NULL and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> s.id IS NULL and w.activation = 1 and address like concat('%',#{search},'%')</when>
-                <when test="searchn == 2"> s.id IS NULL and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> (s.product_id is null or s.product_id &lt;&gt; #{product_id}) and w.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> (s.product_id is null or s.product_id &lt;&gt; #{product_id}) and w.activation = 1 and address like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> (s.product_id is null or s.product_id &lt;&gt; #{product_id}) and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
     </select>

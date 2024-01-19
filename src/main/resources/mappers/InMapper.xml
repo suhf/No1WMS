@@ -69,40 +69,7 @@
 	        </choose>
 	    </where>
 	</select>
-	
-	<select id="inList2" parameterType="map" resultMap="inResultMap">
-	    SELECT 
-		proin.id, proin.group_number, proin.product_id, proin.in_date, proin.quantity, proin.warehouse_id, proin.manager_id, proin.note, proin.activation,
-		pro.name as product_name, 
-		w.name as warehouse_name,
-		a.name as account_name
-		
-		FROM 
-		product_in as proin 
-		left join plan_In as planin on proin.group_number = planin.group_number and proin.product_id = planin.product_id
-		left join product as pro on proin.product_id = pro.id
-		left join warehouse as w on proin.warehouse_id = w.id
-		left join account as a on proin.manager_id = a.id
-	    <where>
-	        <choose>
-	            <when test="searchn == 0">
-	            	proin.activation = 1 and proin.product_id IN (SELECT id FROM product WHERE name LIKE CONCAT('%',#{search},'%'))
-	            </when>
-	            <when test="searchn == 1">
-	                proin.activation = 1 AND proin.in_date LIKE CONCAT('%',#{search},'%')
-	            </when>
-	            <when test="searchn == 2">
-	                proin.activation = 1 AND proin.manager_id IN (SELECT id FROM account WHERE name LIKE CONCAT('%',#{search},'%'))
-	            </when>
-	            <when test="searchn == 3">
-	                proin.activation = 1 AND proin.group_number LIKE CONCAT('%',#{search},'%')
-	            </when>
-	            
-	        </choose>
-	    </where>
-	    ORDER BY proin.in_date LIMIT #{start} , #{perPage}
-	</select>
-	
+
 	<select id="inList" parameterType="map" resultMap="inResultMap">
     SELECT 
         proin.id, proin.group_number, proin.product_id, proin.in_date, proin.quantity, proin.warehouse_id, proin.manager_id, proin.note, proin.activation,
@@ -133,7 +100,7 @@
             </when>
         </choose>
     </where>
-    ORDER BY proin.in_date LIMIT #{start} , #{perPage}
+    ORDER BY proin.in_date desc LIMIT #{start} , #{perPage}
 </select>
 	
 	

@@ -8,9 +8,16 @@
         const $tag = $(tag);
         const tid = $tag.data('tid');
         const name = $tag.data('tname');
+        const company_name = $tag.data('tcompany_name');
+        const cls_nm_4 = $tag.data('tcls_nm_4');
+        const vendor_name = $tag.data('tvendor_name');
+        
 
         $("#productName").val(name);
         $("#product_id").val(tid);
+        $("#company_name").val(company_name);
+        $("#cls_Nm_4").val(cls_nm_4);
+        $("#vendor_name").val(vendor_name);
         hideSearchModal();
     }//onSelect
     
@@ -119,7 +126,7 @@
 						<td><fmt:formatDate value="${dto.registration_date }"
 								dateStyle="short" /></td>
 						<td>${dto.accountDto.name }</td>
-						<td><button data-tid="${dto.id}" data-tname="${dto.name}" class="btn btn-primary" onclick="onSelect(this)">선택</button></td>
+						<td><button data-tid="${dto.id}" data-tname="${dto.name}" data-tcompany_name="${dto.company_name }" data-tcls_nm_4="${dto.categoryDto.cls_nm_4 }" data-tvendor_name="${dto.vendorDto.name }"class="btn btn-primary" onclick="onSelect(this)">선택</button></td>
 					</tr>
 				</c:forEach>
                 </tbody>

@@ -115,6 +115,14 @@
 			form.submit();
 		});
 
+		$("#downlodeExcelList").on("click",function(){
+			var form = document.createElement("form");
+			form.action = "/vendor/downlodeExcelList";
+			form.method = "GET";
+			document.body.appendChild(form);
+			form.submit();
+		});
+
 		//POST방식으로 create폼화면 출력
 		$("#createButton").on("click",function(){
 			var form = document.createElement("form");
