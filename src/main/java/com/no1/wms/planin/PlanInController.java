@@ -112,9 +112,9 @@ public class PlanInController {
     // 엑셀 다운로드 
     @GetMapping("/qr/{id}")
     @ResponseBody
-    public String qr(@PathVariable("id")String id, HttpServletResponse response)
+    public String qr(@PathVariable("id")String qrHash, HttpServletResponse response)
     {
-        List<PlanInDto> list = planinservice.selectByUrl(id);
+        List<PlanInDto> list = planinservice.selectByQRHash(qrHash);
 
         Utils.makePlanInExcel(list, response);
 

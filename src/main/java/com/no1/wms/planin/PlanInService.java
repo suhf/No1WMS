@@ -45,9 +45,9 @@ public class PlanInService {
         return mapper.delete(dto);
     }
 
-    List<PlanInDto> selectByUrl(String id) {
+    List<PlanInDto> selectByQRHash(String qrHash) {
 
-        return mapper.selectByUrl(id);
+        return mapper.selectByQRHash(qrHash);
     }
 
 

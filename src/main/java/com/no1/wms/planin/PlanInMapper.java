@@ -16,7 +16,7 @@ public interface PlanInMapper {
 
     List<PlanInDto> selectById(PlanInDto dto);
 
-    List<PlanInDto> selectByUrl(String id);
+    List<PlanInDto> selectByQRHash(String qrHash);
 
     int deleteById(PlanInDto dto);
 
