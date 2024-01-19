@@ -9,7 +9,7 @@
 <div class="mt-5 mb-5 text-center">
 	
 		<div class="row">
-		<h1>제품 상세페이지</h1>
+		<h1>제품 가격 상세페이지</h1>
 			<div class="col-10" style="text-align: right;">
 				<button type="button" class="btn btn-danger" onclick="goDelete()">삭제</button>
 			</div>
