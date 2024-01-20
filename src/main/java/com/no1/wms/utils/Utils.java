@@ -139,7 +139,9 @@ public class Utils {
 
             anchor.setCol1(5);
             anchor.setRow1(i+1);
-            String url = "http://localhost:8080/qr/"+dto.getUrl();
+//            String url = "http://localhost:8080/qr/"+dto.getUrl();
+            // qr 생성 데이터 변경
+            String url = "https://wms.coon.myds.me/qr/"+dto.getUrl();
             int picIdx = xssfWorkbook.addPicture(Utils.makeQr(url), XSSFWorkbook.PICTURE_TYPE_PNG);
             XSSFPicture pic = drawing.createPicture(anchor,picIdx );
             pic.resize();
