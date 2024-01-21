@@ -54,7 +54,7 @@
 
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='RemainingCapacity_label' class="input-group-text">잔여 용량</span>
-                        <input readonly id="remainingcapacity" type="text" placeholder="" value="${dto.capacity - dto.current_capacity}" class="form-control">
+                        <input readonly id="remainingcapacity" type="text" placeholder="" class="form-control">
                     </div>
 
 
@@ -62,9 +62,11 @@
                     <div class="input-group mb-3 w-40 col-centered">
                         <span class="input-group-text" id="basic-addon4">재고량</span>
                         <input type="text" name="quantity" id="quantity" class="form-control"
-                               placeholder="재고량을 입력하세요" aria-label="재고량" value="${dto.quantity }"
+                               placeholder="재고량을 입력하세요" aria-label="재고량"
                                aria-describedby="basic-addon1">
                     </div>
+
+
 
 
 
@@ -103,15 +105,16 @@
     }
 
     function showSearchModals2(title, val){
-        $("#searchModalLabel").text(title);
-        const data = { name : val};
         var product_id = $("#product_id").val();
+        $("#searchModalLabel").text(title);
+        const data = { name : val,
+            product_id :product_id};
 
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)
             url : '/stock/show_modal',           // 요청할 서버url
             dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
-            data : {"product_id" : product_id},data,
+            data : data,
             success : function(result) { // 결과 성공 콜백함수
                 $("#search_modal_body").html(result);
                 searchModalBootStrap.show();
@@ -129,9 +132,18 @@
         $("#submitBtn").on("click", function () {
             var product_id = $("#product_id").val();
             var warehouse_id = $("#warehouse_id").val();
-            var quantity = $("#quantity").val();
             var activation = $("#activation").val();
-            var remainingcapacity = $("#remainingcapacity").val();
+            var quantity = parseInt($("#quantity").val(), 10);
+            var remainingcapacity = parseInt($("#remainingcapacity").val(), 10);
+
+            console.log("Quantity:", quantity);
+            console.log("Remaining Capacity:", remainingcapacity);
+
+            if (quantity > remainingcapacity) {
+                alert("적재 할 재고량이 잔여 용량을 넘을 수 없습니다.");
+                $("#quantity").focus();
+                return false;
+            }
 
             if (!product_id) {
                 alert("제품을 선택해야 합니다.");
@@ -146,12 +158,6 @@
 
             if (!quantity) {
                 alert("재고량를 입력해야 합니다.");
-                $("#quantity").focus();
-                return false;
-            }
-
-            if (quantity > remainingcapacity) {
-                alert("적재 할 재고량이 잔여 용량을 넘을 수 없습니다.");
                 $("#quantity").focus();
                 return false;
             }

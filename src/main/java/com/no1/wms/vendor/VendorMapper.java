@@ -1,5 +1,6 @@
 package com.no1.wms.vendor;
 
+import com.no1.wms.category.CategoryDto;
 import com.no1.wms.warehouse.WarehouseDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -19,6 +20,7 @@ public interface VendorMapper {
 	int updateVendor(VendorDto dto);
 	
 	int createVendor(VendorDto dto);
+	int createProcess(VendorDto dto);
 
 	int deleteVendor(String id);
 

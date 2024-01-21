@@ -108,14 +108,14 @@
 
         $("#submitBtn").on("click", function () {
             var product_id = $("#product_id").val();
-            var quantity = $("#quantity").val();
+            var quantity = parseInt($("#quantity").val(), 10);
             var expected_delivery_date = $("#expected_delivery_date").val();
             var delivery_date = $("#delivery_date").val();
             var warehouse_id = $("#warehouse_id").val();
             var manager_id = $("#manager_id").val();
             var note = $("#note").val();
             var activation = $("#activation").val();
-            var shipment_quantity = $("#shipment_quantity").val();
+            var shipment_quantity = parseInt($("#shipment_quantity").val(), 10);
 
 
             if (!product_id) {

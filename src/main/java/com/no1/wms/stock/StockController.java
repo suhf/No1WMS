@@ -196,7 +196,7 @@ public class StockController {
 			list = service.warehousesSelect(searchn, search, startRow, perPage ,product_id);
 			count = service.warehouseCount(searchn, search ,product_id);
 		}
-
+		System.out.println("테스트 :: "+ product_id);
 		mav.addObject("list", list);
 
 		mav.addObject("start", startRow + 1);
@@ -230,9 +230,10 @@ public class StockController {
 
 
 	// 리스트 다운로드
-	@GetMapping("/stock/downloadExcelList")
+	@GetMapping("/downloadExcelList")
 	public void downlodeExcelList(HttpServletResponse response) {
 		List<Map<String, Object>> dto = service.selectAll();
+		System.out.println("엑셀 출력 확인 : : " + dto);
 		String excelFileName = "재고 파일";
 		String sheetName = "재고";
 		String[] columnName = {"제품명","카테고리","창고","재고수"};
@@ -241,7 +242,7 @@ public class StockController {
 	};
 
 	//서식 다운로드
-	@GetMapping("/stock/downloadStockForm")
+	@GetMapping("/downloadStockForm")
 	public void downlodeStockForm (HttpServletResponse response) throws IOException {
 		String stockFormName = "재고 데이터 입력 서식.xlsx";
 		excelDownlodeUtils.downlodeExcelForm(response, stockFormName);

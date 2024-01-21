@@ -53,13 +53,13 @@
                 <div class="input-group mb-3 w-30 col-centered">
                     <div class="w-25">
                         <select class="form-select" id="searchn">
-                            <option value="0">제품명</option>
-                            <option value="1">재고수</option>
+                            <option value="0" ${searchn == 0 ? 'selected' : ''}>제품명</option>
+                            <option value="1" ${searchn == 1 ? 'selected' : ''}>재고수</option>
                         </select>
                     </div>
                     <input type=hidden id="id" value="${One.id}">
                     <input type="text" name="search" class="form-control" id="search"
-                           aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+                           aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
                     <input class="btn btn-info" type="submit" id="searchBtn" value="검색"/>
                 </div>
 

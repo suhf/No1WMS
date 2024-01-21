@@ -25,6 +25,8 @@ public interface ProductOutMapper {
 	int updateWarehousePlus(ProductOutDto dto);
 
 	int updateWarehouseDeleteStock(ProductOutDto dto);
+
+	int stockQuantityUpdate(ProductOutDto dto);
 	
 	int createOut(ProductOutDto dto);
 

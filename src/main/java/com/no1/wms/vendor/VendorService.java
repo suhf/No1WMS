@@ -1,6 +1,5 @@
 package com.no1.wms.vendor;
 
-import com.no1.wms.warehouse.WarehouseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +47,9 @@ public class VendorService {
 
     public int createVendor(VendorDto dto) {
         return mapper.createVendor(dto);
+    }
+    public int createProcess(VendorDto dto) {
+        return mapper.createProcess(dto);
     }
 
 

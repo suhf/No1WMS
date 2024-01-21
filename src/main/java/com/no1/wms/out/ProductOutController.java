@@ -120,7 +120,7 @@ public class ProductOutController {
 	@ResponseBody
 	public int delete(ProductOutDto dto) {
 		System.out.println("데이터 :: " + dto);
-		int i = service.deleteOut(dto);
+		int i = service.outNow(dto);
 
 		return i;
 	}
@@ -130,13 +130,10 @@ public class ProductOutController {
 	@PutMapping("/outNow")
 	@ResponseBody
 	public boolean outNow(ProductOutDto dto) {
-		int i = service.outNowUpdate(dto);
-		if (i != 0) {
-			service.updateWarehouseDeleteStock(dto);
-			return true;
-		} else {
-			return false;
-		}
+		service.outNowUpdate(dto);
+		service.updateWarehouseDeleteStock(dto);
+		service.stockQuantityUpdate(dto);
+		return true;
 	}
 
 

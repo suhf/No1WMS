@@ -39,7 +39,7 @@
                     <!--창고 관련 -->
                     <div class="input-group mb-3 w-40 col-centered">
                         <span id='Warehouse_label' class="input-group-text">창고</span>
-                        <input readonly id="warehouse_name" type="text" class="form-control" placeholder="창고 검색" value="${dto.company_name}">
+                        <input readonly id="warehouse_name" type="text" class="form-control" placeholder="창고 검색" value="${dto.warehouseName}">
                         <input hidden name="product_id" id="warehouse_id" value="${dto.warehouseId}">
                         <%--                        <button id="Warehouse_search_button" class="btn-primary btn" onclick="showSearchModals('창고 검색','warehouse_capacity_currentCapacity')">검색</button>--%>
                     </div>
@@ -55,7 +55,7 @@
                     </div>
 
                     <div class="input-group mb-3 w-40 col-centered">
-                        <span id='RemainingCapacity_label' class="input-group-text">재고량 한도</span>
+                        <span id='RemainingCapacity_label' class="input-group-text">수정 가능한 재고량 한도</span>
                         <input readonly id="remainingcapacity" type="text" placeholder="" value="${dto.capacity - dto.current_capacity + dto.quantity}" class="form-control">
                     </div>
 
@@ -120,9 +120,9 @@
             var warehouse_id = $("#warehouse_id").val();
             var quantity = $("#quantity").val();
             var activation = $("#activation").val();
-            var remainingcapacity = $("#remainingcapacity").val();
             var id = $("#id").val();
-            var quantityAdjustment = $("#quantityAdjustment").val();
+            var quantityAdjustment = parseInt($("#quantityAdjustment").val(), 10);
+            var remainingcapacity = parseInt($("#remainingcapacity").val(), 10);
 
 
             if (!product_id) {

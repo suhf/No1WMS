@@ -73,6 +73,11 @@ public class ProductOutService {
 		return mapper.updateWarehouseDeleteStock(dto);
 	}
 
+	public int stockQuantityUpdate(ProductOutDto dto){
+		return mapper.stockQuantityUpdate(dto);
+	}
+
+
 	public int deleteOut(ProductOutDto dto) {
 		return mapper.deleteOut(dto);
 	}

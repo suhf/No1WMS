@@ -5,7 +5,7 @@
 <mapper namespace="com.no1.wms.vendor.VendorMapper">
 
     <select id="selectAll" resultType="VendorDto">
-        select
+        select id,
                name,
                president_name,
                address,
@@ -14,7 +14,9 @@
                president_telephone,
                vendor_manager,
                vendor_manager_telephone,
-               main_products
+               main_product,
+               manager_id,
+               activation
 
         from  vendor;
     </select>
@@ -108,7 +110,12 @@
     <!-- insert -->
     <insert id="createVendor" parameterType="VendorDto">
         insert into vendor (id, name, president_name, address, registration_number, email, president_telephone, vendor_manager, vendor_manager_telephone, main_product, manager_id, activation)
-        values (UUID(), #{name}, #{president_name}, #{address}, #{registration_number}, #{email}, #{president_telephone}, #{vendor_manager}, #{vendor_manager_telephone}, #{main_product}, #{manager_id}, #{activation})
+        values (UUID(), #{name}, #{president_name}, #{address}, #{registration_number}, #{email}, #{president_telephone}, #{vendor_manager}, #{vendor_manager_telephone}, #{main_product}, #{manager_id}, 1)
+    </insert>
+
+    <insert id="createProcess" parameterType="VendorDto">
+        insert into vendor (id, name, president_name, address, registration_number, email, president_telephone, vendor_manager, vendor_manager_telephone, main_product, manager_id, activation)
+        values (UUID(), #{name}, #{president_name}, #{address}, #{registration_number}, #{email}, #{president_telephone}, #{vendor_manager}, #{vendor_manager_telephone}, #{main_product}, #{manager_id}, 1)
     </insert>
     <!-- insert -->
 

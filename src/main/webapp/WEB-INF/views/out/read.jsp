@@ -60,7 +60,7 @@
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='note_label' class="input-group-text">비고</span>
-                    <textarea readonly id="note" class="form-control" rows="5" value="${dto.note}"></textarea>
+                    <textarea readonly id="note" class="form-control" rows="5">${dto.note}</textarea>
                 </div>
 
 
@@ -68,7 +68,7 @@
         </div>
     </div>
     <div class="row col-12">
-        <div class="col-6 ">
+        <div class="col-6" id="onoff">
             <div class="w-40 col-centered" style="text-align: right">
                 <button type="button" class="btn btn-danger" id="outNow">출고</button>
             </div>
@@ -109,7 +109,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button id="modal_yes_button_outNow" type="button" class="modal_yes btn btn-primary">삭제</button>
+                <button id="modal_yes_button_outNow" type="button" class="modal_yes btn btn-primary">출고</button>
             </div>
         </div>
     </div>
@@ -137,6 +137,13 @@
 
 
     $(document).ready(function () {
+        var deliveryDate = $("#delivery_date").val();
+
+        // '출고 날짜' 입력 필드에 값이 있다면, '출고' 버튼을 숨깁니다.
+        if (deliveryDate) {
+            $("#outNow").hide();
+        }
+
         $("#modifyBtn").on("click", function () {
             var id = $("#id").val();
 
@@ -207,6 +214,9 @@
 
         function outNowUpdate() {
             var id = $("#id").val();
+            var quantity = $("#quantity").val();
+            var product_id = $("#product_id").val()
+            var warehouse_id = $("#warehouse_id").val();
             var expected_delivery_date = $("#expected_delivery_date").val();
             // 현재 날짜와 시간을 얻기
             var now = new Date();
@@ -217,6 +227,9 @@
                 type: "put",
                 data: {
                     "id": id,
+                    "quantity": quantity,
+                    "product_id":product_id,
+                    "warehouse_id": warehouse_id,
                     "expected_delivery_date": expected_delivery_date,
                     "delivery_date": delivery_date
                 },

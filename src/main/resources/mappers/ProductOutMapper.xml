@@ -119,6 +119,12 @@
         set quantity = #{quantity}, expected_delivery_date = #{expected_delivery_date}, delivery_date = #{delivery_date}
         where id = #{id};
     </update>
+
+    <update id="stockQuantityUpdate" parameterType="com.no1.wms.out.ProductOutDto">
+        update stock
+        set quantity = quantity - #{quantity}
+        where product_id = #{product_id} and warehouse_id = #{warehouse_id};
+    </update>
     <!-- update -->
 
 

@@ -59,7 +59,7 @@
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='note_label' class="input-group-text">비고</span>
-                    <textarea id="note" class="form-control" rows="5" value="${note}"></textarea>
+                    <textarea  id="note" class="form-control" rows="5">${dto.note}</textarea>
                 </div>
 
 

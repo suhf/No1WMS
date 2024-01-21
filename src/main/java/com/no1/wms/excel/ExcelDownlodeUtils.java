@@ -240,7 +240,7 @@ public class ExcelDownlodeUtils {
 			cell = row.createCell(2);
 			cell.setCellValue((String) dto.get("warehouseName"));
 			cell = row.createCell(3);
-			cell.setCellValue((String) dto.get("quantity"));
+			cell.setCellValue((int) dto.get("quantity"));
 
 		}
 	}
