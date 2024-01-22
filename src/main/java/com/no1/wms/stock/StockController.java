@@ -146,9 +146,9 @@ public class StockController {
 	// 생성 - Ajax
 	@PostMapping("/create_process")
 	@ResponseBody
-	public boolean createProcess(StockDto dto) {
-		service.checkandUpdateOrCreateProcess(dto);
-			return true;
+	public int createProcess(StockDto dto) {
+		int c = service.checkandUpdateOrCreateProcess(dto);
+			return c;
 	}
 
 

@@ -1,6 +1,5 @@
 package com.no1.wms.stock;
 
-import com.no1.wms.in.InDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -149,15 +148,16 @@ public class StockService {
 
 
 	//createProcess
-	public boolean checkandUpdateOrCreateProcess(StockDto dto){
+	public int checkandUpdateOrCreateProcess(StockDto dto){
+		mapper.updateWarehousePlus(dto);
 		int j = mapper.checkIfExistsStock(dto);
 		if (j == 1){
 			mapper.updateStockProcess(dto);
+			return 1;
 		}else{
 			mapper.createStockProcess(dto);
+			return 2;
 		}
-		mapper.updateWarehousePlus(dto);
-		return true;
 	}
 
 }
