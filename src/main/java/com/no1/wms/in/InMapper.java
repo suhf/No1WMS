@@ -13,5 +13,8 @@ public interface InMapper {
 	int createProcess2(InDto dto);
 	InDto selectById (String id);
 	int updateById(InDto dto);
+	int checkIfExistsStock(InDto dto);
+	int updateStockProcess(InDto dto);
+	int createStockProcess(InDto dto);
 	
 }

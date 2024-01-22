@@ -46,6 +46,16 @@ public class InService {
 		return mapper.updateById(dto);
 	}
 	
+	public int checkIfExistsStock(InDto dto) {
+		return mapper.checkIfExistsStock(dto);
+	}
 	
+	public int updateStockProcess(InDto dto) {
+		return mapper.updateStockProcess(dto);
+	}
+	
+	public int createStockProcess(InDto dto) {
+		return mapper.createStockProcess(dto);
+	}
 	
 }

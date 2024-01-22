@@ -79,11 +79,35 @@ public class InController {
 	@PostMapping("/create_process")
 	@ResponseBody
 	public boolean createProcess(InDto dto) {
-		int i = inService.createProcess(dto);
-		int j = inService.createProcess2(dto);
-		if (i == 1 & i == j) {
-			return true;
-		} else {
+		int j = inService.checkIfExistsStock(dto);
+		if(j == 1) {
+			int k = inService.updateStockProcess(dto);
+			if(k == 1) {
+				int i = inService.createProcess(dto);
+				if(i == k) {
+					System.out.println("달라서 새로만듬");
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
+			}
+			
+		}else if(j == 0) {
+			int k = inService.createStockProcess(dto);
+			if(k == 1) {
+				int i = inService.createProcess(dto);
+				if(i == k) {
+					System.out.println("같아서 합침");
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
+			}
+		}else {
 			return false;
 		}
 	}
@@ -172,7 +196,7 @@ public class InController {
                                   @RequestParam(name = "p",  defaultValue = "1") int page,
                                   @RequestParam String name, String product_id, ModelAndView mav){
 
-        int perPage = 9; // 한 페이지에 보일 글의 갯수
+        int perPage = 5; // 한 페이지에 보일 글의 갯수
         int startRow = (page - 1) * perPage;
 
         List<Map<String, Object>> list = null;
