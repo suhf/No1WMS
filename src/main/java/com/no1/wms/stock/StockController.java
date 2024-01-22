@@ -147,13 +147,8 @@ public class StockController {
 	@PostMapping("/create_process")
 	@ResponseBody
 	public boolean createProcess(StockDto dto) {
-		int i = service.createStock(dto);
-		if (i != 0) {
-			service.updateWarehousePlus(dto);
+		service.checkandUpdateOrCreateProcess(dto);
 			return true;
-		} else {
-			return false;
-		}
 	}
 
 

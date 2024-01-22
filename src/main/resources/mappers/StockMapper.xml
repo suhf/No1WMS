@@ -210,4 +210,24 @@
         where id = #{id}
     </delete>
     <!-- delete -->
+
+
+
+
+
+    <select id="checkIfExistsStock" resultType="int" parameterType="com.no1.wms.stock.StockDto">
+        SELECT COUNT(*) FROM stock
+        WHERE warehouse_id = #{warehouseId} AND product_id = #{productId}
+    </select>
+
+    <update id="updateStockProcess" parameterType="com.no1.wms.stock.StockDto">
+        UPDATE stock
+        SET quantity = quantity + #{quantity}
+        WHERE warehouse_id = #{warehouseId} AND product_id = #{productId}
+    </update>
+
+    <insert id="createStockProcess" parameterType="com.no1.wms.stock.StockDto">
+        INSERT INTO stock (id, warehouse_id, product_id, quantity, activation)
+        VALUES (UUID(), #{warehouseId}, #{productId}, #{quantity}, 1)
+    </insert>
 </mapper>
