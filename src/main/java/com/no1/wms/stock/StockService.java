@@ -121,26 +121,24 @@ public class StockService {
 		return mapper.productCount(m);
 	}
 
-	public List<Map<String, Object>> warehousesSelect(int searchn, String search, int start, int perPage, String product_id){
+	public List<Map<String, Object>> warehousesSelect(int searchn, String search, int start, int perPage){
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("searchn", searchn);
 		m.put("search", search);
 		m.put("start", start);
 		m.put("perPage", perPage);
-		m.put("product_id", product_id);
 
 		List<Map<String, Object>> warehouseresult = mapper.warehouseSelect(m);
 
 		return warehouseresult;
 	}
 
-	public int warehouseCount(int searchn, String search, String product_id) {
+	public int warehouseCount(int searchn, String search) {
 
 
 		Map<String,Object> m = new HashMap<String, Object>();
 		m.put("searchn",searchn);
 		m.put("search", search);
-		m.put("product_id", product_id);
 		return mapper.warehouseCount(m);
 	}
 

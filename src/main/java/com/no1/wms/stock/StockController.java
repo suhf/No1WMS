@@ -172,7 +172,7 @@ public class StockController {
 	@PostMapping("/show_modal")
 	public ModelAndView showModal(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
 								  @RequestParam(name = "search", defaultValue = "") String search,
-								  @RequestParam(name = "p",  defaultValue = "1") int page, String product_id,
+								  @RequestParam(name = "p",  defaultValue = "1") int page,
 								  @RequestParam String name, ModelAndView mav){
 
 		int perPage = 5; // 한 페이지에 보일 글의 갯수
@@ -193,10 +193,9 @@ public class StockController {
 			list = service.productSelect(searchn, search, startRow, perPage);
 			count = service.productCount(searchn, search);
 		}else if(name.equals("warehouse_capacity_currentCapacity")) {
-			list = service.warehousesSelect(searchn, search, startRow, perPage ,product_id);
-			count = service.warehouseCount(searchn, search ,product_id);
+			list = service.warehousesSelect(searchn, search, startRow, perPage);
+			count = service.warehouseCount(searchn, search);
 		}
-		System.out.println("테스트 :: "+ product_id);
 		mav.addObject("list", list);
 
 		mav.addObject("start", startRow + 1);
