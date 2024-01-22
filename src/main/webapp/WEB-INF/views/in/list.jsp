@@ -141,18 +141,84 @@
 		});//body detailTr
 		
 		
+		//검색기능
+		$("#searchBtn").on("click",function(){
+			
+			var searchn = $("#searchn").val();
+			var search = $("#search").val();
+			
+			var form = document.createElement("form");
+			form.action = "/in/list";
+			form.method = "get";
+			
+			var input1 = document.createElement("input");
+			input1.type = "hidden";
+			input1.name = "searchn";
+			input1.value = searchn;
+			form.appendChild(input1);
+			
+			var input2 = document.createElement("input");
+			input2.type = "hidden";
+			input2.name = "search";
+			input2.value = search;
+			form.appendChild(input2);
+			
+			var input3 = document.createElement("input");
+			input3.type = "hidden";
+			input3.name = "p";
+			input3.value = 1;
+			form.appendChild(input3);
+			
+			document.body.appendChild(form);
+			form.submit();
+
+		});
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+	
 	});//ready
+	
+	function pagingFunction(clickedId){
+		var searchn1 = $("#searchn1").val();
+		var search1 = $("#search1").val();
+		
+		var form = document.createElement("form");
+		form.action = "/in/list";
+		form.method = "get";
+		
+		var input1 = document.createElement("input");
+		input1.type = "hidden";
+		input1.name = "searchn";
+		input1.value = searchn1;
+		form.appendChild(input1);
+		
+		var input2 = document.createElement("input");
+		input2.type = "hidden";
+		input2.name = "search";
+		input2.value = search1;
+		form.appendChild(input2);
+		
+		var input3 = document.createElement("input");
+		input3.type = "hidden";
+		input3.name = "p";
+		input3.value = clickedId;
+		form.appendChild(input3);
+		
+		document.body.appendChild(form);
+		form.submit();
+
+	}//pagingFunction
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	</script>
 </body>

@@ -144,9 +144,12 @@
 	        $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
 	        yesNoModal.yesFunction = deleteInFunction;
 	        yesNoModalBootStrap.show();
-
-
 	    }
+		
+		
+		
+		
+		
 		
 	</script>
 </body>
