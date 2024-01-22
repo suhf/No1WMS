@@ -79,37 +79,7 @@ public class InController {
 	@PostMapping("/create_process")
 	@ResponseBody
 	public boolean createProcess(InDto dto) {
-		int j = inService.checkIfExistsStock(dto);
-		if(j == 1) {
-			int k = inService.updateStockProcess(dto);
-			if(k == 1) {
-				int i = inService.createProcess(dto);
-				if(i == k) {
-					System.out.println("달라서 새로만듬");
-					return true;
-				}else {
-					return false;
-				}
-			}else {
-				return false;
-			}
-			
-		}else if(j == 0) {
-			int k = inService.createStockProcess(dto);
-			if(k == 1) {
-				int i = inService.createProcess(dto);
-				if(i == k) {
-					System.out.println("같아서 합침");
-					return true;
-				}else {
-					return false;
-				}
-			}else {
-				return false;
-			}
-		}else {
-			return false;
-		}
+		return inService.chechAndUpdateOrCreateProcess(dto);
 	}
 	
 	@PostMapping("/read")
@@ -202,8 +172,8 @@ public class InController {
         List<Map<String, Object>> list = null;
         int count = 0;
 
-        list = stockservice.warehousesSelect(searchn, search, startRow, perPage, product_id);
-        count = stockservice.warehouseCount(searchn, search, product_id);
+        list = stockservice.warehousesSelect(searchn, search, startRow, perPage);
+        count = stockservice.warehouseCount(searchn, search);
 
 
         mav.addObject("list", list);

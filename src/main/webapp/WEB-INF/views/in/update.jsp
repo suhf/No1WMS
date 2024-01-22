@@ -103,6 +103,7 @@
 
                         <c:set var="userData" value="${sessionScope.userData}" />
                         <input type='hidden' id="manager_id" value="${userData.id}">
+                        <input type='hidden' id="id" value="${dto.id}">
                     </div>
                 </div>
             </div>
@@ -216,41 +217,41 @@
           });//submitBtn
         
 	});//ready
-	function showSearchModal(title, val){
-        $("#searchModalLabel").text(title);
-        const data = { name : val};
-        $.ajax({
-            type : 'post',           // 타입 (get, post, put 등등)
-            url : '/product/show_modal',           // 요청할 서버url
-            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
-            data : data,
-            success : function(result) { // 결과 성공 콜백함수
-                $("#search_modal_body").html(result);
-                searchModalBootStrap.show();
-            },
-            error : function(request, status, error) {
-                alert(error)
-            }
-        });
-    }
- 
-	 function showSearchModal2(title, val){
-	        $("#searchModalLabel").text(title);
-	        const data = { name : val};
-	        $.ajax({
-	            type : 'post',           // 타입 (get, post, put 등등)
-	            url : '/product/show_modal2',           // 요청할 서버url
-	            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
-	            data : data,
-	            success : function(result) { // 결과 성공 콜백함수
-	                $("#search_modal_body").html(result);
-	                searchModalBootStrap.show();
-	            },
-	            error : function(request, status, error) {
-	                alert(error)
-	            }
-	        });
-	    }
+	function showSearchModal_product(title, val){
+	       $("#searchModalLabel").text(title);
+	       const data = { name : val};
+	       $.ajax({
+	           type : 'post',           // 타입 (get, post, put 등등)
+	           url : '/in/show_modal_product',           // 요청할 서버url
+	           dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+	           data : data,
+	           success : function(result) { // 결과 성공 콜백함수
+	               $("#search_modal_body").html(result);
+	               searchModalBootStrap.show();
+	           },
+	           error : function(request, status, error) {
+	               alert(error)
+	           }
+	       });
+	   }//showSearchModal_products
+	
+	function showSearchModal_warehouse(title, val){
+	     $("#searchModalLabel").text(title);
+	     const data = { name : val};
+	     $.ajax({
+	         type : 'post',           // 타입 (get, post, put 등등)
+	         url : '/in/show_modal_warehouse',           // 요청할 서버url
+	         dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+	         data : data,
+	         success : function(result) { // 결과 성공 콜백함수
+	             $("#search_modal_body").html(result);
+	             searchModalBootStrap.show();
+	         },
+	         error : function(request, status, error) {
+	             alert(error)
+	         }
+	     	});
+ 	}//showSearchModal_warehouse
 	</script>
 </body>
 </html>

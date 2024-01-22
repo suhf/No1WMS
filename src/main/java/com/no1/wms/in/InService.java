@@ -58,4 +58,45 @@ public class InService {
 		return mapper.createStockProcess(dto);
 	}
 	
+	//createProcess
+	public boolean chechAndUpdateOrCreateProcess(InDto dto) {
+		int j = mapper.checkIfExistsStock(dto);
+		if(j == 1) {
+			int k = mapper.updateStockProcess(dto);
+			if(k == 1) {
+				int i = mapper.createProcess(dto);
+				if(i == k) {
+					System.out.println("달라서 새로만듬");
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
+			}
+			
+		}else if(j == 0) {
+			int k = mapper.createStockProcess(dto);
+			if(k == 1) {
+				int i = mapper.createProcess(dto);
+				if(i == k) {
+					System.out.println("같아서 합침");
+					return true;
+				}else {
+					return false;
+				}
+			}else {
+				return false;
+			}
+		}else {
+			return false;
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
 }
