@@ -37,7 +37,7 @@
     </select>
 
     <select id="One" parameterType="String" resultType="com.no1.wms.warehouse.WarehouseDto">
-        select w.id, w.name, w.capacity, w.current_capacity as currentCapacity, w.address
+        select w.id, w.name, w.capacity, (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id) AS current_capacity, w.address
 
         from  warehouse w
 
