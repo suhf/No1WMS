@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -78,8 +79,10 @@ public class InController {
 	
 	@PostMapping("/create_process")
 	@ResponseBody
-	public boolean createProcess(InDto dto) {
-		return inService.chechAndUpdateOrCreateProcess(dto);
+	public int createProcess(InDto dto) {
+		boolean create = inService.chechAndUpdateOrCreateProcessForCreate(dto);
+		
+		return 0; 
 	}
 	
 	@PostMapping("/read")
@@ -109,13 +112,9 @@ public class InController {
 		// 수정 - Ajax
 		@PutMapping("/update_process")
 		@ResponseBody
-		public boolean update_process(InDto dto) {
-			int i = inService.updateById(dto);
-			if (i == 1) {
-				return true;
-			} else {
-				return false;
-			}
+		public boolean updateProcess(InDto dto) {
+			return inService.chechAndUpdateProcess(dto);
+			
 		}
 	
 	
@@ -200,7 +199,11 @@ public class InController {
         return mav;
     }
 	
-	
+	@DeleteMapping("/delete")
+	@ResponseBody
+	public boolean delete(String id) {
+		return inService.deactivateById(id);
+	}
 	
 	
 	

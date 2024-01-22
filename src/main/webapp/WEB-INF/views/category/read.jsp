@@ -110,7 +110,7 @@
                 	alert("삭제되었습니다.");
     				$(location).attr("href", "/category/list");
                 } else {
-                	alert("정상적으로 삭제되지 않았습니다..");
+                	alert("정상적으로 삭제되지 않았습니다.");
                 }
             }).fail(function() {
                 alert("오류가 발생했습니다.");
@@ -127,8 +127,6 @@
 	        $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
 	        yesNoModal.yesFunction = deleteCategoryFunction;
 	        yesNoModalBootStrap.show();
-
-
 	    }
 		
 		

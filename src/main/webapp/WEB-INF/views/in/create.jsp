@@ -138,6 +138,10 @@
 			var in_date = $("#in_date").val();
 			var manager_id = $("#manager_id").val();
 			var note = $("#note").val();
+			var quantity = parseInt($("#quantity").val(), 10);
+            var remainingcapacity = parseInt($("#remainingcapacity").val(), 10);
+			
+			
 			
 			if(!product_id){
 	   			alert("제품을 선택해야합니다.");
@@ -153,6 +157,12 @@
 	   			alert("창고을 선택해야합니다.");
 	   			return false;
 	   		}
+			if (quantity > remainingcapacity) {
+                alert("적재 할 재고량이 잔여 용량을 넘을 수 없습니다.");
+                $("#quantity").focus();
+                return false;
+            }
+			
 			if(!in_date){
 				in_date = new Date();
 				in_date = in_date.toISOString();

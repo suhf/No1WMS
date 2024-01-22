@@ -38,11 +38,14 @@
 	
 	<!-- insert -->
 		<insert id="createProcess" parameterType="InDto">
-		INSERT INTO product_in (id, product_id, in_date, quantity, warehouse_id, manager_id, note, activation) 
-		VALUES (UUID(), #{product_id}, #{in_date}, #{quantity}, #{warehouse_id}, #{manager_id}, #{note}, 1)
+			INSERT INTO product_in (id, product_id, in_date, quantity, warehouse_id, manager_id, note, activation) 
+			VALUES (UUID(), #{product_id}, #{in_date}, #{quantity}, #{warehouse_id}, #{manager_id}, #{note}, 1)
 		</insert>
 		
-		
+		<insert id="createStockProcess" parameterType="InDto">
+	        INSERT INTO stock (id, warehouse_id, product_id, quantity, activation)
+	        VALUES (UUID(), #{warehouse_id}, #{product_id}, #{quantity}, 1)
+	    </insert>
 		
 		
 	<!-- update -->
@@ -52,13 +55,30 @@
 			warehouse_id = #{warehouse_id}, manager_id = #{manager_id}, note = #{note}
 			WHERE id = #{id}
 		</update>
-	
 		
-	
-	
-	
+		<update id="deactivateById" parameterType="String">
+			UPDATE product_in
+			SET activation = 0
+			WHERE id = #{id}
+		</update>
+		
+		<update id="updateStockProcessForUpdate" parameterType="InDto">
+	        UPDATE stock
+	        SET quantity = #{quantity}
+	        WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id} and activation = 1
+    	</update>
+		
+		<update id="updateStockProcess" parameterType="InDto">
+	        UPDATE stock
+	        SET quantity = quantity + #{quantity}
+	        WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id} and activation = 1
+	    </update>
+		
+		<update id="updateWarehouseQuantity" parameterType="Map">
+			update warehouse set current_capacity = #{updateValue} where id = #{warehouseId} and activation = 1
+		</update>
+		
 	<!-- delete -->
-	
 	<!-- select -->
 	<select id="count" parameterType="map" resultType="int">
 	    SELECT COUNT(*)
@@ -141,19 +161,29 @@
 	
 	<select id="checkIfExistsStock" resultType="int" parameterType="InDto">
         SELECT COUNT(*) FROM stock
-        WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id}
+        WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id} and activation = 1
     </select>
 	
-	<update id="updateStockProcess" parameterType="InDto">
-        UPDATE stock
-        SET quantity = quantity + #{quantity}
-        WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id}
-    </update>
 	
-	<insert id="createStockProcess" parameterType="InDto">
-        INSERT INTO stock (id, warehouse_id, product_id, quantity, activation)
-        VALUES (UUID(), #{warehouse_id}, #{product_id}, #{quantity}, 1)
-    </insert>
+	
+	
+	
+	<select id="currntStockQuantity" parameterType="InDto" resultType="int">
+		SELECT quantity 
+		FROM stock 
+		WHERE warehouse_id = #{warehouse_id} AND product_id = #{product_id} and activation = 1
+	</select>
+
+	<select id="currntInQuantity" parameterType="InDto" resultType="int">
+		SELECT quantity 
+		FROM product_in 
+		WHERE id = #{id} and activation = 1
+	</select>
+	
+	<select id="selectWarehouseQuantity" parameterType="String" resultType="String">
+		select sum(quantity) from stock where warehouse_id = #{warehouseId} and activation = 1
+	</select>
+	
 	
 	
 	

@@ -113,7 +113,40 @@
 			
 		});//ready
 		
+		function deleteInFunction(){
+			var id = $("#id").val();
+			$.ajax({
+            	url: "/in/delete",
+            	type: "delete",
+            	data: {
+            		   "id": id
+            		},
+            	datatype:"json"
+            }).done(function(data) {
+                if (data == true) {
+                	alert("삭제되었습니다.");
+    				$(location).attr("href", "/in/list");
+                } else {
+                	alert("정상적으로 삭제되지 않았습니다.");
+                }
+            }).fail(function() {
+                alert("오류가 발생했습니다.");
+            }).always(function() {
+				//		
+            });
+			
+		}//deleteInFunction
 		
+		
+		function goDelete(){
+	        yesNoModalTextDefine("입고 삭제", "해당 입고를 삭제하시겠습니까?");
+	        $("#yesNoModalLabel").text(yesNoModal.title);
+	        $("#yesNoModalBodyTextDiv").text(yesNoModal.body);
+	        yesNoModal.yesFunction = deleteInFunction;
+	        yesNoModalBootStrap.show();
+
+
+	    }
 		
 	</script>
 </body>
