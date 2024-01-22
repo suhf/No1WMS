@@ -113,13 +113,13 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${list }" var="dto">
-					<tr class="detailTr" data-kan_code="${dto.kan_code}" >
-						<td>${dto.cls_nm_1 }</td>
-						<td>${dto.cls_nm_2 }</td>
-						<td>${dto.cls_nm_3 }</td>
-						<td>${dto.cls_nm_4 }</td>
-						<td>${dto.kan_code }</td>
-						<td><button data-tid="${dto.kan_code}" data-tname="${dto.cls_nm_4}" class="btn btn-primary" onclick="onSelect(this)">선택</button></td>
+					<tr class="detailTr col-6" data-kan_code="${dto.kan_code}" >
+						<td class="col-1">${dto.cls_nm_1 }</td>
+						<td class="col-1">${dto.cls_nm_2 }</td>
+						<td class="col-1">${dto.cls_nm_3 }</td>
+						<td class="col-1">${dto.cls_nm_4 }</td>
+						<td class="col-1">${dto.kan_code }</td>
+						<td class="col-1"><button data-tid="${dto.kan_code}" data-tname="${dto.cls_nm_4}" class="btn btn-primary" onclick="onSelect(this)">선택</button></td>
 					</tr>
 				</c:forEach>
                 </tbody>

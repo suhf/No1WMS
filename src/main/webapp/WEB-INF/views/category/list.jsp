@@ -52,12 +52,12 @@
 						</thead>
 							<tbody>
 								<c:forEach items="${list }" var="dto">
-									<tr class="detailTr" data-kan_code="${dto.kan_code}" >
-										<td>${dto.cls_nm_1 }</td>
-										<td>${dto.cls_nm_2 }</td>
-										<td>${dto.cls_nm_3 }</td>
-										<td>${dto.cls_nm_4 }</td>
-										<td>${dto.kan_code }</td>
+									<tr class="detailTr col-5" data-kan_code="${dto.kan_code}" >
+										<td class="col-1">${dto.cls_nm_1 }</td>
+										<td class="col-1">${dto.cls_nm_2 }</td>
+										<td class="col-1">${dto.cls_nm_3 }</td>
+										<td class="col-1">${dto.cls_nm_4 }</td>
+										<td class="col-1">${dto.kan_code }</td>
 									</tr>
 								</c:forEach>
 							</tbody>

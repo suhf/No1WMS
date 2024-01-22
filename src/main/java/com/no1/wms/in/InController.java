@@ -79,10 +79,8 @@ public class InController {
 	
 	@PostMapping("/create_process")
 	@ResponseBody
-	public int createProcess(InDto dto) {
-		boolean create = inService.chechAndUpdateOrCreateProcessForCreate(dto);
-		
-		return 0; 
+	public boolean createProcess(InDto dto) {
+		return inService.chechAndUpdateOrCreateProcessForCreate(dto);
 	}
 	
 	@PostMapping("/read")
