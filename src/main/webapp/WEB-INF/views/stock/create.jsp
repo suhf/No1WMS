@@ -105,10 +105,8 @@
     }
 
     function showSearchModals2(title, val){
-        var product_id = $("#product_id").val();
         $("#searchModalLabel").text(title);
-        const data = { name : val,
-            product_id :product_id};
+        const data = { name : val};
 
         $.ajax({
             type : 'post',           // 타입 (get, post, put 등등)

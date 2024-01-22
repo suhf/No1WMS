@@ -175,7 +175,7 @@ public class StockController {
 								  @RequestParam(name = "p",  defaultValue = "1") int page,
 								  @RequestParam String name, ModelAndView mav){
 
-		int perPage = 5; // 한 페이지에 보일 글의 갯수
+		int perPage = 9; // 한 페이지에 보일 글의 갯수
 		int startRow = (page - 1) * perPage;
 
 		List<Map<String, Object>> list = null;

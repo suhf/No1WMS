@@ -110,7 +110,6 @@
     <select id="productSelect" parameterType="Map" resultType="Map">
         SELECT p.id as productId, name, company_name, cls_Nm_4, p.kan_code
         FROM product p
-        LEFT JOIN stock s ON s.product_id = p.id
         left join product_category c on p.kan_code = c.kan_code
         <where>
             <choose>
@@ -125,7 +124,6 @@
     <select id="productCount" parameterType="Map" resultType="java.lang.Integer">
         SELECT count(name)
         FROM product p
-        LEFT JOIN stock s ON s.product_id = p.id
         left join product_category c on p.kan_code = c.kan_code
         <where>
             <choose>
@@ -143,7 +141,6 @@
                (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id) AS current_capacity ,
                address
         from warehouse w
-        left join stock s on s.warehouse_id = w.id
 
         <where>
             <choose>
@@ -158,7 +155,6 @@
     <select id="warehouseCount" parameterType="Map" resultType="java.lang.Integer">
         select count(w.id)
         from warehouse w
-        left join stock s on s.warehouse_id = w.id
 
         <where>
             <choose>
