@@ -34,10 +34,14 @@
 
 
                 <div class="input-group mb-3 w-40 col-centered">
-                    <span id='shipment_quantity_label' class="input-group-text">출고량</span>
-                    <input id="quantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.quantity}">
+                    <span id='stockQuantity_name' class="input-group-text">재고량</span>
+                    <input readonly id="stockQuantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.stockQuantity}">
                 </div>
 
+                <div class="input-group mb-3 w-40 col-centered">
+                    <span id='outQuantity_name' class="input-group-text">출고량</span>
+                    <input readonly id="outQuantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.outQuantity}">
+                </div>
 
 
                 <!--창고 관련 -->
@@ -103,13 +107,17 @@
         $("#updateBtn").on("click", function () {
             var id = $("#id").val();
             var product_id = $("#product_id").val();
-            var quantity = $("#quantity").val();
+            var stockQuantity = parseInt($("#stockQuantity").val(), 10);
+            var outQuantity = parseInt($("#outQuantity").val(), 10);
             var expected_delivery_date = $("#expected_delivery_date").val();
             var warehouse_id = $("#warehouse_id").val();
             var note = $("#note").val();
             var activation = $("#activation").val();
 
-
+            if (outQuantity > stockQuantity) {
+                alert("출고량이 재고량을 넘을 수 없습니다.");
+                return false;
+            }
 
             if (!product_id) {
                 alert("제품을 선택해야 합니다.");
@@ -130,7 +138,7 @@
                     "expected_delivery_date":expected_delivery_date,
                     "note":note,
                     "warehouse_id": warehouse_id,
-                    "quantity": quantity,
+                    "quantity": outQuantity,
                     "activation": activation,
 
 

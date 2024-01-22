@@ -37,8 +37,13 @@
                 </div>
 
                 <div class="input-group mb-3 w-40 col-centered">
-                    <span id='quantity_name' class="input-group-text">출고량</span>
-                    <input readonly id="quantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.quantity}">
+                    <span id='stockQuantity_name' class="input-group-text">재고량</span>
+                    <input readonly id="stockQuantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.stockQuantity}">
+                </div>
+
+                <div class="input-group mb-3 w-40 col-centered">
+                    <span id='outQuantity_name' class="input-group-text">출고량</span>
+                    <input readonly id="outQuantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.outQuantity}">
                 </div>
 
                 <!--창고 관련 -->
@@ -214,7 +219,8 @@
 
         function outNowUpdate() {
             var id = $("#id").val();
-            var quantity = $("#quantity").val();
+            var stockQuantity = parseInt($("#stockQuantity").val(), 10);
+            var outQuantity = parseInt($("#outQuantity").val(), 10);
             var product_id = $("#product_id").val()
             var warehouse_id = $("#warehouse_id").val();
             var expected_delivery_date = $("#expected_delivery_date").val();
@@ -222,12 +228,17 @@
             var now = new Date();
             var delivery_date = now.toISOString().slice(0, 19).replace('T', ' ');
 
+            if (outQuantity > stockQuantity) {
+                alert("출고량이 재고량을 넘을 수 없습니다.");
+                return false;
+            }
+
             $.ajax({
                 url: "/out/outNow",
                 type: "put",
                 data: {
                     "id": id,
-                    "quantity": quantity,
+                    "outQuantity": outQuantity,
                     "product_id":product_id,
                     "warehouse_id": warehouse_id,
                     "expected_delivery_date": expected_delivery_date,
