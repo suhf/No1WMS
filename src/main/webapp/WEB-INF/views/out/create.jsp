@@ -54,7 +54,10 @@
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='expected_delivery_date_label' class="input-group-text">출고 예정 날짜</span>
-                    <input type="text" id="expected_delivery_date" placeholder="yyyy-MM-dd">
+                    <fmt:formatDate value="${dto.expected_delivery_date}" pattern="yyyy-MM-dd" type="date" var="formattedDate" />
+                    <input type="date" id="expected_delivery_date" name="expected_delivery_date" class="form-control"
+                           placeholder="날짜을 입력하세요" aria-label="입고날짜" value="${formattedDate}"
+                           aria-describedby="basic-addon1" min="${today}">
                 </div>
 
                 <div class="input-group mb-3 w-40 col-centered">
@@ -195,4 +198,9 @@
 
     });
 </script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("expected_delivery_date").setAttribute('min', today);
+    });
+</script>

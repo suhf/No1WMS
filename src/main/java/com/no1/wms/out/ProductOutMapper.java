@@ -1,5 +1,6 @@
 package com.no1.wms.out;
 
+import com.no1.wms.stock.StockDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -39,6 +40,7 @@ public interface ProductOutMapper {
 	List<Map<String, Object>> stockSelect(Map<String, Object> m);
 
 	int stockCount(Map<String, Object> m);//검색 글 갯수
+
 
 
 

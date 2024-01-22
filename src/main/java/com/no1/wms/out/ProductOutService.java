@@ -1,5 +1,6 @@
 package com.no1.wms.out;
 
+import com.no1.wms.stock.StockDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,10 +74,9 @@ public class ProductOutService {
 		return mapper.updateWarehouseDeleteStock(dto);
 	}
 
-	public int stockQuantityUpdate(ProductOutDto dto){
+	public int stockQuantityUpdate(ProductOutDto dto) {
 		return mapper.stockQuantityUpdate(dto);
 	}
-
 
 	public int deleteOut(ProductOutDto dto) {
 		return mapper.deleteOut(dto);
@@ -106,7 +106,6 @@ public class ProductOutService {
 		m.put("search", search);
 		return mapper.stockCount(m);
 	}
-
 
 
 }

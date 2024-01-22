@@ -68,9 +68,6 @@ public class WarehouseController {
 		WarehouseDto One = service.One(id);
 		m.addAttribute("One", One);
 
-
-
-
 		int perPage = 5; // 한 페이지에 보일 글의 갯수
 		int startRow = (page - 1) * perPage;
 		m.addAttribute("start", startRow + 1);
@@ -78,8 +75,8 @@ public class WarehouseController {
 		int warehouseOneCount = service.warehouseOneCount(searchn, search, id);
 		List<Map<String, Object>> dto = service.warehouseOne(searchn, search, id, startRow, perPage);
 		m.addAttribute("wlist", dto);
-		System.out.println("list ::" + dto);
 
+		System.out.println("list ::" + dto);
 		log.debug("dto테스트 :: " + dto);
 
 		int pageNum = 5;//보여질 페이지 번호 수

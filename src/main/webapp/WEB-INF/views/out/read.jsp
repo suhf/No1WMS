@@ -238,7 +238,7 @@
                 type: "put",
                 data: {
                     "id": id,
-                    "outQuantity": outQuantity,
+                    "quantity": outQuantity,
                     "product_id":product_id,
                     "warehouse_id": warehouse_id,
                     "expected_delivery_date": expected_delivery_date,

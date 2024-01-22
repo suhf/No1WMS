@@ -53,12 +53,15 @@
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='expected_delivery_date_label' class="input-group-text">출고 예정 날짜</span>
-                    <input type="text" id="expected_delivery_date" placeholder="yyyy-MM-dd" value="${dto.expected_delivery_date}">
+                    <fmt:formatDate value="${dto.expected_delivery_date}" pattern="yyyy-MM-dd" type="date" var="formattedDate" />
+                    <input type="date" id="expected_delivery_date" name="expected_delivery_date" class="form-control"
+                           placeholder="날짜을 입력하세요" aria-label="입고날짜" value="${formattedDate}"
+                           aria-describedby="basic-addon1">
                 </div>
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='delivery_date_label' class="input-group-text">출고 날짜</span>
-                    <input type="text" id="delivery_date" placeholder="" readonly value="${dto.expected_delivery_date}">
+                    <input type="text" id="delivery_date" placeholder="" readonly value="${dto.delivery_date}">
                 </div>
 
                 <div class="input-group mb-3 w-40 col-centered">

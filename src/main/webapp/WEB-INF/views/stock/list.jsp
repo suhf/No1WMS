@@ -176,6 +176,7 @@
                                 <th>제품명</th>
                                 <th>카테고리</th>
                                 <th>재고수</th>
+                                <th>창고</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -185,6 +186,7 @@
                                     <td class="col-1">${dto.productName }</td>
                                     <td class="col-1">${dto.cls_nm_4 }</td>
                                     <td class="col-1">${dto.quantity }</td>
+                                    <td class="col-1">${dto.warehouseName}</td>
                                 </tr>
                             </c:forEach>
                             </tbody>
