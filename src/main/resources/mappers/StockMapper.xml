@@ -164,7 +164,7 @@
             <choose>
                 <when test="searchn == 0"> w.activation = 1 and w.name like concat('%',#{search},'%')</when>
                 <when test="searchn == 1"> w.activation = 1 and address like concat('%',#{search},'%')</when>
-                <when test="searchn == 2"> and w.activation = 1 and capacity like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> w.activation = 1 and capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
     </select>
