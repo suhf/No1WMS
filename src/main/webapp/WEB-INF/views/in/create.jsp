@@ -25,7 +25,7 @@
 	                <div class="col-12" style="text-align: center;">
 	                	<!-- 제품명 -->
 		                <div class="input-group mb-3 w-40 col-centered">
-		                	<span class="input-group-text" id="basic-addon1">제품명</span>
+		                	<span class="input-group-text" id="product_name_span">제품명</span>
 		                	<input type="text" name="productName" id="productName" class="form-control" 
 		                	placeholder="제품명을 검색하세요" aria-label="제품명" value="${dto.productDto.name }" 
 		                	aria-describedby="basic-addon1" readonly>
@@ -63,7 +63,7 @@
 	                	</div>
 	                	<!-- 창고명 -->
 	                	<div class="input-group mb-3 w-40 col-centered">
-		                	<span class="input-group-text" id="basic-addon1">창고명</span>
+		                	<span class="input-group-text" id="warehouse_name_span">창고명</span>
 		                	<input type="text" name="warehouse_name" id="warehouse_name" class="form-control" 
 		                	placeholder="창고를 검색하세요" aria-label="창고명" value="${dto.warehouseDto.name }" 
 		                	aria-describedby="basic-addon1" readonly>
@@ -94,7 +94,7 @@
 	             
 	                	<div class="input-group mb-3 w-40 col-centered">
 		                	<span class="input-group-text" id="basic-addon3">입고날짜</span>
-		                	<fmt:formatDate value="${dto.in_date}" pattern="yyyy-MM-dd HH:mm:ss" type="date" var="formattedDate" />
+		                	<fmt:formatDate value="${dto.in_date}" pattern="yyyy-MM-dd'T'HH:mm" type="date" var="formattedDate" />
 		                	<input type="datetime-local" id="in_date" name="in_date" class="form-control" 
 		                	placeholder="날짜을 입력하세요" aria-label="입고날짜" value="${formattedDate}" 
 		                	aria-describedby="basic-addon1">
@@ -180,7 +180,7 @@
 					warehouse_id : warehouse_id,
 					note : note
 			}
-			
+			console.log(data);
 			
 			$.ajax({
 	           	url: "/in/create_process",

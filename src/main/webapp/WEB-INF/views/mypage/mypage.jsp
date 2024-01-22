@@ -194,7 +194,7 @@
 			});//submitBtn
 		});//ready
 	function _onSubmit(){
-	        if($("#file").val() == ""){
+	        if($("#file").val()){
 	            alert("이미지 파일을 업로드해주세요.");
 	            $("#file").focus();
 	            return false;
