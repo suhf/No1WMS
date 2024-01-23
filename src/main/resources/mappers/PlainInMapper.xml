@@ -66,8 +66,9 @@
         and plan.warehouse_id = warehouse.id and product.kan_code = product_category.kan_code
         <where>
             <choose>
-                <when test="searchn == 1"> plan.activation = 1 and pn like concat('%',#{search},'%')</when>
-                <when test="searchn == 0"> plan.activation = 1 and plan.group_number like concat('%',#{search},'%') </when>
+                <when test="searchn == 0"> plan.activation = 1 and plan.view_group_number like concat('%',#{search},'%') </when>
+                <when test="searchn == 1"> plan.activation = 1 and product.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 2"> plan.activation = 1 and plan.quantity like concat(#{search})</when>
             </choose>
         </where>
         order by plan.view_group_number desc limit #{start}, #{perPage}
