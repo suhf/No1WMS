@@ -163,7 +163,7 @@
                 datatype: "json"
             }).done(function (data) {
                 if (data == true) {
-                    alert("재고 정보가 생성되었습니다.");
+                    alert("출고 정보가 생성되었습니다.");
 
                     var form = document.createElement("form");
                     form.action = "/out/read";
@@ -180,7 +180,7 @@
 
                     window.location.href = "/out/list";
                 } else {
-                    alert("재고 정보 생성에 실패하였습니다.");
+                    alert("출고 정보 생성에 실패하였습니다.");
                 }
             }).fail(function () {
                 alert("오류가 발생했습니다.");
