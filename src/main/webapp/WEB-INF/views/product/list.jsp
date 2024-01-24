@@ -43,6 +43,7 @@
 					<table class="table">
 						<thead class="table-dark">
 							<tr>
+								<th>번호</th>
 								<th>제품명</th>
 								<th>회사명</th>
 								<th>분류</th>
@@ -52,8 +53,9 @@
 							</tr>
 						</thead>
 							<tbody>
-								<c:forEach items="${list }" var="dto">
+								<c:forEach items="${list }" var="dto" varStatus="status">
 									<tr class="detailTr" data-product_id="${dto.id}" >
+										<td>${status.count }</td>
 										<td>${dto.name }</td>
 										<td>${dto.company_name }</td>
 										<td>${dto.categoryDto.cls_nm_4 }</td>
