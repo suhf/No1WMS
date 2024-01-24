@@ -55,7 +55,7 @@
                                 </select>
                             </div>
                             <input type="text" id="search1" name="search" class="form-control"
-                                   aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
+                                   aria-label="Text input with dropdown button" value="${search1}" placeholder="검색어를 입력하세요">
                             <button class="btn btn-info" type="button" id="searchBtn">검색</button>
 
                             <!-- 페이징작업용 -->
@@ -154,7 +154,7 @@
                                 </select>
                             </div>
                             <input type="text" id="search2" name="search" class="form-control"
-                                   aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
+                                   aria-label="Text input with dropdown button" value="${search2}" placeholder="검색어를 입력하세요">
                             <button class="btn btn-info" type="button" id="searchBtn2">검색</button>
 
                             <!-- 페이징작업용 -->
