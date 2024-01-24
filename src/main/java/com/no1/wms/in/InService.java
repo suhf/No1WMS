@@ -23,7 +23,7 @@ public class InService {
 		
 		return mapper.inList(m);
 	}
-	
+		
 	public List<InDto> inListMain(String today){//메인페이지에서 활용
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("today",today);
