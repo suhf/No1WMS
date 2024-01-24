@@ -127,9 +127,10 @@
     <select id="count" parameterType="map" resultType="java.lang.Integer">
         select count(*) from ( SELECT 1 from plan_In i join product p
         <where>
-            <choose>
+            <choose>              
+                <when test="searchn == 0"> i.product_id = p.id and i.activation = 1 and i.view_group_number like concat('%',#{search},'%') </when>
                 <when test="searchn == 1"> i.product_id = p.id and i.activation = 1 and p.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 0"> i.product_id = p.id and i.activation = 1 and i.group_number like concat('%',#{search},'%') </when>
+                <when test="searchn == 2"> i.product_id = p.id and i.activation = 1 and i.quantity like concat(#{search})</when>
             </choose>
         </where>
         ) t
