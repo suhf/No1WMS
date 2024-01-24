@@ -41,9 +41,9 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${slist2 }" var="dto">
+                    <c:forEach items="${slist2 }" var="dto" varStatus="status">
                         <tr class="detailTr col-5" data-id="${dto.id}" style="font-size: small;">
-                            <td class="col-1">${start2} <c:set var="start2" value="${start2 +1 }"/></td>
+                            <td class="col-1">${status.count }</td>
                             <td class="col-1">${dto.productName }</td>
                             <td class="col-1">${dto.cls_nm_4 }</td>
                             <td class="col-1">${dto.quantity }</td>
