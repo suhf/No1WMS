@@ -38,9 +38,7 @@ public class AuthAspect {
         HttpServletResponse response = sa.getResponse();
         HttpSession session = request.getSession();
         HashMap<String, AuthData> auth = (HashMap<String, AuthData>) session.getAttribute("authSession");
-        if(auth == null){
-            auth = test(request);
-        }
+
         String targetController = joinPoint.getTarget().toString().toLowerCase();
         String[] list = targetController.split("\\.");
 

@@ -52,7 +52,7 @@
     }
 </script>
 <main class="form-signin">
-        <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <img class="mb-4" src="/resources/static/img/mainpage/2.png" alt="" width="200" height="200">
         <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
         <div class="form-floating">

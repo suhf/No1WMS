@@ -49,6 +49,16 @@ public class LoginController {
 
     }
 
+    @GetMapping("/logout")
+    public String logout(AccountDto data, AuthorityDto authDto, Gson gson,  HttpServletRequest request){
+        HttpSession session = request.getSession();
+        session.invalidate();
+
+        return "redirect:/";
+
+    }
+
+
 
 
     @PostMapping("/login/check_password")

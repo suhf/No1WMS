@@ -8,13 +8,19 @@
             <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="/mypage">
                     <div class="text-center">
-                        <img  class="img-user" src="https://academy.ilwoo.org/data/file/reference/3531300541_J1gHPmC6_479f762b4825515abc781b3a616929d8949ea2c5.jpg" alt="유저 이미지">
+
+                        <img alt =""  class="img-user" src="/resources/static/img/mypage/profile/${userData.id}.jpg" onerror="this.onerror=null; this.src='https://academy.ilwoo.org/data/file/reference/3531300541_J1gHPmC6_479f762b4825515abc781b3a616929d8949ea2c5.jpg'">
                         <br>
                         <p class="user-name">${userData.name}</p>
                     </div>
                 </a>
             </li>
             <hr class="my-3">
+            <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/">
+                    <i data-feather="list"></i>게시판
+                </a>
+            </li>
             <c:if test="${authSession.account.read}">
             <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="/account/list">
@@ -99,13 +105,11 @@
                 </a>
             </li>
             </c:if>
-            <c:if test="${authSession.board.read}">
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/board/list">
-                    <i data-feather="list"></i>게시판
+                <a class="nav-link d-flex align-items-center gap-2" href="/logout">
+                    로그아웃
                 </a>
             </li>
-            </c:if>
         </ul>
 
         <hr class="my-3">
