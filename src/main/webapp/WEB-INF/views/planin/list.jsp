@@ -100,6 +100,8 @@
                     </c:if>
                     </ul>
                 </div>
+                <div class="col-3 text-end">
+                </div>	
             </div>
         </div>
 </div>
