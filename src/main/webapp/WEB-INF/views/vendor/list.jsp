@@ -12,6 +12,7 @@
 	</div>
 	<hr>
 	<div class="body">
+
 		<div class="container-fluid">
 			<div class="col-12">
 				<form>
@@ -102,13 +103,13 @@
 
 			<form name="uplodeExcleForm" id="uplodeExcleForm" method="post" onsubmit="return _onSubmit();" action="/vendor/uplodeExcel"   enctype="multipart/form-data" class="form-horizontal">
 								<input type="file" name="file" id="file" accept=".xlsx, .xls"/>
+
 						<button type="submit" class="btn btn-success" id="uploadExcel">업로드</button>
+<%--				<input type='hidden' id="manager_id" value="${userData.id }">--%>
 			</form><!-- uplodeExcleForm -->
-
-
 		</div>
 	</div>
-	
+
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>	
 	<script>
 	
@@ -189,7 +190,8 @@
 			form.submit();
 
 		});
-		
+		var msg = "${resMap.msg}";
+		if (msg != "") alert(msg);
 		
 		 
 	});//ready
