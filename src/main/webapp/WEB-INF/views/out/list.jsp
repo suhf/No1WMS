@@ -36,7 +36,7 @@
                                 </div>
                                 <input type="text" name="search" id="search" class="form-control"
                                        aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
-                                <input class="btn btn-info" type="submit" id="searchBtn" value="검색"/>
+                                <button class="btn btn-info" type="button" id="searchBtn">검색</button>
 
                                 <!-- 페이징작업용 -->
                                 <input type="hidden" id="searchn1" value="${searchn}">
