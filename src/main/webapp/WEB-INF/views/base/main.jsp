@@ -9,15 +9,14 @@
 	<div class="container-fluid">
 		
 		<div class="row">
-			<div class="col-md-5 ">
-				<div class="text-center"><h2><b>No.1 WMS 달력</b></h2></div>
-				<div id='calendar'></div>
-				<div id='popup' style="width: 500px; height: 600px; display: none; background-color: white; padding: 20px; border-radius: 14px; border: 2px solid #eeeeee"></div>
+			<div class="col-md-6 ">
+				<div>첫 번째 공간</div>
 			</div>
 
-			<div class="col-md-6">
-				<!-- 두 번째 공간 -->
-				<div>두 번째 공간</div>
+			<div class="col-md-5">
+								<div class="text-center"><h2><b>No.1 WMS 달력</b></h2></div>
+				<div id='calendar'></div>
+				<div id='popup' style="width: 500px; height: 600px; display: none; background-color: white; padding: 20px; border-radius: 14px; border: 2px solid #eeeeee"></div>
 			</div>
 		</div>
 

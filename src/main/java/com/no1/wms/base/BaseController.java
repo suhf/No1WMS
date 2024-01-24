@@ -26,10 +26,7 @@ public class BaseController {
         return mav;
     }
     
-    @GetMapping("/main")
-    public String mainPage() {
-    	return "base/main";
-    }
+    
 
 
 }
