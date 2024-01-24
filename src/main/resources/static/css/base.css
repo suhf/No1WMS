@@ -1,6 +1,11 @@
 .navi-bg {
     background-color : #222831;
 }
+
+.body-bg{
+    background-color: #f6f6f6;
+}
+
 .nav-item a{
     color : #EEEEEE;
 }
