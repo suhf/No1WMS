@@ -45,7 +45,7 @@ public class ImgService {
 		    
 		    String newFileName = fileName;
 		    // 저장될 파일 경로 설정
-		    String filePath = storePathString + File.separator + newFileName + "." + fileExt;
+		    String filePath = storePathString + File.separator + newFileName + ".jpg";//+ fileExt;
 		    
 		    try {
 		        // 동일한 파일명이 존재하는지 확인하고 있다면 기존 파일 삭제
