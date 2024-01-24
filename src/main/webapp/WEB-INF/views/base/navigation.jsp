@@ -24,7 +24,7 @@
             </c:if>
             <c:if test="${authSession.account.read}">
             <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/password_reset">
+                <a class="nav-link d-flex align-items-center gap-2" href="/resetpassword/list">
                     <i data-feather="key"></i>비밀번호 초기화
                 </a>
             </li>
