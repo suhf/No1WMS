@@ -31,7 +31,7 @@
                 <when test="searchn == 1">o.activation = 1 and w.name like concat('%',#{search},'%')</when>
             </choose>
         </where>
-        order by o.expected_delivery_date desc limit #{start}, #{perPage}
+        order by o.expected_delivery_date asc limit #{start}, #{perPage}
     </select>
 
 
