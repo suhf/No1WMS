@@ -162,7 +162,7 @@
     </div>
     <div class="row">
         <div class="col-12 att">
-            <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create" onclick="goCreate() ">삭제 </button>
+            <button style="float: right;"  class="btn btn-danger" type="submit" id="btn_create" onclick="goCreate() ">삭제 </button>
         </div>
         <div class="col-12 m-0">
             <table class="table" >
@@ -182,11 +182,11 @@
             </table>
         </div>
     </div>
-    <div class="row">
+    <div class="col-12 text-end">
         <div class="col-12">
             <button class="btn-primary btn" onclick="goSave()">저장</button>
             <form method="get" class="d-inline" action="/plan_in/list">
-                <button class="btn-primary btn" type="submit">취소</button>
+                <button class="btn btn-secondary" type="submit">취소</button>
             </form>
         </div>
     </div>

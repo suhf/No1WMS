@@ -64,7 +64,7 @@
             <button id="link_button" class="btn-primary btn" onClick="copy()" >다운로드 주소 복사</button>
             <form class="d-inline" method="post" action="/plan_in/delete">
                 <input hidden name="groupNumber" value="${groupNum}">
-                <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create">삭제 </button>
+                <button style="float: right;"  class="btn btn-danger" type="submit" id="btn_create">삭제 </button>
             </form>
         </div>
         <div class="col-12 m-0">
