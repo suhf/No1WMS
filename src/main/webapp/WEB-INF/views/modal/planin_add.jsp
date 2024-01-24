@@ -24,7 +24,7 @@ function goTable(){
 		alert("제품명을 입력하세요");
 		return false;
 	}
-	
+		
 	if(!$("#input_num").val()){
 		alert("수량을 입력하세요");
 		return false;
