@@ -70,7 +70,6 @@
 			<div class="row row-buttons">
 				<div class="col-3 text-start">
 					<img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-					<button type="button" class="btn btn-success" id="downlodeExcelForm">양식 다운로드</button>
 					<button type="button" class="btn btn-success" id="downlodeExcelList">리스트 다운로드</button>
 				</div>
 				<div class="col-6 d-flex justify-content-center">
@@ -100,13 +99,6 @@
 				</div>	
 			</div><!-- row row-buttons -->
 
-
-			<form name="uplodeExcleForm" id="uplodeExcleForm" method="post" onsubmit="return _onSubmit();" action="/vendor/uplodeExcel"   enctype="multipart/form-data" class="form-horizontal">
-								<input type="file" name="file" id="file" accept=".xlsx, .xls"/>
-
-						<button type="submit" class="btn btn-success" id="uploadExcel">업로드</button>
-<%--				<input type='hidden' id="manager_id" value="${userData.id }">--%>
-			</form><!-- uplodeExcleForm -->
 		</div>
 	</div>
 
@@ -190,8 +182,7 @@
 			form.submit();
 
 		});
-		var msg = "${resMap.msg}";
-		if (msg != "") alert(msg);
+
 		
 		 
 	});//ready
@@ -225,18 +216,6 @@
 		form.submit();
 	}
 
-	function _onSubmit(){
-
-		if($("#file").val() == ""){
-			alert("파일을 업로드해주세요.");
-			$("#file").focus();
-			return false;
-		}
-
-
-
-		return true;
-	}
 	</script>
 </body>
 </html>
