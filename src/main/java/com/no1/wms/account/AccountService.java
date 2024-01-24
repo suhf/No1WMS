@@ -24,6 +24,9 @@ public class AccountService {
     public int update(AccountDto dto){
         return mapper.update(dto);
     }
+    public int updateIncludePassword(AccountDto dto) {
+    	return mapper.updateIncludePassword(dto);
+    }
 
     public AccountDto selectById(AccountDto dto){
         return mapper.selectById(dto);

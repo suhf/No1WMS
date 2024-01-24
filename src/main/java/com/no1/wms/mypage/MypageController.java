@@ -83,7 +83,7 @@ public class MypageController {
 	@ResponseBody
 	@PutMapping("/mypage/updateUserInfo")
 	public boolean updateUserInfo(AccountDto dto) {
-		int i = accountService.update(dto);
+		int i = accountService.updateIncludePassword(dto);
 		System.out.println(i);
 		if (i == 1) {
 			return true;

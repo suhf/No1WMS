@@ -17,6 +17,7 @@ public interface AccountMapper {
 
     int insertToAuthority(AuthorityDto dto);
     int update(AccountDto dto);
+    int updateIncludePassword(AccountDto dto);
 
     AccountDto selectById(AccountDto dto);
 

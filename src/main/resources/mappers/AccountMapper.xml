@@ -137,6 +137,22 @@
              activation = #{activation}
         WHERE id = #{id}
     </update>
+    <update id="updateIncludePassword" parameterType="accountDto">
+        update account SET
+             name = #{name},
+             password = #{password},
+             employee_number = #{employeeNumber},
+             email = #{email},
+             personal_authority_id = #{personalAuthorityId},
+             gender = #{gender},
+             birth = #{birth},
+             telephone = #{telephone},
+             address = #{address},
+             department_id = #{departmentId},
+             position_id = #{positionId},
+             activation = #{activation}
+        WHERE id = #{id}
+    </update>
     <update id="delete" parameterType="accountDto">
         update account SET activation = false WHERE id = #{id}
     </update>

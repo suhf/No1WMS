@@ -145,6 +145,7 @@
 			$("#submitBtn").on("click",function(){
 				//
 				var name = $("#name").val();
+				var password = $("#password").val();
 				var employeeNumber = $("#employeeNumber").val();
 				var email = $("#email").val();
 				var personalAuthorityId = $("#personalAuthorityId").val();
@@ -158,6 +159,7 @@
 				var activation = true;
 
 		        const data = { name : name,
+		        		password : password,
 		        		employeeNumber : employeeNumber,
 		        		email : email,
 		        		personalAuthorityId : personalAuthorityId,
