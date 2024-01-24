@@ -12,7 +12,8 @@
 
     <div class="row">
         <div class="col-md-6 ">
-            <div><img alt="Default Image" src="/resources/static/img/mainpage/2.png" width="500px" /></div>
+        <br>
+            <div class="col text-center"><img alt="Default Image" src="/resources/static/img/mainpage/2.png" width="550px" /></div>
         </div>
 
         <div class="col-md-5">
