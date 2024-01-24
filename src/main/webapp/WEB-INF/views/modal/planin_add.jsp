@@ -218,8 +218,7 @@ function pagingFunction(clickedId){
 					<div class="row">
 						<div class="col-12 ">
 							<div class="w-40 col-centered" style="text-align: right">
-								<button type="button" class="btn btn-primary" id="updateBtn" onclick='goTable()'>수정 완료</button>
-								<button type="button" class="btn btn-secondary" id="cancelBtn">취소</button>
+								<button type="button" class="btn btn-primary" id="updateBtn" onclick='goTable()'>추가</button>
 							</div>
 						</div>
 					</div>
