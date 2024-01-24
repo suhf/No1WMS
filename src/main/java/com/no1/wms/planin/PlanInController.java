@@ -171,14 +171,41 @@ public class PlanInController {
 
 
     @PostMapping("/planin_edit")
-    public ModelAndView edit(ModelAndView mav, ProductDto dto)
+    public ModelAndView edit(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
+			@RequestParam(name = "search", defaultValue = "") String search,
+			@RequestParam(name = "p", defaultValue = "1") int page, ModelAndView mav)
     {
-        List<ProductDto> list = productservice.productList(0,  "", 0, 10000);
+    	int count = productservice.count(searchn, search);
+		
+		int perPage = 3; // 한 페이지에 보일 글의 개수
+		int startRow = (page - 1) * perPage;
+		
+		List<ProductDto> dto = productservice.productList(searchn, search, startRow ,perPage);
+		
+		mav.addObject("list", dto);
+		mav.addObject("start", startRow + 1);
+		
+		int pageNum = 5;//보여질 페이지 번호 수
+		int totalPages = count / perPage + (count % perPage > 0 ? 1 : 0); // 전체 페이지 수
+		
+		int begin = (page - 1) / pageNum * pageNum + 1;
+		int end = begin + pageNum - 1;
+		if (end > totalPages) {
+			end = totalPages;
+		}
+		
+		mav.addObject("searchn",searchn);
+		mav.addObject("search",search);
+		mav.addObject("begin", begin);
+		mav.addObject("end", end);
+		mav.addObject("pageNum", pageNum);
+		mav.addObject("totalPages", totalPages);
+		mav.addObject("p" , page);
         //list
         //ProductDto (0)
         //ProductDto (1)
         //ProductDto (2)
-        mav.addObject("list", list);
+		//mav.addObject("list", list);
 
         mav.setViewName("planin_edit");
         return mav;
