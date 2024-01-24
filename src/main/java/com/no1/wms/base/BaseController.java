@@ -21,7 +21,7 @@ public class BaseController {
 
         mav.addObject("userData", request.getSession().getAttribute("userData"));
 
-        mav.setViewName("base/main");
+        mav.setViewName("redirect:/main");
 
         return mav;
     }
