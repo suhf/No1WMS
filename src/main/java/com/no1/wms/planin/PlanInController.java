@@ -76,9 +76,9 @@ public class PlanInController {
     @PostMapping("/read")
     public ModelAndView read(ModelAndView mav, PlanInDto dto){
 
-        System.out.println(dto);
+//        System.out.println(dto);
         List<PlanInDto> list = planinservice.selectById(dto);
-        System.out.println(list.get(0).toString());
+//        System.out.println(list.get(0).toString());
         mav.addObject("list", list);
         mav.addObject("groupNum", dto.getGroupNumber());
         mav.setViewName("planin/read");

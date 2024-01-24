@@ -21,7 +21,7 @@ public class PlanInService {
     }
 	
     int count(int searchn, String search, int start, int perPage){
-    	System.out.printf("searchn : %d, search : %s, start : %d, perpage : %d", searchn, search, start, perPage);
+//    	System.out.printf("searchn : %d, search : %s, start : %d, perpage : %d", searchn, search, start, perPage);
         HashMap<String, Object> m = new HashMap<>();
         m.put("searchn", searchn);
         m.put("search", search);
