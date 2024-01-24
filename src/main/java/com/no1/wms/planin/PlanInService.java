@@ -21,12 +21,10 @@ public class PlanInService {
     }
 	
 	
-    int count(int searchn, String search, int start, int perPage){
+    int count(int searchn, String search){
         HashMap<String, Object> m = new HashMap<>();
         m.put("searchn", searchn);
         m.put("search", search);
-        m.put("start", start);
-        m.put("perPage", perPage);
         return mapper.count(m);
     }
 

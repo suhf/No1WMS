@@ -18,13 +18,13 @@
 					<div class="input-group mb-3 w-30 col-centered">
 						<div class="w-25">
 						<select class="form-select" name="searchn" id="searchn">
-							<option value="0">업체명</option>
-							<option value="1">대표번호</option>
-							<option value="2">거래처 담당자</option>
-							<option value="3">거래처 담당자 전화번호</option>
+							<option value="0" ${searchn == 0 ? 'selected' : ''}>업체명</option>
+							<option value="1" ${searchn == 1 ? 'selected' : ''}>대표번호</option>
+							<option value="2" ${searchn == 2 ? 'selected' : ''}>거래처 담당자</option>
+							<option value="3" ${searchn == 3 ? 'selected' : ''}>거래처 담당자 전화번호</option>
 						</select>
 						</div>
-						<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+						<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
 						<button class="btn btn-info" type="button" id="searchBtn">검색</button>
 						
 						<!-- 페이징작업용 -->
@@ -69,8 +69,7 @@
 			<div class="row row-buttons">
 				<div class="col-3 text-start">
 					<img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-					<button type="button" class="btn btn-success" id="upload">업로드</button>
-					<button type="button" class="btn btn-success" id="downlodeExcelForm">서식 다운로드</button>
+					<button type="button" class="btn btn-success" id="downlodeExcelForm">양식 다운로드</button>
 					<button type="button" class="btn btn-success" id="downlodeExcelList">리스트 다운로드</button>
 				</div>
 				<div class="col-6 d-flex justify-content-center">
@@ -99,6 +98,14 @@
 					<button type="button" class="btn btn-primary" id="createButton">생성</button>
 				</div>	
 			</div><!-- row row-buttons -->
+
+
+			<form name="uplodeExcleForm" id="uplodeExcleForm" method="post" onsubmit="return _onSubmit();" action="/vendor/uplodeExcel"   enctype="multipart/form-data" class="form-horizontal">
+								<input type="file" name="file" id="file" accept=".xlsx, .xls"/>
+						<button type="submit" class="btn btn-success" id="uploadExcel">업로드</button>
+			</form><!-- uplodeExcleForm -->
+
+
 		</div>
 	</div>
 	
@@ -214,6 +221,19 @@
 		
 		document.body.appendChild(form);
 		form.submit();
+	}
+
+	function _onSubmit(){
+
+		if($("#file").val() == ""){
+			alert("파일을 업로드해주세요.");
+			$("#file").focus();
+			return false;
+		}
+
+
+
+		return true;
 	}
 	</script>
 </body>

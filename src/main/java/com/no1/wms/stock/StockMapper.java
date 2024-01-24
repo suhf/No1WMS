@@ -1,5 +1,6 @@
 package com.no1.wms.stock;
 
+import com.no1.wms.in.InDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -41,6 +42,12 @@ public interface StockMapper {
 	List<Map<String, Object>> warehouseSelect(Map<String, Object> m);
 
 	int warehouseCount(Map<String, Object> m);//검색 글 갯수
+
+
+
+	int checkIfExistsStock(StockDto dto);
+	int updateStockProcess(StockDto dto);
+	int createStockProcess(StockDto dto);
 
 
 	

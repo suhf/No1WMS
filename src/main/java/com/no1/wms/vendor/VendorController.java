@@ -2,15 +2,22 @@ package com.no1.wms.vendor;
 
 import com.no1.wms.category.CategoryDto;
 import com.no1.wms.excel.ExcelDownlodeUtils;
+import com.no1.wms.excel.ExcelRequestManager;
 import com.no1.wms.warehouse.WarehouseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -145,5 +152,62 @@ public class VendorController {
 	public void downlodeVendorForm (HttpServletResponse response) throws IOException {
 		String vendorFormName = "거래처 데이터 입력 서식.xlsx";
 		excelDownlodeUtils.downlodeExcelForm(response, vendorFormName);
+	};
+
+
+
+	@PostMapping("/vendor/uplodeExcel")
+	public String uploadExcel(@ModelAttribute("dto") VendorDto dto , RedirectAttributes redirectAttributes, final MultipartHttpServletRequest multiRequest,
+							  HttpServletRequest request, ModelMap model) {
+
+		Map<String, Object> resMap = new HashMap<>();
+
+
+		try {
+
+			ExcelRequestManager em = new ExcelRequestManager();
+
+			// 멀티파트 요청 객체에서 파일 맵을 가져옴
+			final Map<String, MultipartFile> files = multiRequest.getFileMap();
+			//초기화
+			List<HashMap<String,String>> apply =null;
+
+			//엑셀파일 가져와서 저장 및 읽기
+			//변수는 멀티파트 요청 객체의 파일맵, 저장할 엑셀파일명 이름에 추가할 숫자(그냥 0으로 해도 됨)
+			//마찬가지로 엑셀파일 명 이름에 추가할 문자열, uplode폴더에 들어갈 폴더명(카테고리같은 파트 이름으로 해주세요)
+			//폴더가 없으면 자동생성되게 해뒀습니다.
+			//마지막으로 HttpServletRequest
+			apply = em.parseExcelSpringMultiPart(files, "테스트파일", 0, "", "category", request);
+
+			for (int i = 0; i < apply.size(); i++) {
+
+
+				dto.setName(apply.get(i).get("nsme"));
+				dto.setPresident_name(apply.get(i).get("president_name"));
+				dto.setAddress(apply.get(i).get("address"));
+				dto.setRegistration_number(apply.get(i).get("registration_number"));
+				dto.setEmail(apply.get(i).get("email"));
+				dto.setPresident_telephone(apply.get(i).get("president_telephone"));
+				dto.setVendor_manager(apply.get(i).get("vendor_manager"));
+				dto.setVendor_manager_telephone(apply.get(i).get("vendor_manager_telephone"));
+				dto.setMain_product(apply.get(i).get("main_product"));
+				dto.setManager_id(apply.get(i).get("manager_id"));
+				dto.setActivation(true);
+
+				service.createProcess(dto);
+
+			}
+
+			resMap.put("res", "ok");
+			resMap.put("msg", "업로드 성공");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			resMap.put("res", "error");
+			resMap.put("msg", "업로드 실패");
+		}
+
+		redirectAttributes.addFlashAttribute("resMap", resMap);
+
+		return "redirect:/vendor/list";
 	};
 }

@@ -48,13 +48,14 @@
                         <div class="input-group mb-3 w-30 col-centered">
                             <div class="w-25">
                                 <select class="form-select" name="searchn1" id="searchn1">
-                                    <option value="0">제품명</option>
-                                    <option value="1">카테고리</option>
-                                    <option value="2">재고수</option>
+                                    <option value="0" ${searchn == 0 ? 'selected' : ''}>제품명</option>
+                                    <option value="1" ${searchn == 1 ? 'selected' : ''}>카테고리</option>
+                                    <option value="2" ${searchn == 2 ? 'selected' : ''}>재고수</option>
+                                    <option value="3" ${searchn == 3 ? 'selected' : ''}>창고명</option>
                                 </select>
                             </div>
                             <input type="text" id="search1" name="search" class="form-control"
-                                   aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+                                   aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
                             <button class="btn btn-info" type="button" id="searchBtn">검색</button>
 
                             <!-- 페이징작업용 -->
@@ -98,7 +99,6 @@
                 <div class="row row-buttons">
                     <div class="col-3 text-start">
                         <img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-                        <button type="button" class="btn btn-success" id="downlodeStockForm">서식 다운로드</button>
                         <button type="button" class="btn btn-success" id="downlodeExcelList">리스트 다운로드</button>
                     </div>
                     <div class="col-6 d-flex justify-content-center">
@@ -147,13 +147,14 @@
                         <div class="input-group mb-3 w-30 col-centered">
                             <div class="w-25">
                                 <select class="form-select" name="searchn" id="searchn2">
-                                    <option value="0">제품명</option>
-                                    <option value="1">카테고리</option>
-                                    <option value="2">재고수</option>
+                                    <option value="0" ${searchn == 0 ? 'selected' : ''}>제품명</option>
+                                    <option value="1" ${searchn == 1 ? 'selected' : ''}>카테고리</option>
+                                    <option value="2" ${searchn == 2 ? 'selected' : ''}>재고수</option>
+                                    <option value="3" ${searchn == 3 ? 'selected' : ''}>창고명</option>
                                 </select>
                             </div>
                             <input type="text" id="search2" name="search" class="form-control"
-                                   aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+                                   aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
                             <button class="btn btn-info" type="button" id="searchBtn2">검색</button>
 
                             <!-- 페이징작업용 -->
@@ -175,6 +176,7 @@
                                 <th>제품명</th>
                                 <th>카테고리</th>
                                 <th>재고수</th>
+                                <th>창고</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -184,6 +186,7 @@
                                     <td class="col-1">${dto.productName }</td>
                                     <td class="col-1">${dto.cls_nm_4 }</td>
                                     <td class="col-1">${dto.quantity }</td>
+                                    <td class="col-1">${dto.warehouseName}</td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -195,7 +198,6 @@
                 <div class="row row-buttons">
                     <div class="col-3 text-start">
                         <img width="50" height="50" src="https://img.icons8.com/color/48/ms-excel.png" alt="ms-excel"/>
-                        <button type="button" class="btn btn-success" id="downlodeStockForm2">서식 다운로드</button>
                         <button type="button" class="btn btn-success" id="downlodeExcelList2">리스트 다운로드</button>
                     </div>
                     <div class="col-6 d-flex justify-content-center">

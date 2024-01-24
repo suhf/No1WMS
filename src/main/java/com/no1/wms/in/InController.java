@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -79,13 +80,7 @@ public class InController {
 	@PostMapping("/create_process")
 	@ResponseBody
 	public boolean createProcess(InDto dto) {
-		int i = inService.createProcess(dto);
-		int j = inService.createProcess2(dto);
-		if (i == 1 & i == j) {
-			return true;
-		} else {
-			return false;
-		}
+		return inService.chechAndUpdateOrCreateProcessForCreate(dto);
 	}
 	
 	@PostMapping("/read")
@@ -115,13 +110,9 @@ public class InController {
 		// 수정 - Ajax
 		@PutMapping("/update_process")
 		@ResponseBody
-		public boolean update_process(InDto dto) {
-			int i = inService.updateById(dto);
-			if (i == 1) {
-				return true;
-			} else {
-				return false;
-			}
+		public boolean updateProcess(InDto dto) {
+			return inService.chechAndUpdateProcess(dto);
+			
 		}
 	
 	
@@ -172,14 +163,14 @@ public class InController {
                                   @RequestParam(name = "p",  defaultValue = "1") int page,
                                   @RequestParam String name, String product_id, ModelAndView mav){
 
-        int perPage = 9; // 한 페이지에 보일 글의 갯수
+        int perPage = 5; // 한 페이지에 보일 글의 갯수
         int startRow = (page - 1) * perPage;
 
         List<Map<String, Object>> list = null;
         int count = 0;
 
-        list = stockservice.warehousesSelect(searchn, search, startRow, perPage, product_id);
-        count = stockservice.warehouseCount(searchn, search, product_id);
+        list = stockservice.warehousesSelect(searchn, search, startRow, perPage);
+        count = stockservice.warehouseCount(searchn, search);
 
 
         mav.addObject("list", list);
@@ -206,7 +197,11 @@ public class InController {
         return mav;
     }
 	
-	
+	@DeleteMapping("/delete")
+	@ResponseBody
+	public boolean delete(String id) {
+		return inService.deactivateById(id);
+	}
 	
 	
 	

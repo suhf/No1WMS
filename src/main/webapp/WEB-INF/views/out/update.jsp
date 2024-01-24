@@ -34,10 +34,14 @@
 
 
                 <div class="input-group mb-3 w-40 col-centered">
-                    <span id='shipment_quantity_label' class="input-group-text">출고량</span>
-                    <input id="quantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.quantity}">
+                    <span id='stockQuantity_name' class="input-group-text">재고량</span>
+                    <input readonly id="stockQuantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.stockQuantity}">
                 </div>
 
+                <div class="input-group mb-3 w-40 col-centered">
+                    <span id='outQuantity_name' class="input-group-text">출고량</span>
+                    <input readonly id="outQuantity" type="text" class="form-control" placeholder="수량을 입력하세요" value="${dto.outQuantity}">
+                </div>
 
 
                 <!--창고 관련 -->
@@ -49,17 +53,20 @@
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='expected_delivery_date_label' class="input-group-text">출고 예정 날짜</span>
-                    <input type="text" id="expected_delivery_date" placeholder="yyyy-MM-dd" value="${dto.expected_delivery_date}">
+                    <fmt:formatDate value="${dto.expected_delivery_date}" pattern="yyyy-MM-dd" type="date" var="formattedDate" />
+                    <input type="date" id="expected_delivery_date" name="expected_delivery_date" class="form-control"
+                           placeholder="날짜을 입력하세요" aria-label="입고날짜" value="${formattedDate}"
+                           aria-describedby="basic-addon1">
                 </div>
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='delivery_date_label' class="input-group-text">출고 날짜</span>
-                    <input type="text" id="delivery_date" placeholder="" readonly value="${dto.expected_delivery_date}">
+                    <input type="text" id="delivery_date" placeholder="" readonly value="${dto.delivery_date}">
                 </div>
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='note_label' class="input-group-text">비고</span>
-                    <textarea id="note" class="form-control" rows="5" value="${note}"></textarea>
+                    <textarea  id="note" class="form-control" rows="5">${dto.note}</textarea>
                 </div>
 
 
@@ -103,13 +110,17 @@
         $("#updateBtn").on("click", function () {
             var id = $("#id").val();
             var product_id = $("#product_id").val();
-            var quantity = $("#quantity").val();
+            var stockQuantity = parseInt($("#stockQuantity").val(), 10);
+            var outQuantity = parseInt($("#outQuantity").val(), 10);
             var expected_delivery_date = $("#expected_delivery_date").val();
             var warehouse_id = $("#warehouse_id").val();
             var note = $("#note").val();
             var activation = $("#activation").val();
 
-
+            if (outQuantity > stockQuantity) {
+                alert("출고량이 재고량을 넘을 수 없습니다.");
+                return false;
+            }
 
             if (!product_id) {
                 alert("제품을 선택해야 합니다.");
@@ -130,7 +141,7 @@
                     "expected_delivery_date":expected_delivery_date,
                     "note":note,
                     "warehouse_id": warehouse_id,
-                    "quantity": quantity,
+                    "quantity": outQuantity,
                     "activation": activation,
 
 

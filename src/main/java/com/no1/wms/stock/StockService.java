@@ -13,24 +13,24 @@ import java.util.Map;
 public class StockService {
 	@Autowired
 	StockMapper mapper;
-	
+
 	public int count(int searchn, String search) {
-		
-		System.out.println(searchn+search);
-		
-		Map<String,Object> m = new HashMap<String, Object>();
-		m.put("searchn",searchn);
+
+		System.out.println(searchn + search);
+
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("searchn", searchn);
 		m.put("search", search);
 		return mapper.count(m);
 	}
 
-	
-	public List<Map<String, Object>> list(int searchn, String search, int start, int perPage){
-		
-		System.out.println(searchn+search);
-		
+
+	public List<Map<String, Object>> list(int searchn, String search, int start, int perPage) {
+
+		System.out.println(searchn + search);
+
 		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("searchn",searchn);
+		m.put("searchn", searchn);
 		m.put("search", search);
 		m.put("start", start);
 		m.put("perPage", perPage);
@@ -38,26 +38,26 @@ public class StockService {
 		List<Map<String, Object>> result = mapper.list(m);
 		log.debug("warehouseOne테스트 :: " + result);
 		return result;
-		
+
 	}
 
 	public int count2(int searchn, String search) {
 
-		System.out.println(searchn+search);
+		System.out.println(searchn + search);
 
-		Map<String,Object> m = new HashMap<String, Object>();
-		m.put("searchn",searchn);
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("searchn", searchn);
 		m.put("search", search);
 		return mapper.count2(m);
 	}
 
 
-	public List<Map<String, Object>> list2(int searchn, String search, int start, int perPage){
+	public List<Map<String, Object>> list2(int searchn, String search, int start, int perPage) {
 
-		System.out.println(searchn+search);
+		System.out.println(searchn + search);
 
 		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("searchn",searchn);
+		m.put("searchn", searchn);
 		m.put("search", search);
 		m.put("start", start);
 		m.put("perPage", perPage);
@@ -68,30 +68,30 @@ public class StockService {
 
 	}
 
-	
+
 	public Map<String, Object> stockOne(String id) {
 		return mapper.stockOne(id);
 	}
-	
-	
+
+
 	public int createStock(StockDto dto) {
 		return mapper.createStock(dto);
 	}
-	
-	
+
+
 	public int updateStock(StockDto dto) {
 		return mapper.updateStock(dto);
 	}
 
-	public int updateWarehouse(StockDto dto){
+	public int updateWarehouse(StockDto dto) {
 		return mapper.updateWarehouse(dto);
 	}
 
-	public int updateWarehousePlus(StockDto dto){
+	public int updateWarehousePlus(StockDto dto) {
 		return mapper.updateWarehousePlus(dto);
 	}
 
-	public int updateWarehouseDeleteStock(StockDto dto){
+	public int updateWarehouseDeleteStock(StockDto dto) {
 		return mapper.updateWarehouseDeleteStock(dto);
 	}
 
@@ -100,7 +100,7 @@ public class StockService {
 	}
 
 
-	public List<Map<String, Object>> productSelect(int searchn, String search, int start, int perPage){
+	public List<Map<String, Object>> productSelect(int searchn, String search, int start, int perPage) {
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("searchn", searchn);
 		m.put("search", search);
@@ -115,32 +115,30 @@ public class StockService {
 	public int productCount(int searchn, String search) {
 
 
-		Map<String,Object> m = new HashMap<String, Object>();
-		m.put("searchn",searchn);
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("searchn", searchn);
 		m.put("search", search);
 		return mapper.productCount(m);
 	}
 
-	public List<Map<String, Object>> warehousesSelect(int searchn, String search, int start, int perPage, String product_id){
+	public List<Map<String, Object>> warehousesSelect(int searchn, String search, int start, int perPage) {
 		Map<String, Object> m = new HashMap<String, Object>();
 		m.put("searchn", searchn);
 		m.put("search", search);
 		m.put("start", start);
 		m.put("perPage", perPage);
-		m.put("product_id", product_id);
 
 		List<Map<String, Object>> warehouseresult = mapper.warehouseSelect(m);
 
 		return warehouseresult;
 	}
 
-	public int warehouseCount(int searchn, String search, String product_id) {
+	public int warehouseCount(int searchn, String search) {
 
 
-		Map<String,Object> m = new HashMap<String, Object>();
-		m.put("searchn",searchn);
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("searchn", searchn);
 		m.put("search", search);
-		m.put("product_id", product_id);
 		return mapper.warehouseCount(m);
 	}
 
@@ -149,5 +147,17 @@ public class StockService {
 	}
 
 
-}
+	//createProcess
+	public int checkandUpdateOrCreateProcess(StockDto dto){
+		mapper.updateWarehousePlus(dto);
+		int j = mapper.checkIfExistsStock(dto);
+		if (j == 1){
+			mapper.updateStockProcess(dto);
+			return 1;
+		}else{
+			mapper.createStockProcess(dto);
+			return 2;
+		}
+	}
 
+}

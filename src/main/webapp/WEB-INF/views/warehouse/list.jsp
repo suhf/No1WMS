@@ -30,13 +30,13 @@
                             <div class="input-group mb-3 w-30 col-centered">
                                 <div class="w-25">
                                     <select class="form-select" name="searchn" id="searchn">
-                                        <option value="0">창고명</option>
-                                        <option value="1">용량</option>
-                                        <option value="2">적재량</option>
+                                        <option value="0" ${searchn == 0 ? 'selected' : ''}>창고명</option>
+                                        <option value="1" ${searchn == 1 ? 'selected' : ''}>용량</option>
+                                        <option value="2" ${searchn == 2 ? 'selected' : ''}>적재량</option>
                                     </select>
                                 </div>
                                 <input type="text" name="search" id="search" class="form-control"
-                                       aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+                                       aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
                                 <button class="btn btn-info" type="button" id="searchBtn">검색</button>
 
                                 <!-- 페이징작업용 -->

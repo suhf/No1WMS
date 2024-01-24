@@ -54,7 +54,10 @@
 
                 <div class="input-group mb-3 w-40 col-centered">
                     <span id='expected_delivery_date_label' class="input-group-text">출고 예정 날짜</span>
-                    <input type="text" id="expected_delivery_date" placeholder="yyyy-MM-dd">
+                    <fmt:formatDate value="${dto.expected_delivery_date}" pattern="yyyy-MM-dd" type="date" var="formattedDate" />
+                    <input type="date" id="expected_delivery_date" name="expected_delivery_date" class="form-control"
+                           placeholder="날짜을 입력하세요" aria-label="입고날짜" value="${formattedDate}"
+                           aria-describedby="basic-addon1" min="${today}">
                 </div>
 
                 <div class="input-group mb-3 w-40 col-centered">
@@ -108,14 +111,14 @@
 
         $("#submitBtn").on("click", function () {
             var product_id = $("#product_id").val();
-            var quantity = $("#quantity").val();
+            var quantity = parseInt($("#quantity").val(), 10);
             var expected_delivery_date = $("#expected_delivery_date").val();
             var delivery_date = $("#delivery_date").val();
             var warehouse_id = $("#warehouse_id").val();
             var manager_id = $("#manager_id").val();
             var note = $("#note").val();
             var activation = $("#activation").val();
-            var shipment_quantity = $("#shipment_quantity").val();
+            var shipment_quantity = parseInt($("#shipment_quantity").val(), 10);
 
 
             if (!product_id) {
@@ -195,4 +198,9 @@
 
     });
 </script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("expected_delivery_date").setAttribute('min', today);
+    });
+</script>

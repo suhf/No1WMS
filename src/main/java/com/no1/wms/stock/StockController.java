@@ -146,14 +146,9 @@ public class StockController {
 	// 생성 - Ajax
 	@PostMapping("/create_process")
 	@ResponseBody
-	public boolean createProcess(StockDto dto) {
-		int i = service.createStock(dto);
-		if (i != 0) {
-			service.updateWarehousePlus(dto);
-			return true;
-		} else {
-			return false;
-		}
+	public int createProcess(StockDto dto) {
+		int c = service.checkandUpdateOrCreateProcess(dto);
+			return c;
 	}
 
 
@@ -172,10 +167,10 @@ public class StockController {
 	@PostMapping("/show_modal")
 	public ModelAndView showModal(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
 								  @RequestParam(name = "search", defaultValue = "") String search,
-								  @RequestParam(name = "p",  defaultValue = "1") int page, String product_id,
+								  @RequestParam(name = "p",  defaultValue = "1") int page,
 								  @RequestParam String name, ModelAndView mav){
 
-		int perPage = 5; // 한 페이지에 보일 글의 갯수
+		int perPage = 9; // 한 페이지에 보일 글의 갯수
 		int startRow = (page - 1) * perPage;
 
 		List<Map<String, Object>> list = null;
@@ -193,10 +188,9 @@ public class StockController {
 			list = service.productSelect(searchn, search, startRow, perPage);
 			count = service.productCount(searchn, search);
 		}else if(name.equals("warehouse_capacity_currentCapacity")) {
-			list = service.warehousesSelect(searchn, search, startRow, perPage ,product_id);
-			count = service.warehouseCount(searchn, search ,product_id);
+			list = service.warehousesSelect(searchn, search, startRow, perPage);
+			count = service.warehouseCount(searchn, search);
 		}
-
 		mav.addObject("list", list);
 
 		mav.addObject("start", startRow + 1);
@@ -230,9 +224,10 @@ public class StockController {
 
 
 	// 리스트 다운로드
-	@GetMapping("/stock/downloadExcelList")
+	@GetMapping("/downloadExcelList")
 	public void downlodeExcelList(HttpServletResponse response) {
 		List<Map<String, Object>> dto = service.selectAll();
+		System.out.println("엑셀 출력 확인 : : " + dto);
 		String excelFileName = "재고 파일";
 		String sheetName = "재고";
 		String[] columnName = {"제품명","카테고리","창고","재고수"};
@@ -241,7 +236,7 @@ public class StockController {
 	};
 
 	//서식 다운로드
-	@GetMapping("/stock/downloadStockForm")
+	@GetMapping("/downloadStockForm")
 	public void downlodeStockForm (HttpServletResponse response) throws IOException {
 		String stockFormName = "재고 데이터 입력 서식.xlsx";
 		excelDownlodeUtils.downlodeExcelForm(response, stockFormName);

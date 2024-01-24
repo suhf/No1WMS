@@ -53,14 +53,21 @@
                 <div class="input-group mb-3 w-30 col-centered">
                     <div class="w-25">
                         <select class="form-select" id="searchn">
-                            <option value="0">제품명</option>
-                            <option value="1">재고수</option>
+                            <option value="0" ${searchn == 0 ? 'selected' : ''}>제품명</option>
+                            <option value="1" ${searchn == 1 ? 'selected' : ''}>재고수</option>
                         </select>
                     </div>
                     <input type=hidden id="id" value="${One.id}">
                     <input type="text" name="search" class="form-control" id="search"
-                           aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
-                    <input class="btn btn-info" type="submit" id="searchBtn" value="검색"/>
+                           aria-label="Text input with dropdown button" value="${search}" placeholder="검색어를 입력하세요">
+                    <button class="btn btn-info" type="button" id="searchBtn">검색</button>
+
+
+                    <!-- 페이징작업용 -->
+                    <input type="hidden" id="searchn1" value="${searchn}">
+                    <input type="hidden" id="search1" value="${search}">
+                    <!-- 페이징작업용 -->
+
                 </div>
 
             </div>
@@ -98,21 +105,26 @@
                 <div class="col-6 d-flex justify-content-center">
                     <nev>
                         <ul class="pagination">
+
                             <c:if test="${begin > pageNum }">
                                 <li class="page-item">
-                                    <a class="page-link" href="read?p=${begin - 1 }"><</a>
+                                    <a href="javascript:void(0);" class="page-link"
+                                       onclick="pageingFunction(this.id)" id="${begin - 1 }">&lt;</a>
                                 </li>
                             </c:if>
                             <c:forEach begin="${begin }" end="${end }" var="i">
                                 <li class="page-item <c:if test="${p == i}"> active </c:if>">
-                                    <a class="page-link " href="read?p=${i }">${i }</a>
+                                    <a href="javascript:void(0);" class="page-link "
+                                       onclick="pageingFunction(this.id); return false;" id="${i }">${i }</a>
                                 </li>
                             </c:forEach>
                             <c:if test="${end < totalPages }">
                                 <li class="page-item">
-                                    <a class="page-link" href="read?p=${end + 1 }">></a>
+                                    <a href="javascript:void(0);" class="page-link"
+                                       onclick="pageingFunction(this.id)" id="${end + 1 }">&gt;</a>
                                 </li>
                             </c:if>
+
                         </ul>
                     </nev>
                 </div>
@@ -138,7 +150,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                <button id="modal_yes_button_warehouse_delete" type="button" class="modal_yes btn btn-primary">삭제</button>
+                <button id="modal_yes_button_warehouse_delete" type="button" class="modal_yes btn btn-primary">삭제
+                </button>
             </div>
         </div>
     </div>
@@ -150,7 +163,7 @@
             $(location).attr("href", "/warehouse/list");
         })//checkBtn click
 
-        $("#modifyBtn").on("click", function() {
+        $("#modifyBtn").on("click", function () {
             var id = $("#id").val();
 
             var form = document.createElement("form");
@@ -169,13 +182,10 @@
         })//modifyBtn click
 
 
-
-
-
         yesNoModal.yesFunction = deleteWarehouseFunction;
 
 
-        function deleteWarehouseFunction(){
+        function deleteWarehouseFunction() {
             var id = $("#id").val();
             $.ajax({
                 url: "/warehouse/delete",
@@ -183,65 +193,138 @@
                 data: {
                     "id": id
                 },
-                datatype:"json"
-            }).done(function(data) {
+                datatype: "json"
+            }).done(function (data) {
                 if (data == true) {
                     alert("삭제되었습니다.");
                     $(location).attr("href", "/warehouse/list");
                 } else {
                     alert("정상적으로 삭제되지 않았습니다..");
                 }
-            }).fail(function() {
+            }).fail(function () {
                 alert("오류가 발생했습니다.");
-            }).always(function() {
+            }).always(function () {
                 //
             });
 
         }//deleteCategoryFunction
 
         const yesNoModalBootStrap = new bootstrap.Modal("#yes_no_modal_delete");
-        $("#yes_no_modal_show").on("click", function(){
+        $("#yes_no_modal_show").on("click", function () {
             yesNoModalBootStrap.show();
         });
 
-        $("#modal_yes_button_warehouse_delete").on("click", function(){
+        $("#modal_yes_button_warehouse_delete").on("click", function () {
             yesNoModal.yesFunction();
             yesNoModalBootStrap.hide();
         });
 
 
-
-
-
-
-
         // 검색 버튼 클릭 시 Ajax로 검색 결과를 갱신
-        $("#searchBtn").click(function () {
-            var search = $("#search").val();
+        // $("#searchBtn").click(function () {
+        //     var search = $("#search").val();
+        //     var searchn = $("#searchn").val();
+        //     var id = $("#id").val();
+        //     var p = $("#p").val();
+        //
+        //     $.ajax({
+        //         url: "warehouse/read.jsp",
+        //         method: "POST",
+        //         data: {
+        //             search: search,
+        //             searchn: searchn,
+        //             id: id,
+        //             p: p
+        //
+        //         },
+        //         success: function (result) {
+        //             // 검색 결과를 받아와서 결과를 보여주는 영역 업데이트
+        //             $("#searchResults").html(result);
+        //         },
+        //         error: function () {
+        //             alert("검색 중 오류가 발생했습니다.");
+        //         }
+        //     });
+        //
+        //검색기능
+        $("#searchBtn").on("click", function () {
+
             var searchn = $("#searchn").val();
+            var search = $("#search").val();
             var id = $("#id").val();
 
-            $.ajax({
-                url: "read.jsp",
-                method: "POST",
-                data: {
-                    search: search,
-                    searchn: searchn,
-                    id: id
+            var form = document.createElement("form");
+            form.action = "/warehouse/read";
+            form.method = "post";
 
-                },
-                success: function (result) {
-                    // 검색 결과를 받아와서 결과를 보여주는 영역 업데이트
-                    $("#searchResults").html(result);
-                },
-                error: function () {
-                    alert("검색 중 오류가 발생했습니다.");
-                }
-            });
+            var input1 = document.createElement("input");
+            input1.type = "hidden";
+            input1.name = "searchn";
+            input1.value = searchn;
+            form.appendChild(input1);
+
+            var input2 = document.createElement("input");
+            input2.type = "hidden";
+            input2.name = "search";
+            input2.value = search;
+            form.appendChild(input2);
+
+            var input3 = document.createElement("input");
+            input3.type = "hidden";
+            input3.name = "p";
+            input3.value = 1;
+            form.appendChild(input3);
+
+            var input4 = document.createElement("input");
+            input4.type = "hidden";
+            input4.name = "id";
+            input4.value = id;
+            form.appendChild(input4);
+
+            document.body.appendChild(form);
+            form.submit();
+
 
         });
+    });
 
-    });//ready
+
+    function pageingFunction(clickedId) {
+        var searchn1 = $("#searchn1").val();
+        var search1 = $("#search1").val();
+        var id = $("#id").val();
+
+        var form = document.createElement("form");
+        form.action = "/warehouse/read";
+        form.method = "post";
+
+        var input1 = document.createElement("input");
+        input1.type = "hidden";
+        input1.name = "searchn";
+        input1.value = searchn1;
+        form.appendChild(input1);
+
+        var input2 = document.createElement("input");
+        input2.type = "hidden";
+        input2.name = "search";
+        input2.value = search1;
+        form.appendChild(input2);
+
+        var input3 = document.createElement("input");
+        input3.type = "hidden";
+        input3.name = "p";
+        input3.value = clickedId;
+        form.appendChild(input3);
+
+        var input4 = document.createElement("input");
+        input4.type = "hidden";
+        input4.name = "id";
+        input4.value = id;
+        form.appendChild(input4);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
 
 
 </script>

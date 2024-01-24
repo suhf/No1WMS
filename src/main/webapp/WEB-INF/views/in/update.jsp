@@ -28,7 +28,7 @@
                             <button class="btn btn-outline-secondary rounded-end" id="searchProductName"
                                 style="background-color:#FF5E5E;" type="button"
                                 onclick="showSearchModal_product('제품 검색','product')">검색</button>
-                            <input type='hidden' id="product_id" value="">
+                            <input type='hidden' id="product_id" value="${dto.product_id}">
                         </div>
 
                         <div class="input-group mb-3 w-40 col-centered">
@@ -52,7 +52,7 @@
                         <div class="input-group mb-3 w-40 col-centered">
                             <span class="input-group-text" id="basic-addon2">수량</span>
                             <input type="number" name="quantity" id="quantity" class="form-control"
-                                value="${dto.quantity}" readonly>
+                                value="${dto.quantity}">
                         </div>
 
                         <div class="input-group mb-3 w-40 col-centered">
@@ -63,7 +63,7 @@
                             <button class="btn btn-outline-secondary rounded-end" id="searchWarehouseName"
                                 style="background-color:#FF5E5E;" type="button"
                                 onclick="showSearchModal_warehouse('창고 검색','warehouse_capacity_currentCapacity')">검색</button>
-                            <input type='hidden' id="warehouse_id" value="">
+                            <input type='hidden' id="warehouse_id" value="${dto.warehouse_id}">
                         </div>
 
                         <div class="input-group mb-3 w-40 col-centered">
@@ -103,6 +103,7 @@
 
                         <c:set var="userData" value="${sessionScope.userData}" />
                         <input type='hidden' id="manager_id" value="${userData.id}">
+                        <input type='hidden' id="id" value="${dto.id}">
                     </div>
                 </div>
             </div>
@@ -144,11 +145,11 @@
 			var in_date = $("#in_date").val();
 			var manager_id = $("#manager_id").val();
 			var note = $("#note").val();
-    		if(!name){
-    			alert("제품명을 입력해야 합니다.");
-    			$("#name").focus();
-    			return false;
-    		}
+			var id = $("#id").val();
+			var quantityAdjustment = parseInt($("#quantityAdjustment").val(), 10);
+            var remainingcapacity = parseInt($("#remainingcapacity").val(), 10);
+			
+			
     		if(!product_id){
 	   			alert("제품을 선택해야합니다.");
 	   			return false;
@@ -163,6 +164,12 @@
 	   			alert("창고을 선택해야합니다.");
 	   			return false;
 	   		}
+			if (quantityAdjustment > remainingcapacity) {
+                alert("적재 할 재고량이 재고량 한도를 넘을 수 없습니다.");
+                $("#quantityAdjustment").focus();
+                return false;
+            }
+			
 			if(!in_date){
 				in_date = new Date();
 				in_date = in_date.toISOString();
@@ -177,9 +184,10 @@
 					in_date : in_date,
 					manager_id : manager_id,
 					warehouse_id : warehouse_id,
-					note : note
+					note : note,
+					id : id
 			}
-    		
+			console.log(data);
     		$.ajax({
             	url: "/in/update_process",
             	type: "put",
@@ -207,6 +215,7 @@
                 	
                 } else {
                 	alert("입고 수정에 실패하였습니다.");
+                	console.log(data);
                 }
             }).fail(function() {
                 alert("오류가 발생했습니다.");
@@ -216,41 +225,41 @@
           });//submitBtn
         
 	});//ready
-	function showSearchModal(title, val){
-        $("#searchModalLabel").text(title);
-        const data = { name : val};
-        $.ajax({
-            type : 'post',           // 타입 (get, post, put 등등)
-            url : '/product/show_modal',           // 요청할 서버url
-            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
-            data : data,
-            success : function(result) { // 결과 성공 콜백함수
-                $("#search_modal_body").html(result);
-                searchModalBootStrap.show();
-            },
-            error : function(request, status, error) {
-                alert(error)
-            }
-        });
-    }
- 
-	 function showSearchModal2(title, val){
-	        $("#searchModalLabel").text(title);
-	        const data = { name : val};
-	        $.ajax({
-	            type : 'post',           // 타입 (get, post, put 등등)
-	            url : '/product/show_modal2',           // 요청할 서버url
-	            dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
-	            data : data,
-	            success : function(result) { // 결과 성공 콜백함수
-	                $("#search_modal_body").html(result);
-	                searchModalBootStrap.show();
-	            },
-	            error : function(request, status, error) {
-	                alert(error)
-	            }
-	        });
-	    }
+	function showSearchModal_product(title, val){
+	       $("#searchModalLabel").text(title);
+	       const data = { name : val};
+	       $.ajax({
+	           type : 'post',           // 타입 (get, post, put 등등)
+	           url : '/in/show_modal_product',           // 요청할 서버url
+	           dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+	           data : data,
+	           success : function(result) { // 결과 성공 콜백함수
+	               $("#search_modal_body").html(result);
+	               searchModalBootStrap.show();
+	           },
+	           error : function(request, status, error) {
+	               alert(error)
+	           }
+	       });
+	   }//showSearchModal_products
+	
+	function showSearchModal_warehouse(title, val){
+	     $("#searchModalLabel").text(title);
+	     const data = { name : val};
+	     $.ajax({
+	         type : 'post',           // 타입 (get, post, put 등등)
+	         url : '/in/show_modal_warehouse',           // 요청할 서버url
+	         dataType : 'html',       // 데이터 타입 (html, xml, json, text 등등)
+	         data : data,
+	         success : function(result) { // 결과 성공 콜백함수
+	             $("#search_modal_body").html(result);
+	             searchModalBootStrap.show();
+	         },
+	         error : function(request, status, error) {
+	             alert(error)
+	         }
+	     	});
+ 	}//showSearchModal_warehouse
 	</script>
 </body>
 </html>

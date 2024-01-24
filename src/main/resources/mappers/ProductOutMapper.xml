@@ -37,10 +37,11 @@
 
 
     <select id="outOne" parameterType="Map" resultType="Map">
-        select o.id as id, p.name as product_name, p.kan_code, o.quantity, w.name as warehouse_name, w.id as warehouse_id, p.id as product_id, o.expected_delivery_date, o.delivery_date, o.note
+        select o.id as id, p.name as product_name, p.kan_code, o.quantity as outQuantity, s.quantity as stockQuantity, w.name as warehouse_name, w.id as warehouse_id, p.id as product_id, o.expected_delivery_date, o.delivery_date, o.note
         from product_out o
-        left join warehouse w on o.warehouse_id = w.id
         left join product p on o.product_id = p.id
+        left join warehouse w on o.warehouse_id = w.id
+        left join stock s on o.product_id = s.product_id and o.warehouse_id = s.warehouse_id
 
         where o.id = #{id}
     </select>
@@ -119,6 +120,12 @@
         set quantity = #{quantity}, expected_delivery_date = #{expected_delivery_date}, delivery_date = #{delivery_date}
         where id = #{id};
     </update>
+
+    <update id="stockQuantityUpdate" parameterType="com.no1.wms.out.ProductOutDto">
+        update stock
+        set quantity = quantity - #{quantity}
+        where product_id = #{product_id} and warehouse_id = #{warehouse_id};
+    </update>
     <!-- update -->
 
 
@@ -136,4 +143,9 @@
         where id = #{id}
     </delete>
     <!-- delete -->
+
+
+
+
+
 </mapper>

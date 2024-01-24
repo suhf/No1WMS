@@ -33,9 +33,9 @@ public class PlanInController {
     
     @GetMapping("/list")
     public ModelAndView list(ModelAndView mav,@RequestParam(defaultValue = "0") int searchn, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "1") int page){
-        int perPage = 10;
+        int perPage = 15;
         int startRow = (page - 1) * perPage;
-        int count = planinservice.count(searchn, search, startRow, perPage);
+        int count = planinservice.count(searchn, search);
 
 
 
@@ -44,8 +44,6 @@ public class PlanInController {
 
 
 
-
-        //스톡서비스로 재고 리스트 출력 메서트 작성
         List<PlanInDto> list = planinservice.selectAll(searchn, search, startRow, perPage);
         HashMap<String, Integer> map = new HashMap<>();
         for( int i = 0 ; i < list.size(); ++i){

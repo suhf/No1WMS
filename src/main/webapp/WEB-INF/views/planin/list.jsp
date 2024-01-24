@@ -41,11 +41,21 @@
             </div>
             <div>
                 <hr>
-            </div>
-        </div>
-    </div>
+	        </div>
+	    </div>
+	</div>
     <div class="row">
         <div class="col-12 att">
+        	<form class="d-inline" id="search_form">
+	            <select name="searchn">
+	                <option <c:if test="${searchn == 0}">selected="selected"</c:if> value="0">그룹번호</option>
+	                <option <c:if test="${searchn == 1}">selected="selected"</c:if> value="1">제품명</option>
+                    <option <c:if test="${searchn == 2}">selected="selected"</c:if> value="2">수량</option>
+	            </select>
+	            <input type="text" name="search" maxlength="50" value="${search}"/>
+	            <button type="submit" class="btn btn-primary" >검색</button>
+	            <input id="pPage" hidden type="text" name="page">
+            </form>
             <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create" onclick="goCreate() ">생성</button>
         </div>
         <div class="col-12 m-0">
