@@ -1,5 +1,7 @@
 package com.no1.wms.base;
 
+import com.no1.wms.in.InDto;
+import com.no1.wms.in.InService;
 import com.no1.wms.stock.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +19,10 @@ public class MainPageController {
 
     @Autowired
     StockService service;
-
+    
+    @Autowired
+	InService inService;
+    
 	@GetMapping("/main")
     public String mainPage(@RequestParam(name = "searchn2", defaultValue = "0") int searchn2,
                            @RequestParam(name = "search2", defaultValue = "") String search2,
@@ -27,6 +34,15 @@ public class MainPageController {
         List<Map<String, Object>> dto2 = service.list2(searchn2, search2, startRow2 ,perPage2);
         m.addAttribute("slist2", dto2);
         System.out.println("리스트 확인 : : " + dto2);
+        
+
+        Date today = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(today);
+        
+        List<InDto> dto = inService.inListMain(formattedDate);
+        m.addAttribute("inDto", dto);
+        
     	return "base/main";
     }
 }

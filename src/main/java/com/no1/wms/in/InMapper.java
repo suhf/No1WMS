@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface InMapper {
 	List<InDto> inList(Map<String, Object> m);
+	List<InDto> inListMain(Map<String, Object> m);
 	int count(Map<String, Object> m);
 	int createProcess(InDto dto);
 	int createProcess2(InDto dto);
@@ -22,4 +23,6 @@ public interface InMapper {
 	int deactivateById(String id);
 	String selectWarehouseQuantity(String warehouseId);
 	int updateWarehouseQuantity(Map<String, Object> m);
+	
+	
 }
