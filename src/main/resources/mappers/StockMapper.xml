@@ -64,7 +64,7 @@
                 <when test="searchn == 0"> quantity &lt;= 200 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
                 <when test="searchn == 1"> quantity &lt;= 200 and s.activation = 1 and c.cls_Nm_4 like concat('%',#{search},'%')</when>
                 <when test="searchn == 2"> quantity &lt;= 200 and s.activation = 1 and s.quantity like concat('%',#{search},'%')</when>
-                <when test="searchn == 3">s.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 3"> quantity &lt;= 200 and s.activation = 1 and w.name like concat('%',#{search},'%')</when>
             </choose>
         </where>
     </select>
@@ -82,7 +82,7 @@
                 <when test="searchn == 0"> quantity &lt;= 200 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
                 <when test="searchn == 1"> quantity &lt;= 200 and s.activation = 1 and c.cls_Nm_4 like concat('%',#{search},'%')</when>
                 <when test="searchn == 2"> quantity &lt;= 200 and s.activation = 1 and s.quantity like concat('%',#{search},'%')</when>
-                <when test="searchn == 3">s.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 3"> quantity &lt;= 200 and s.activation = 1 and w.name like concat('%',#{search},'%')</when>
             </choose>
         </where>
         order by s.id desc limit #{start}, #{perPage}
