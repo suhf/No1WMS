@@ -1,5 +1,6 @@
 package com.no1.wms.in;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,12 @@ public class InService {
 		m.put("perPage", perPage);
 		
 		return mapper.inList(m);
+	}
+	
+	public List<InDto> inListMain(String today){//메인페이지에서 활용
+		Map<String, Object> m = new HashMap<String, Object>();
+		m.put("today",today);
+		return mapper.inListMain(m);
 	}
 	
 	public int count(int searchn, String search) {

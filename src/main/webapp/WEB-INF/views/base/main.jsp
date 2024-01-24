@@ -1,5 +1,6 @@
-<%@ page contentType="text/html; charset=UTF-8" %>3
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,8 +56,41 @@
         </div>
 
         <div class="col-md-6">
-            <!-- 네 번째 공간 -->
-            <div>네 번째 공간</div>
+            
+            <!--네 번째 공간 -->
+            <div>
+                <div class=" text-center">
+                    <h5>오늘의 입고</h5>
+                </div>
+                <table class="table">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>번호</th>
+                        <th>제품명</th>
+                        <th>입고예정그룹번호</th>
+                        <th>수량</th>
+                        <th>창고</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${inDto }" var="dto" varStatus="status">
+                        <tr class="detailTr2 col-5" data-id="${dto.id}" style="font-size: small;" >
+                            <td class="col-1">${status.count }</td>
+                            <td class="col-1">${dto.productDto.name }</td>
+                            <c:if test="${not empty dto.planInDto.viewGroupNumber}">
+							    <td class="col-1">${dto.planInDto.viewGroupNumber}</td>
+							</c:if>
+							<c:if test="${empty dto.planInDto.viewGroupNumber}">
+							    <td class="col-1"></td>
+							</c:if>
+                            <td class="col-1">${dto.quantity }</td>
+                            <td class="col-1">${dto.warehouseDto.name}</td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+	        
         </div>
     </div>
 </div>
@@ -78,9 +112,9 @@
                 center: 'title',
                 right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
             },
-            googleCalendarApiKey: 'AIzaSyBKWDNnFEMpuNCPubU3pkkmB1F6XLX_bSo',
+            googleCalendarApiKey: '',
             events: {
-                googleCalendarId: '7a3e7ae86281b8e995e4db0402865fb947ceb73c7d633f3a629a0068ac0ca66c@group.calendar.google.com',
+                googleCalendarId: '@group.calendar.google.com',
                 className: 'gcal-event' // an option!
             },
             eventClick: function (info) {
@@ -133,6 +167,23 @@
 
             var form = document.createElement("form");
             form.action = "/stock/read";
+            form.method = "POST";
+            document.body.appendChild(form);
+
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "id";
+            input.value = id;
+            form.appendChild(input);
+
+            form.submit();
+
+        });
+        $("body").on("click", ".detailTr2", function () {
+            var id = $(this).data("id");
+
+            var form = document.createElement("form");
+            form.action = "/in/read";
             form.method = "POST";
             document.body.appendChild(form);
 
