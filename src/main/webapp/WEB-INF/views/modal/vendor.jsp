@@ -81,13 +81,13 @@
 	            <div class="input-group mb-3 w-50 col-centered">
 							<div class="w-30">
 	                <select class="form-select" name="searchn" id="searchn">
-						<option selected="selected" value="0">업체명</option>
-						<option value="1">업체명</option>
-						<option value="2">거래처 담당자</option>
-						<option value="3">거래처 담당자 전화번호</option>
+						<option selected="selected" value="0" <c:if test="${searchn == 0}">selected="selected"</c:if>>업체명</option>
+						<option value="1" <c:if test="${searchn == 1}">selected="selected"</c:if>>업체명</option>
+						<option value="2" <c:if test="${searchn == 2}">selected="selected"</c:if>>거래처 담당자</option>
+						<option value="3" <c:if test="${searchn == 3}">selected="selected"</c:if>>거래처 담당자 전화번호</option>
 					</select>
 					</div>
-					<input type="text" id="search" name="search" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
+					<input type="text" id="search" name="search" value="${search}" class="form-control" aria-label="Text input with dropdown button" placeholder="검색어를 입력하세요">
 					<button class="btn btn-info" type="button" id="searchBtn">검색</button>
 					<!-- 페이징작업용 -->
 					<input type="hidden" id="searchn1" value="${searchn}">
