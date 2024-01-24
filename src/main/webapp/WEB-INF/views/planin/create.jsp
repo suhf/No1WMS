@@ -162,7 +162,7 @@
     </div>
     <div class="row">
         <div class="col-12 att">
-            <button style="float: right;"  class="btn btn-primary" type="submit" id="btn_create" onclick="goCreate() ">삭제 </button>
+            <button style="float: right;"  class="btn btn-danger" type="submit" id="btn_create" onclick="goCreate() ">삭제 </button>
         </div>
         <div class="col-12 m-0">
             <table class="table" >
