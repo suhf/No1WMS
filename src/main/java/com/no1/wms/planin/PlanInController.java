@@ -33,10 +33,9 @@ public class PlanInController {
     
     @GetMapping("/list")
     public ModelAndView list(ModelAndView mav,@RequestParam(defaultValue = "0") int searchn, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "1") int page){
-        int perPage = 15;
+        int perPage = 10;
         int startRow = (page - 1) * perPage;
-        int count = planinservice.count(searchn, search);
-
+        int count = planinservice.count(searchn, search, startRow, perPage);
 
 
         int pageNum = 4;//보여질 페이지 번호 수

@@ -31,6 +31,14 @@
        $form.trigger("submit");
 
    }
+   
+   function onPaging(target){
+       const p = $(target).data("p");
+       $("#pPage").val(p);
+       const $form = $("#search_form");
+       $form.attr("action", "/plan_in/list");
+       $form.trigger("submit");
+   }
 
 </script>
 <div class="container">
@@ -77,6 +85,23 @@
             </table>
         </div>
     </div>
+    <div class="row">
+            <div class="col-12">
+                <div id="page">
+                    <ul class="pagination justify-content-center">
+                    <c:if test="${begin > pageNum }">
+                        <li class="page-item"><a class="page-link" data-p='${begin-1 }' href="#" onclick="onPaging(this)">[<]</a></li>
+                    </c:if>
+                    <c:forEach begin="${begin }" end="${end}" var="i" varStatus="status">
+                        <li class="page-item <c:if test="${page eq status.count}">active</c:if> "><a class="page-link"  data-p='${i}' href="#" onclick="onPaging(this)" >${i}</a></li>
+                    </c:forEach>
+                    <c:if test="${end < totalPages }">
+                        <li class="page-item"><a class="page-link" data-p='${end+1}' href="#" onclick="onPaging(this)">[>]</a></li>
+                    </c:if>
+                    </ul>
+                </div>
+            </div>
+        </div>
 </div>
 <form id="form" action='/plan_in/read' method="post">
     <input name="groupNumber" id="groupId" hidden>
