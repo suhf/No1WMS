@@ -35,6 +35,16 @@ function goTable(){
 		return false;
 	}
 	
+	if(!$("#input_vendor").val()){
+		alert("업체명을 입력하세요");
+		return false;
+	}
+	
+	if(!$("#input_category").val()){
+		alert("제품 카테고리를 입력하세요");
+		return false;
+	}
+	
 	data.name = $("#input_name").val();
 	data.category = $("#input_category").val();
 	data.id = $("#input_id").val();
