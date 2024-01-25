@@ -235,6 +235,17 @@ public class StockController {
 
 	};
 
+	@GetMapping("/downloadExcelList2")
+	public void downlodeExcelList2(HttpServletResponse response) {
+		List<Map<String, Object>> dto = service.selectAll2();
+		System.out.println("엑셀 출력 확인 : : " + dto);
+		String excelFileName = "부족한 재고 파일";
+		String sheetName = "부족한 재고";
+		String[] columnName = {"제품명","카테고리","창고","재고수"};
+		excelDownlodeUtils.downloadStockExcelFile(excelFileName, response, sheetName, columnName, dto);
+
+	};
+
 	//서식 다운로드
 	@GetMapping("/downloadStockForm")
 	public void downlodeStockForm (HttpServletResponse response) throws IOException {

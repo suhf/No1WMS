@@ -247,17 +247,20 @@
 
 
     $(document).ready(function () {
-        $("#downlodeStockForm,downlodeStockForm2").on("click",function(){
+
+
+        $("#downlodeExcelList").on("click",function(){
             var form = document.createElement("form");
-            form.action = "/stock/downloadStockForm";
+            form.action = "/stock/downloadExcelList";
             form.method = "GET";
             document.body.appendChild(form);
             form.submit();
         });
 
-        $("#downlodeExcelList,downlodeExcelList2").on("click",function(){
+
+        $("#downlodeExcelList2").on("click",function(){
             var form = document.createElement("form");
-            form.action = "/stock/downloadExcelList";
+            form.action = "/stock/downloadExcelList2";
             form.method = "GET";
             document.body.appendChild(form);
             form.submit();

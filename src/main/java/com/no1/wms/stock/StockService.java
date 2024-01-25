@@ -146,6 +146,10 @@ public class StockService {
 		return mapper.selectAll();
 	}
 
+	public List<Map<String, Object>> selectAll2() {
+		return mapper.selectAll2();
+	}
+
 
 	//createProcess
 	public int checkandUpdateOrCreateProcess(StockDto dto){

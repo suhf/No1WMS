@@ -10,6 +10,8 @@ import java.util.Map;
 @Mapper
 public interface StockMapper {
 	List<Map<String, Object>> selectAll();
+
+	List<Map<String, Object>> selectAll2();
 	
 	int count(Map<String, Object> m);//검색 글 갯수
 

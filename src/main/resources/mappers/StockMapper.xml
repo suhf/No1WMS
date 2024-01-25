@@ -14,6 +14,16 @@
                  left join product_category c on p.kan_code = c.kan_code;
     </select>
 
+    <select id="selectAll2" parameterType="Map" resultType="Map">
+        select s.quantity as quantity, p.name as productName, c.cls_nm_4 as cls_nm_4, w.name as warehouseName
+
+        from stock s
+                 left join warehouse w on s.warehouse_id = w.id
+                 left join product p on s.product_id = p.id
+                 left join product_category c on p.kan_code = c.kan_code
+        where quantity &lt;= 200;
+    </select>
+
     <select id="count" parameterType="Map" resultType="java.lang.Integer">
         select count(s.id)
 
