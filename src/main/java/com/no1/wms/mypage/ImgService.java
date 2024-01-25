@@ -2,6 +2,7 @@ package com.no1.wms.mypage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,16 +20,19 @@ public class ImgService {
 			
 			String storePathString = "";
 			try {
+				//대안1
 				
+				//InputStream resource = getClass().getResourceAsStream("/static/img/mypage/profile");
+				
+				
+				//대안2
+				
+				//InputStream resource = getClass().getClassLoader().getResourceAsStream("static/img/mypage/profile");
+				
+				//기존
 				ClassPathResource resource = new ClassPathResource("/static/img/mypage/profile");
 				storePathString = resource.getFile().getAbsolutePath();
-				//storePathString = System.getProperty("user.dir") + "/src/main/resources/static/img/mypage/profile";
-				//System.out.println("storePathString : " + storePathString);
-				//String path = ResourceUtils.getFile("classpath:static/img/mypage/profile/").toPath().toString();
-				//storePathString = path;
-				
-				//System.out.println("storePathString : " + storePathString);
-		        
+   
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
