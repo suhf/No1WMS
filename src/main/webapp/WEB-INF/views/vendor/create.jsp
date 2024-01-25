@@ -126,7 +126,7 @@
 
 
             $("#submitBtn").on("click", function () {
-                var managerId = $("#manager_id").val();
+                var manager_id = $("#manager_id").val();
 
                 var name = $("#name").val();
                 var president_name = $("#president_name").val();
@@ -144,7 +144,7 @@
                     $("#name").focus();
                     return false;
                 }
-                if (!presidentName) {
+                if (!president_name) {
                     alert("대표자명을 입력해야 합니다.");
                     $("#president_name").focus();
                     return false;
@@ -156,7 +156,7 @@
                     return false;
                 }
 
-                if (!registrationNumber) {
+                if (!registration_number) {
                     alert("사업자등록번호를 입력해야 합니다.");
                     $("#registration_number").focus();
                     return false;
@@ -168,25 +168,25 @@
                     return false;
                 }
 
-                if (!presidentTelephone) {
+                if (!president_telephone) {
                     alert("대표번호를 입력해야 합니다.");
                     $("#president_telephone").focus();
                     return false;
                 }
 
-                if (!vendorManager) {
+                if (!vendor_manager) {
                     alert("거래처 담당자 이름을 입력해야 합니다.");
                     $("#vendor_manager").focus();
                     return false;
                 }
 
-                if (!vendorManagerTelephone) {
+                if (!vendor_manager_telephone) {
                     alert("거래처 담당자 연락 번호를 입력해야 합니다.");
                     $("#vendor_manager_telephone").focus();
                     return false;
                 }
 
-                if (!mainProduct) {
+                if (!main_product) {
                     alert("주요품목을 입력해야 합니다.");
                     $("#main_product").focus();
                     return false;
@@ -196,8 +196,6 @@
                     url: "/vendor/create_process",
                     type: "post",
                     data: {
-                        "manager_id": manager_id,
-
                         "name": name,
                         "president_name": president_name,
                         "address": address,
@@ -207,6 +205,7 @@
                         "vendor_manager": vendor_manager,
                         "vendor_manager_telephone": vendor_manager_telephone,
                         "main_product": main_product,
+                        "manager_id": manager_id,
                         "activation" : activation
 
                     },
