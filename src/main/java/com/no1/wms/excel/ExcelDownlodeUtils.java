@@ -91,8 +91,14 @@ public class ExcelDownlodeUtils {
 	//확장자는 .xlsx로 해주세요.
 	//매개변수는 HttpServletResponse response와 파일명 String을 넣으면 되고 파일명은 한글도 가능합니다.
 	public void downlodeExcelForm(HttpServletResponse response, String formName) throws IOException {
-		String excelfilesDirectory = "src/main/webapp/excelfiles/excelform/";
+		//String excelfilesDirectory = "D:/excel/form/";
+		String excelfilesDirectory = "/excel/form/";
 		
+		File saveFolder = new File(EgovWebUtil.filePathBlackList(excelfilesDirectory));
+		
+		if (!saveFolder.exists() || saveFolder.isFile()) {
+	        saveFolder.mkdirs();
+	    }
 		
 		File file = new File(excelfilesDirectory+formName);
 		

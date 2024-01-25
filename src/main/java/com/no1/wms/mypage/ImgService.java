@@ -20,19 +20,12 @@ public class ImgService {
 			
 			String storePathString = "";
 			try {
-				//대안1
 				
-				//InputStream resource = getClass().getResourceAsStream("/static/img/mypage/profile");
+				//ClassPathResource resource = new ClassPathResource("/static/img/mypage/profile");
+				//storePathString = "D:/static/img/mypage/profile";
+				storePathString = "/static/img/mypage/profile";
+						//resource.getFile().getAbsolutePath();
 				
-				
-				//대안2
-				
-				//InputStream resource = getClass().getClassLoader().getResourceAsStream("static/img/mypage/profile");
-				
-				//기존
-				ClassPathResource resource = new ClassPathResource("/static/img/mypage/profile");
-				storePathString = resource.getFile().getAbsolutePath();
-   
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

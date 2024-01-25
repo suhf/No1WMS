@@ -24,7 +24,8 @@ public class ExcelRequestManager {
 	    String storePathString = "";
 	    String atchFileIdString = "";
 	    
-	    String folder = request.getServletContext().getRealPath("/");
+	    // String folder = "D:/excel";
+	    String folder = "/excel";
 	    
 	    if ("".equals(storePath) || storePath == null) {
 	        storePathString = folder+"/excelfiles/upload/";
