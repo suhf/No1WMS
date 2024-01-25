@@ -81,7 +81,7 @@
         )
         VALUES
         (
-           UUID(), #{employeeNumber}, #{employeeNumber},
+           UUID(), #{employeeNumber}, #{password},
            #{email}, #{groupAuthorityId},
            #{personalAuthorityId},#{name},#{gender},
            #{birth},#{telephone}, #{address},
@@ -118,7 +118,7 @@
     </select>
     <update id="resetPassword" parameterType="accountDto">
         update account SET
-                           password = ( SELECT employee_number from account where id = #{id} )
+                           password = #{password}
         WHERE id = #{id}
     </update>
 

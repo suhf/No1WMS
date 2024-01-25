@@ -21,7 +21,7 @@ public class ResetPasswordDto {
     String note;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date date;
-
+    String password;
     AccountDto accountDto;
     String employeeNumber;
 }

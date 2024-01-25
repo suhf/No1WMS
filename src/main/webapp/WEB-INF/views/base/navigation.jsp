@@ -9,7 +9,7 @@
                 <a class="nav-link d-flex align-items-center gap-2" href="/mypage">
                     <div class="text-center">
 
-                        <img alt =""  class="img-user" src="/resources/static/img/mypage/profile/${userData.id}.jpg" onerror="this.onerror=null; this.src='https://academy.ilwoo.org/data/file/reference/3531300541_J1gHPmC6_479f762b4825515abc781b3a616929d8949ea2c5.jpg'">
+                        <img alt =""  class="img-user" src="${pageContext.request.scheme}://${pageContext.request.serverName}/images/${userData.id}.jpg" onerror="this.onerror=null; this.src='https://academy.ilwoo.org/data/file/reference/3531300541_J1gHPmC6_479f762b4825515abc781b3a616929d8949ea2c5.jpg'">
                         <br>
                         <p class="user-name">${userData.name}</p>
                     </div>
@@ -18,7 +18,7 @@
             <hr class="my-3">
             <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="/">
-                    <i data-feather="list"></i>게시판
+                    <i data-feather="list"></i>메인 페이지
                 </a>
             </li>
             <c:if test="${authSession.account.read}">

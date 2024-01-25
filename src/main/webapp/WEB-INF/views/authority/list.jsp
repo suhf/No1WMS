@@ -27,35 +27,32 @@
         $(".authority_tr").on("click", function(event){
             readAuthority($(event.currentTarget).data("tid"), $(event.currentTarget).data("tgroup"));
         });
-
-
     });
 
     function onSearch(isPersonalSearch){
         let jsonData = {};
-        if(isPersonalSearch){
+        if(isPersonalSearch)
+        {
             jsonData.searchOption = $("select[name='search_select'] option:selected").val();
             jsonData.searchValue = $("#search_personal_input").val();
-
         }else{
             jsonData.searchValue = $("#search_group_input").val();
         }
-
-        console.log(JSON.stringify(jsonData));
     }
-
     function readAuthority(id, group){
         $("#formInput").val(id);
         $("#isGroupInput").val(group);
         $("#form").attr("action", "/authority/read" );
         $("#form").trigger("submit");
-
     }
-
-
-
+    function goCreate(){
+        const $form = $("<form method='get' action='/authority/create'></form> ");
+        $(".att").after($form);
+        $form.trigger("submit");
+    }
 </script>
-<div class="container-fluid">
+
+<div class="container-fluid att">
     <div class="row">
         <div class="col-12">
             <div class="mt-5 mb-5 text-center">
@@ -131,6 +128,7 @@
                                     </c:forEach>
                                     </tbody>
                                 </table>
+                                <button class="btn btn-primary" onclick="goCreate()">생성</button>
                             </div>
 
                         </div>

@@ -2,10 +2,12 @@ package com.no1.wms.mypage;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.no1.wms.utils.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -82,7 +84,8 @@ public class MypageController {
 
 	@ResponseBody
 	@PutMapping("/mypage/updateUserInfo")
-	public boolean updateUserInfo(AccountDto dto) {
+	public boolean updateUserInfo(AccountDto dto) throws NoSuchAlgorithmException {
+		dto.setPassword(SHA256.encrypt(dto.getPassword()));
 		int i = accountService.updateIncludePassword(dto);
 		System.out.println(i);
 		if (i == 1) {

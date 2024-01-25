@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@Builder
 @Alias("CategoryDto")
 public class CategoryDto {
 		

@@ -4,11 +4,13 @@ import com.google.gson.Gson;
 import com.no1.wms.authority.AuthorityDto;
 import com.no1.wms.authority.AuthorityService;
 import com.no1.wms.utils.ConstantValues;
+import com.no1.wms.utils.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -25,6 +27,8 @@ public class AccountController {
 
     @GetMapping("/list")
     public ModelAndView list(ModelAndView mav,@RequestParam(defaultValue = "0") int searchn, @RequestParam(defaultValue = "") String search, @RequestParam(defaultValue = "1") int page){
+
+
         int perPage = 10;
         int startRow = (page - 1) * perPage;
         int count = accountService.count(searchn, search, startRow, perPage);
@@ -64,7 +68,7 @@ public class AccountController {
 
     @PostMapping("/create_process")
     @ResponseBody
-    public String createProcess(AccountDto dto, Gson gson){
+    public String createProcess(AccountDto dto, Gson gson) throws NoSuchAlgorithmException {
         String uuid = UUID.randomUUID().toString();
         AuthorityDto authorityDto = new AuthorityDto();
         authorityDto.setId(dto.getGroupAuthorityId());
@@ -75,6 +79,8 @@ public class AccountController {
 
         accountService.insertToAuthority(authorityDto);
         dto.setPersonalAuthorityId(uuid);
+
+        dto.setPassword(SHA256.encrypt(dto.getEmployeeNumber()));
         accountService.insert(dto);
 
         return gson.toJson("s");
@@ -105,8 +111,6 @@ public class AccountController {
 
         AccountDto accountDto = gson.fromJson(data.get("account").toString(), AccountDto.class);
 
-        System.out.println(accountDto);
-        System.out.println(personalAuthorityDto);
         accountService.update(accountDto);
         authorityService.update(personalAuthorityDto);
 
@@ -115,7 +119,9 @@ public class AccountController {
 
     @PostMapping("/reset_password")
     @ResponseBody
-    public String resetPassword(AccountDto dto, Gson gson){
+    public String resetPassword(AccountDto dto, Gson gson) throws NoSuchAlgorithmException {
+        dto = accountService.selectById(dto);
+        dto.setPassword(SHA256.encrypt(dto.getEmployeeNumber()));
         accountService.resetPassword(dto);
 
         return gson.toJson("s");

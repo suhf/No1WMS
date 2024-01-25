@@ -1,11 +1,15 @@
 package com.no1.wms.resetpassword;
 
 import com.google.gson.Gson;
+import com.no1.wms.account.AccountDto;
+import com.no1.wms.account.AccountService;
+import com.no1.wms.utils.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -17,6 +21,9 @@ public class ResetPasswordController {
 
     @Autowired
     ResetPasswordService resetPasswordService;
+
+    @Autowired
+    AccountService accountService;
 
     @GetMapping("/list")
     public String list(@RequestParam(name = "searchn", defaultValue = "0") int searchn,
@@ -74,7 +81,11 @@ public class ResetPasswordController {
 
     @PutMapping("/update")
     @ResponseBody
-    public boolean update(ResetPasswordDto dto) {
+    public boolean update(ResetPasswordDto dto) throws NoSuchAlgorithmException {
+        AccountDto accountDto = new AccountDto();
+        accountDto.setId(dto.getAccountId());
+        accountDto = accountService.selectById(accountDto);
+        dto.setPassword(SHA256.encrypt(accountDto.getEmployeeNumber()));
         int i = resetPasswordService.passwordUpdate(dto);
         if (i != 0) {
             resetPasswordService.delete(dto);

@@ -6,6 +6,7 @@ import com.no1.wms.account.AccountService;
 import com.no1.wms.authority.AuthorityDto;
 import com.no1.wms.authority.AuthorityService;
 import com.no1.wms.base.AuthData;
+import com.no1.wms.utils.SHA256;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 @Controller
@@ -29,7 +31,7 @@ public class LoginController {
     AuthorityService authorityService;
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage() throws NoSuchAlgorithmException {
         return "login";
     }
 
@@ -63,10 +65,13 @@ public class LoginController {
 
     @PostMapping("/login/check_password")
     @ResponseBody
-    public String login(AccountDto data, AuthorityDto authDto, Gson gson,  HttpServletRequest request){
-        HttpSession session = request.getSession();
+    public String login(AccountDto data, AuthorityDto authDto, Gson gson,  HttpServletRequest request) throws NoSuchAlgorithmException {
 
+        HttpSession session = request.getSession();
+        data.setPassword(SHA256.encrypt(data.getPassword()));
+        System.out.println(data);
         AccountDto dto = accountService.selectByLogin(data);
+
         if(dto.getPassword().equals(data.getPassword())){
             authDto.setId(dto.getPersonalAuthorityId());
             authDto = authorityService.selectById(authDto);
