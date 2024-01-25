@@ -24,7 +24,6 @@ public class ResetPasswordService {
 
     public List<Map<String, Object>> list(int searchn, String search, int start, int perPage){
 
-        System.out.println(searchn+search);
 
         Map<String, Object> m = new HashMap<String, Object>();
         m.put("searchn",searchn);

@@ -39,7 +39,6 @@ public class ResetPasswordController {
         List<Map<String, Object>> dto = resetPasswordService.list(searchn, search, startRow ,perPage);
 
         m.addAttribute("rlist", dto);
-
         m.addAttribute("start", startRow + 1);
 
         int pageNum = 5;//보여질 페이지 번호 수
@@ -74,6 +73,7 @@ public class ResetPasswordController {
     @DeleteMapping("/delete")
     @ResponseBody
     public int delete(ResetPasswordDto dto){
+        System.out.println(dto);
         int i = resetPasswordService.delete(dto);
 
         return i;
@@ -82,6 +82,7 @@ public class ResetPasswordController {
     @PutMapping("/update")
     @ResponseBody
     public boolean update(ResetPasswordDto dto) throws NoSuchAlgorithmException {
+        System.out.println(dto);
         AccountDto accountDto = new AccountDto();
         accountDto.setId(dto.getAccountId());
         accountDto = accountService.selectById(accountDto);

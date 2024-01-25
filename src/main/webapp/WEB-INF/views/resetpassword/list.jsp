@@ -57,13 +57,10 @@
                             <td class="col-1">${dto.email }</td>
                             <td class="col-1">${dto.note }</td>
                             <td class="col-1">
-                                <button type="button" class="btn btn-primary" data-resetpassword="${dto.id}"
-                                        id="resetpassword">확인
+                                <button type="button" class="resetpassword btn btn-primary" data-accountid='${dto.account_id}' data-resetpassword="${dto.id}">확인
                                 </button>
-                                <button type="button" class="btn btn-warning" data-resetpasswordDelete="${dto.id}"
-                                        id="resetpasswordDelete">취소
+                                <button type="button"  class="resetpasswordDelete btn btn-warning" data-id="${dto.id}">취소
                                 </button>
-                                <input type="hidden" id="id" value="${dto.id}"/>
                             </td>
                         </tr>
                     </c:forEach>
@@ -112,13 +109,15 @@
 <script>
 
     $(document).ready(function () {
-        $("#resetpassword").on("click", function(){
-            var id = $("#id").val();
+        $(".resetpassword").on("click", function(event){
+            var id = $(event.currentTarget).data("resetpassword");
+            const accountId = $(event.currentTarget).data("accountid");
             $.ajax({
                 url: "/resetpassword/update",
                 type: "put",
                 data: {
                     "id": id,
+                    "accountId" :    accountId
                 },
                 datatype:"json"
             }).done(function (data) {
@@ -146,8 +145,8 @@
             });
         });
 
-        $("#resetpasswordDelete").on("click", function(){
-            var id = $("#id").val();
+        $(".resetpasswordDelete").on("click", function(event){
+            var id = $(event.currentTarget).data("id");
             $.ajax({
                 url: "/resetpassword/delete",
                 type: "delete",
@@ -157,7 +156,6 @@
                 datatype:"json"
             }).done(function (data) {
                 if (data == true) {
-                    alert("요청을 거절하였습니다.");
                     var form = document.createElement("form");
                     form.action = "/resetpassword/list";
                     form.method = "get";
