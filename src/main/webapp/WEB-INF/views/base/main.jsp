@@ -29,7 +29,7 @@
             <!-- 세 번째 공간 -->
             <div>
                 <div class=" text-center">
-                    <h5>부족한 재고</h5>
+                    <h5><b>부족한 재고</b></h5>
                 </div>
                 <table class="table">
                     <thead class="table-dark">
@@ -61,7 +61,7 @@
             <!--네 번째 공간 -->
             <div>
                 <div class=" text-center">
-                    <h5>오늘의 입고</h5>
+                    <h5><b>오늘의 입고</b></h5>
                 </div>
                 <table class="table">
                     <thead class="table-dark">
@@ -74,21 +74,32 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${inDto }" var="dto" varStatus="status">
-                        <tr class="detailTr2 col-5" data-id="${dto.id}" style="font-size: small;" >
-                            <td class="col-1">${status.count }</td>
-                            <td class="col-1">${dto.productDto.name }</td>
-                            <c:if test="${not empty dto.planInDto.viewGroupNumber}">
-							    <td class="col-1">${dto.planInDto.viewGroupNumber}</td>
-							</c:if>
-							<c:if test="${empty dto.planInDto.viewGroupNumber}">
-							    <td class="col-1"></td>
-							</c:if>
-                            <td class="col-1">${dto.quantity }</td>
-                            <td class="col-1">${dto.warehouseDto.name}</td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
+					    <c:choose>
+					        <c:when test="${not empty inDto}">
+					            <c:forEach items="${inDto}" var="dto" varStatus="status">
+					                <c:if test="${not empty dto.productDto.name}">
+					                    <tr class="detailTr2 col-5" data-id="${dto.id}" style="font-size: small;">
+					                        <td class="col-1">${status.count}</td>
+					                        <td class="col-1">${dto.productDto.name}</td>
+					                        <c:if test="${not empty dto.planInDto.viewGroupNumber}">
+					                            <td class="col-1">${dto.planInDto.viewGroupNumber}</td>
+					                        </c:if>
+					                        <c:if test="${empty dto.planInDto.viewGroupNumber}">
+					                            <td class="col-1"></td>
+					                        </c:if>
+					                        <td class="col-1">${dto.quantity}</td>
+					                        <td class="col-1">${dto.warehouseDto.name}</td>
+					                    </tr>
+					                </c:if>
+					            </c:forEach>
+					        </c:when>
+					        <c:otherwise>
+					            <tr>
+					                <td colspan="5" class="text-center">당일 입고된 제품이 없습니다.</td>
+					            </tr>
+					        </c:otherwise>
+					    </c:choose>
+					</tbody>
                 </table>
             </div>
 	        
