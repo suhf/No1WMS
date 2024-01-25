@@ -129,7 +129,7 @@ public class VendorController {
 
 
 	// 삭제
-	@DeleteMapping("/vendor/delete")
+	@PutMapping("/vendor/delete")
 	@ResponseBody
 	public int delete(String id) {
 		int i = service.deleteVendor(id);

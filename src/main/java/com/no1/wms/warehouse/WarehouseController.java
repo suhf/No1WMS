@@ -143,7 +143,7 @@ public class WarehouseController {
 
 
 	// 삭제
-	@DeleteMapping("/warehouse/delete")
+	@PutMapping("/warehouse/delete")
 	@ResponseBody
 	public int delete(String id) {
 		int i = service.deleteWarehouse(id);

@@ -137,11 +137,11 @@
     <!-- insert -->
 
     <!-- delete -->
-    <delete id="outNow" parameterType="com.no1.wms.out.ProductOutDto">
-        delete
-        from product_out
+    <update id="outNow" parameterType="com.no1.wms.out.ProductOutDto">
+        update product_out
+        set activation = 0
         where id = #{id}
-    </delete>
+    </update>
     <!-- delete -->
 
 

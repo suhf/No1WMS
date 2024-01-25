@@ -116,7 +116,7 @@ public class ProductOutController {
 
 
 	// 삭제
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	@ResponseBody
 	public int delete(ProductOutDto dto) {
 		System.out.println("데이터 :: " + dto);

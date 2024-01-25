@@ -214,11 +214,11 @@
     <!-- insert -->
 
     <!-- delete -->
-    <delete id="deleteStock" parameterType="com.no1.wms.stock.StockDto">
-        delete
-        from stock
+    <update id="deleteStock" parameterType="com.no1.wms.stock.StockDto">
+        update stock
+        set activation = 0
         where id = #{id}
-    </delete>
+    </update>
     <!-- delete -->
 
 

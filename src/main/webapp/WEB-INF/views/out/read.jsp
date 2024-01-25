@@ -180,7 +180,7 @@
 
             $.ajax({
                 url: "/out/delete",
-                type: "delete",
+                type: "put",
                 data: {
                     "id": id,
 

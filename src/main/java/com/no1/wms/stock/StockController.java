@@ -153,7 +153,7 @@ public class StockController {
 
 
 	// 삭제
-	@DeleteMapping("/delete")
+	@PutMapping("/delete")
 	@ResponseBody
 	public int delete(StockDto dto) {
 		System.out.println("데이터 :: " + dto);

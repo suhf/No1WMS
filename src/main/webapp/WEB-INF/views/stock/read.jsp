@@ -151,7 +151,7 @@
 
             $.ajax({
                 url: "/stock/delete",
-                type: "delete",
+                type: "put",
                 data: {
                     "id": id,
                     "warehouseId": warehouse_id,

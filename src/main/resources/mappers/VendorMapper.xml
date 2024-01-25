@@ -120,8 +120,10 @@
     <!-- insert -->
 
     <!-- delete -->
-    <delete id="deleteVendor" parameterType="String">
-        delete from vendor where id = #{id}
-    </delete>
+    <update id="deleteVendor" parameterType="String">
+        update vendor
+        set activation = 0
+        where id = #{id}
+    </update>
     <!-- delete -->
 </mapper>

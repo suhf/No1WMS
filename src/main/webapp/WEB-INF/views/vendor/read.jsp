@@ -142,7 +142,7 @@
             var id = $("#id").val();
             $.ajax({
                 url: "/vendor/delete",
-                type: "delete",
+                type: "put",
                 data: {
                     "id": id
                 },

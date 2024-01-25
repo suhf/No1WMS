@@ -99,8 +99,10 @@
     <!-- insert -->
 
     <!-- delete -->
-    <delete id="deleteWarehouse" parameterType="String">
-        delete from warehouse where id = #{id}
-    </delete>
+    <update id="deleteWarehouse" parameterType="String">
+        update warehouse
+        set activation = 0
+        where id = #{id}
+    </update>
     <!-- delete -->
 </mapper>
