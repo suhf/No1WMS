@@ -114,7 +114,7 @@
 	        pro.name as product_name, 
 	        w.name as warehouse_name,
 	        a.name as account_name,
-	        (SELECT price FROM prices WHERE product_id = proin.product_id ORDER BY registration_date DESC LIMIT 1) as latest_price
+	        (SELECT price FROM prices WHERE product_id = proin.product_id and activation = 1 ORDER BY registration_date DESC LIMIT 1) as latest_price
 	    FROM 
 	        product_in as proin 
 	        LEFT JOIN plan_In as planin on proin.group_number = planin.group_number and proin.product_id = planin.product_id

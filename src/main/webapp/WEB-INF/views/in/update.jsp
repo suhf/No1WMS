@@ -25,9 +25,6 @@
                             <span class="input-group-text" id="basic-addon1">제품명</span>
                             <input type="text" class="form-control" name="productName" placeholder="제품명을 검색하세요"
                                 aria-label="제품명" id="productName" value="${dto.productDto.name}" readonly>
-                            <button class="btn btn-outline-secondary rounded-end" id="searchProductName"
-                                style="background-color:#FF5E5E;" type="button"
-                                onclick="showSearchModal_product('제품 검색','product')">검색</button>
                             <input type='hidden' id="product_id" value="${dto.product_id}">
                         </div>
 
@@ -60,9 +57,6 @@
                             <input type="text" name="warehouse_name" id="warehouse_name" class="form-control"
                                 placeholder="창고를 검색하세요" aria-label="창고명" value="${dto.warehouseDto.name}"
                                 aria-describedby="basic-addon1" readonly>
-                            <button class="btn btn-outline-secondary rounded-end" id="searchWarehouseName"
-                                style="background-color:#FF5E5E;" type="button"
-                                onclick="showSearchModal_warehouse('창고 검색','warehouse_capacity_currentCapacity')">검색</button>
                             <input type='hidden' id="warehouse_id" value="${dto.warehouse_id}">
                         </div>
 
