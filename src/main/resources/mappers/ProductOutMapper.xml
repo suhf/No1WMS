@@ -43,7 +43,7 @@
         left join warehouse w on o.warehouse_id = w.id
         left join stock s on o.product_id = s.product_id and o.warehouse_id = s.warehouse_id
 
-        where o.id = #{id}
+        where o.id = #{id} and s.activation = 1
     </select>
 
     <select id="stockSelect" parameterType="Map" resultType="Map">
@@ -55,8 +55,8 @@
 
         <where>
             <choose>
-                <when test="searchn == 0"> o.id IS NULL and p.activation = 1 and p.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> o.id IS NULL and p.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> o.id IS NULL and p.activation = 1 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> o.id IS NULL and p.activation = 1 and s.activation = 1 and w.name like concat('%',#{search},'%')</when>
             </choose>
         </where>
         order by p.name desc limit #{start}, #{perPage}
@@ -71,8 +71,8 @@
 
         <where>
             <choose>
-                <when test="searchn == 0"> o.id IS NULL and p.activation = 1 and p.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> o.id IS NULL and p.activation = 1 and w.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 0"> o.id IS NULL and p.activation = 1 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> o.id IS NULL and p.activation = 1 and s.activation = 1 and w.name like concat('%',#{search},'%')</when>
             </choose>
         </where>
     </select>

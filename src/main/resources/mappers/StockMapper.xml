@@ -107,7 +107,7 @@
                p.company_name,
                w.address,
                w.capacity,
-               (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id) AS current_capacity
+               (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id and s.activation = 1) AS current_capacity
 
         from stock s
         left join warehouse w on s.warehouse_id = w.id

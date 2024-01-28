@@ -23,7 +23,7 @@
         SELECT w.id,
         w.name,
         w.capacity,
-        (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id) AS current_capacity
+        (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id and s.activation = 1) AS current_capacity
         FROM warehouse w
 
         <where>
@@ -33,11 +33,11 @@
                 <when test="searchn == 2"> w.activation = 1 and w.current_capacity like concat('%',#{search},'%')</when>
             </choose>
         </where>
-        order by w.name ASC limit #{start}, #{perPage}
+        order by w.name deSC limit #{start}, #{perPage}
     </select>
 
     <select id="One" parameterType="String" resultType="com.no1.wms.warehouse.WarehouseDto">
-        select w.id, w.name, w.capacity, (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id) AS current_capacity, w.address
+        select w.id, w.name, w.capacity, (SELECT SUM(s.quantity) FROM stock s WHERE s.warehouse_id = w.id and s.activation = 1) AS current_capacity, w.address
 
         from  warehouse w
 
@@ -53,8 +53,8 @@
 
         <where>
             <choose>
-                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and p.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
+                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
             </choose>
         </where>
 
@@ -71,8 +71,8 @@
 
         <where>
             <choose>
-                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and p.name like concat('%',#{search},'%')</when>
-                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
+                <when test="searchn == 0"> w.id = #{id} and w.activation = 1 and s.activation = 1 and p.name like concat('%',#{search},'%')</when>
+                <when test="searchn == 1"> w.id = #{id} and w.activation = 1 and s.activation = 1 and s.quantity like concat('%',#{search},'%') </when>
             </choose>
         </where>
     </select>
