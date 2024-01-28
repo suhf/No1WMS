@@ -107,14 +107,15 @@
 	    </where>
 	</select>
 
-	<select id="inList" parameterType="map" resultMap="inResultMap">
+	<select id="
+" parameterType="map" resultMap="inResultMap">
 	    SELECT 
 	        proin.id, proin.group_number, proin.product_id, proin.in_date, proin.quantity, proin.warehouse_id, proin.manager_id, proin.note, proin.activation,
 	        planin.view_group_number,
 	        pro.name as product_name, 
 	        w.name as warehouse_name,
 	        a.name as account_name,
-	        (SELECT price FROM prices WHERE product_id = proin.product_id ORDER BY registration_date DESC LIMIT 1) as latest_price
+	        (SELECT price FROM prices WHERE product_id = proin.product_id and activation = 1 ORDER BY registration_date DESC LIMIT 1) as latest_price
 	    FROM 
 	        product_in as proin 
 	        LEFT JOIN plan_In as planin on proin.group_number = planin.group_number and proin.product_id = planin.product_id
