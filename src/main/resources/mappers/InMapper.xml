@@ -107,8 +107,7 @@
 	    </where>
 	</select>
 
-	<select id="
-" parameterType="map" resultMap="inResultMap">
+	<select id="inList" parameterType="map" resultMap="inResultMap">
 	    SELECT 
 	        proin.id, proin.group_number, proin.product_id, proin.in_date, proin.quantity, proin.warehouse_id, proin.manager_id, proin.note, proin.activation,
 	        planin.view_group_number,
